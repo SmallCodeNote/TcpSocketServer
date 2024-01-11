@@ -26,8 +26,8 @@ namespace tcpserver
         {
             this.groupBox_GroupName.Text = message.groupName;
             this.label_FlagStatus.Text = message.messageStatus.ToString();
-            this.label_LastConnectTime.Text = message.connecTime.ToString("yyyy/MM/dd HH:mm:ss");
-            this.label_ElapsedTime.Text = getElapsedTimeString(DateTime.Now - message.connecTime);
+            this.label_LastConnectTime.Text = message.connectTime.ToString("yyyy/MM/dd HH:mm:ss");
+            this.label_ElapsedTime.Text = getElapsedTimeString(DateTime.Now - message.connectTime);
             this.label_LastMessage.Text = message.message;
         }
 
@@ -39,7 +39,7 @@ namespace tcpserver
             if (elapsedTime.TotalDays >= 1) { return (elapsedTime.TotalDays / 7).ToString() + "day"; }
             if (elapsedTime.TotalHours >= 1) { return (elapsedTime.TotalHours).ToString() + "hour"; }
             if (elapsedTime.TotalMinutes >= 1) { return (elapsedTime.TotalMinutes).ToString() + "minute"; }
-            return (elapsedTime.TotalSeconds).ToString() + "second"; 
+            return "now"; 
         }
 
     }
