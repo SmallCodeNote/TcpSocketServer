@@ -29,28 +29,37 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.button_Start = new System.Windows.Forms.Button();
             this.textBox_portNumber = new System.Windows.Forms.TextBox();
             this.panel_StatusListFrame = new System.Windows.Forms.Panel();
             this.panel_StatusList = new System.Windows.Forms.Panel();
             this.vScrollBar_StatusList = new System.Windows.Forms.VScrollBar();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage_Setting = new System.Windows.Forms.TabPage();
+            this.label2 = new System.Windows.Forms.Label();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Column_ClientList_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.button_getDataBaseFilePath = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBox_DataBaseFilePath = new System.Windows.Forms.TextBox();
             this.tabPage_Status = new System.Windows.Forms.TabPage();
             this.tabPage_Log = new System.Windows.Forms.TabPage();
-            this.tabPage_Setting = new System.Windows.Forms.TabPage();
-            this.textBox_DataBaseFilePath = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.button_getDataBaseFilePath = new System.Windows.Forms.Button();
             this.timer_UpdateList = new System.Windows.Forms.Timer(this.components);
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel_StatusListFrame.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.tabPage_Status.SuspendLayout();
             this.tabPage_Setting.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.tabPage_Status.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button_Start
             // 
-            this.button_Start.Location = new System.Drawing.Point(25, 21);
+            this.button_Start.Location = new System.Drawing.Point(160, 8);
             this.button_Start.Name = "button_Start";
             this.button_Start.Size = new System.Drawing.Size(115, 44);
             this.button_Start.TabIndex = 0;
@@ -60,7 +69,7 @@
             // 
             // textBox_portNumber
             // 
-            this.textBox_portNumber.Location = new System.Drawing.Point(25, 71);
+            this.textBox_portNumber.Location = new System.Drawing.Point(24, 30);
             this.textBox_portNumber.Name = "textBox_portNumber";
             this.textBox_portNumber.Size = new System.Drawing.Size(115, 22);
             this.textBox_portNumber.TabIndex = 1;
@@ -83,22 +92,103 @@
             // 
             // vScrollBar_StatusList
             // 
+            this.vScrollBar_StatusList.LargeChange = 100;
             this.vScrollBar_StatusList.Location = new System.Drawing.Point(509, 6);
             this.vScrollBar_StatusList.Name = "vScrollBar_StatusList";
             this.vScrollBar_StatusList.Size = new System.Drawing.Size(21, 500);
             this.vScrollBar_StatusList.TabIndex = 3;
             this.vScrollBar_StatusList.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_StatusList_Scroll);
+            this.vScrollBar_StatusList.ValueChanged += new System.EventHandler(this.vScrollBar_StatusList_ValueChanged);
             // 
             // tabControl1
             // 
+            this.tabControl1.Controls.Add(this.tabPage_Setting);
             this.tabControl1.Controls.Add(this.tabPage_Status);
             this.tabControl1.Controls.Add(this.tabPage_Log);
-            this.tabControl1.Controls.Add(this.tabPage_Setting);
-            this.tabControl1.Location = new System.Drawing.Point(178, 13);
+            this.tabControl1.Location = new System.Drawing.Point(4, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(606, 546);
             this.tabControl1.TabIndex = 4;
+            // 
+            // tabPage_Setting
+            // 
+            this.tabPage_Setting.Controls.Add(this.label2);
+            this.tabPage_Setting.Controls.Add(this.button_Start);
+            this.tabPage_Setting.Controls.Add(this.dataGridView1);
+            this.tabPage_Setting.Controls.Add(this.textBox_portNumber);
+            this.tabPage_Setting.Controls.Add(this.button_getDataBaseFilePath);
+            this.tabPage_Setting.Controls.Add(this.label3);
+            this.tabPage_Setting.Controls.Add(this.label1);
+            this.tabPage_Setting.Controls.Add(this.textBox_DataBaseFilePath);
+            this.tabPage_Setting.Location = new System.Drawing.Point(4, 25);
+            this.tabPage_Setting.Name = "tabPage_Setting";
+            this.tabPage_Setting.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_Setting.Size = new System.Drawing.Size(598, 517);
+            this.tabPage_Setting.TabIndex = 2;
+            this.tabPage_Setting.Text = "Setting";
+            this.tabPage_Setting.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(21, 12);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(34, 15);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Port";
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column_ClientList_Name});
+            this.dataGridView1.Location = new System.Drawing.Point(24, 154);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowTemplate.Height = 24;
+            this.dataGridView1.Size = new System.Drawing.Size(251, 262);
+            this.dataGridView1.TabIndex = 3;
+            // 
+            // Column_ClientList_Name
+            // 
+            this.Column_ClientList_Name.HeaderText = "Name";
+            this.Column_ClientList_Name.Name = "Column_ClientList_Name";
+            this.Column_ClientList_Name.Width = 150;
+            // 
+            // button_getDataBaseFilePath
+            // 
+            this.button_getDataBaseFilePath.Location = new System.Drawing.Point(543, 92);
+            this.button_getDataBaseFilePath.Name = "button_getDataBaseFilePath";
+            this.button_getDataBaseFilePath.Size = new System.Drawing.Size(38, 22);
+            this.button_getDataBaseFilePath.TabIndex = 2;
+            this.button_getDataBaseFilePath.Text = "...";
+            this.button_getDataBaseFilePath.UseVisualStyleBackColor = true;
+            this.button_getDataBaseFilePath.Click += new System.EventHandler(this.button_getDataBaseFilePath_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(21, 136);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(67, 15);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "ClientList";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(21, 71);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(119, 15);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "DataBaseFilePath";
+            // 
+            // textBox_DataBaseFilePath
+            // 
+            this.textBox_DataBaseFilePath.Location = new System.Drawing.Point(24, 92);
+            this.textBox_DataBaseFilePath.Name = "textBox_DataBaseFilePath";
+            this.textBox_DataBaseFilePath.Size = new System.Drawing.Size(513, 22);
+            this.textBox_DataBaseFilePath.TabIndex = 0;
             // 
             // tabPage_Status
             // 
@@ -111,6 +201,7 @@
             this.tabPage_Status.TabIndex = 0;
             this.tabPage_Status.Text = "Status";
             this.tabPage_Status.UseVisualStyleBackColor = true;
+            this.tabPage_Status.Enter += new System.EventHandler(this.tabPage_Status_Enter);
             // 
             // tabPage_Log
             // 
@@ -122,66 +213,48 @@
             this.tabPage_Log.Text = "Log";
             this.tabPage_Log.UseVisualStyleBackColor = true;
             // 
-            // tabPage_Setting
-            // 
-            this.tabPage_Setting.Controls.Add(this.button_getDataBaseFilePath);
-            this.tabPage_Setting.Controls.Add(this.label1);
-            this.tabPage_Setting.Controls.Add(this.textBox_DataBaseFilePath);
-            this.tabPage_Setting.Location = new System.Drawing.Point(4, 25);
-            this.tabPage_Setting.Name = "tabPage_Setting";
-            this.tabPage_Setting.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage_Setting.Size = new System.Drawing.Size(598, 517);
-            this.tabPage_Setting.TabIndex = 2;
-            this.tabPage_Setting.Text = "Setting";
-            this.tabPage_Setting.UseVisualStyleBackColor = true;
-            // 
-            // textBox_DataBaseFilePath
-            // 
-            this.textBox_DataBaseFilePath.Location = new System.Drawing.Point(24, 33);
-            this.textBox_DataBaseFilePath.Name = "textBox_DataBaseFilePath";
-            this.textBox_DataBaseFilePath.Size = new System.Drawing.Size(513, 22);
-            this.textBox_DataBaseFilePath.TabIndex = 0;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(21, 12);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(119, 15);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "DataBaseFilePath";
-            // 
-            // button_getDataBaseFilePath
-            // 
-            this.button_getDataBaseFilePath.Location = new System.Drawing.Point(543, 33);
-            this.button_getDataBaseFilePath.Name = "button_getDataBaseFilePath";
-            this.button_getDataBaseFilePath.Size = new System.Drawing.Size(38, 22);
-            this.button_getDataBaseFilePath.TabIndex = 2;
-            this.button_getDataBaseFilePath.Text = "...";
-            this.button_getDataBaseFilePath.UseVisualStyleBackColor = true;
-            this.button_getDataBaseFilePath.Click += new System.EventHandler(this.button_getDataBaseFilePath_Click);
-            // 
             // timer_UpdateList
             // 
             this.timer_UpdateList.Interval = 1000;
             this.timer_UpdateList.Tick += new System.EventHandler(this.timer_UpdateList_Tick);
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 588);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(622, 25);
+            this.statusStrip1.TabIndex = 5;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(18, 20);
+            this.toolStripStatusLabel1.Text = "...";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 643);
+            this.ClientSize = new System.Drawing.Size(622, 613);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.textBox_portNumber);
-            this.Controls.Add(this.button_Start);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Server";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panel_StatusListFrame.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
-            this.tabPage_Status.ResumeLayout(false);
             this.tabPage_Setting.ResumeLayout(false);
             this.tabPage_Setting.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.tabPage_Status.ResumeLayout(false);
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -202,6 +275,12 @@
         private System.Windows.Forms.TextBox textBox_DataBaseFilePath;
         private System.Windows.Forms.Button button_getDataBaseFilePath;
         private System.Windows.Forms.Timer timer_UpdateList;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column_ClientList_Name;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
     }
 }
 

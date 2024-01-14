@@ -8,11 +8,21 @@ namespace tcpserver
 {
     public class SocketMessage
     {
-        public string key;
-        public string groupName;
-        public DateTime connectTime;
-        public string messageStatus;
-        public string message;
+       
+        public string groupName { get; set; }
+        public DateTime connectTime { get; set; }
+        public string status { get; set; }
+        public string message { get; set; }
+
+        public SocketMessage(DateTime connectTime, string groupName, string status, string message)
+        {
+          
+            this.connectTime = connectTime;
+            this.groupName = groupName;
+            this.status = status;
+            this.message = message;
+
+        }
 
     }
 

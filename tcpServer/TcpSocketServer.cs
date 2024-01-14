@@ -30,8 +30,16 @@ namespace tcpserver
             
         }
 
+
+        private bool _Listening;
+        public void StopListening()
+        {
+            _Listening = false;
+            return ;
+        }
         public async Task<bool> StartListening(int port)
         {
+            _Listening = true;
             IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Any, port);
             var tcpServer = new TcpListener(localEndPoint);
 
@@ -39,17 +47,19 @@ namespace tcpserver
             {
                 tcpServer.Start();
 
-                while (true)
+                while (_Listening)
                 {
                     using (var tcpClient = await tcpServer.AcceptTcpClientAsync())
                     {
                         var request = await ReceiveAsync(tcpClient);
                         
                         if (messageQueue.Count >= 1024) { string b = ""; messageQueue.TryDequeue(out b); }
-                        messageQueue.Enqueue(request);
                         LastReceiveTime = DateTime.Now;
+                        messageQueue.Enqueue(LastReceiveTime.ToString("yyyy/MM/dd HH:mm:ss.fff")+"\t"+ request);
                     }
                 }
+
+                return true;
             }
             catch (Exception ex)
             {
