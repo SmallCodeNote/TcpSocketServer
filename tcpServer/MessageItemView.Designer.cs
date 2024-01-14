@@ -34,11 +34,13 @@
             this.label_ElapsedTime = new System.Windows.Forms.Label();
             this.label_LastConnectTime = new System.Windows.Forms.Label();
             this.label_Status = new System.Windows.Forms.Label();
+            this.checkBox_check = new System.Windows.Forms.CheckBox();
             this.groupBox_GroupName.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox_GroupName
             // 
+            this.groupBox_GroupName.Controls.Add(this.checkBox_check);
             this.groupBox_GroupName.Controls.Add(this.button_Log);
             this.groupBox_GroupName.Controls.Add(this.label_LastMessage);
             this.groupBox_GroupName.Controls.Add(this.label_ElapsedTime);
@@ -71,7 +73,7 @@
             // label_ElapsedTime
             // 
             this.label_ElapsedTime.AutoSize = true;
-            this.label_ElapsedTime.Location = new System.Drawing.Point(6, 60);
+            this.label_ElapsedTime.Location = new System.Drawing.Point(6, 72);
             this.label_ElapsedTime.Name = "label_ElapsedTime";
             this.label_ElapsedTime.Size = new System.Drawing.Size(85, 15);
             this.label_ElapsedTime.TabIndex = 0;
@@ -80,7 +82,7 @@
             // label_LastConnectTime
             // 
             this.label_LastConnectTime.AutoSize = true;
-            this.label_LastConnectTime.Location = new System.Drawing.Point(6, 45);
+            this.label_LastConnectTime.Location = new System.Drawing.Point(6, 57);
             this.label_LastConnectTime.Name = "label_LastConnectTime";
             this.label_LastConnectTime.Size = new System.Drawing.Size(120, 15);
             this.label_LastConnectTime.TabIndex = 0;
@@ -94,6 +96,19 @@
             this.label_Status.Size = new System.Drawing.Size(48, 15);
             this.label_Status.TabIndex = 0;
             this.label_Status.Text = "Status";
+            // 
+            // checkBox_check
+            // 
+            this.checkBox_check.AutoSize = true;
+            this.checkBox_check.Enabled = false;
+            this.checkBox_check.Location = new System.Drawing.Point(9, 36);
+            this.checkBox_check.Name = "checkBox_check";
+            this.checkBox_check.Size = new System.Drawing.Size(68, 19);
+            this.checkBox_check.TabIndex = 3;
+            this.checkBox_check.Text = "check";
+            this.checkBox_check.UseVisualStyleBackColor = true;
+            this.checkBox_check.Visible = false;
+            this.checkBox_check.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // MessageItemView
             // 
@@ -115,5 +130,6 @@
         public System.Windows.Forms.Label label_Status;
         public System.Windows.Forms.Label label_LastConnectTime;
         public System.Windows.Forms.Label label_LastMessage;
+        private System.Windows.Forms.CheckBox checkBox_check;
     }
 }

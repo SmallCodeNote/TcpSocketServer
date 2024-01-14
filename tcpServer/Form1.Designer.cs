@@ -35,11 +35,10 @@
             this.panel_StatusListFrame = new System.Windows.Forms.Panel();
             this.panel_StatusList = new System.Windows.Forms.Panel();
             this.vScrollBar_StatusList = new System.Windows.Forms.VScrollBar();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabControl_Top = new System.Windows.Forms.TabControl();
             this.tabPage_Setting = new System.Windows.Forms.TabPage();
             this.label2 = new System.Windows.Forms.Label();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Column_ClientList_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridView_ClientList = new System.Windows.Forms.DataGridView();
             this.button_getDataBaseFilePath = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -49,17 +48,25 @@
             this.timer_UpdateList = new System.Windows.Forms.Timer(this.components);
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.dataGridView_StatusList = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column_Interval = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column_check = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Column_ClientList_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column_Timeout = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel_StatusListFrame.SuspendLayout();
-            this.tabControl1.SuspendLayout();
+            this.tabControl_Top.SuspendLayout();
             this.tabPage_Setting.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ClientList)).BeginInit();
             this.tabPage_Status.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_StatusList)).BeginInit();
             this.SuspendLayout();
             // 
             // button_Start
             // 
-            this.button_Start.Location = new System.Drawing.Point(160, 8);
+            this.button_Start.Location = new System.Drawing.Point(452, 135);
             this.button_Start.Name = "button_Start";
             this.button_Start.Size = new System.Drawing.Size(115, 44);
             this.button_Start.TabIndex = 0;
@@ -69,7 +76,7 @@
             // 
             // textBox_portNumber
             // 
-            this.textBox_portNumber.Location = new System.Drawing.Point(24, 30);
+            this.textBox_portNumber.Location = new System.Drawing.Point(452, 98);
             this.textBox_portNumber.Name = "textBox_portNumber";
             this.textBox_portNumber.Size = new System.Drawing.Size(115, 22);
             this.textBox_portNumber.TabIndex = 1;
@@ -100,24 +107,26 @@
             this.vScrollBar_StatusList.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_StatusList_Scroll);
             this.vScrollBar_StatusList.ValueChanged += new System.EventHandler(this.vScrollBar_StatusList_ValueChanged);
             // 
-            // tabControl1
+            // tabControl_Top
             // 
-            this.tabControl1.Controls.Add(this.tabPage_Setting);
-            this.tabControl1.Controls.Add(this.tabPage_Status);
-            this.tabControl1.Controls.Add(this.tabPage_Log);
-            this.tabControl1.Location = new System.Drawing.Point(4, 12);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(606, 546);
-            this.tabControl1.TabIndex = 4;
+            this.tabControl_Top.Controls.Add(this.tabPage_Setting);
+            this.tabControl_Top.Controls.Add(this.tabPage_Status);
+            this.tabControl_Top.Controls.Add(this.tabPage_Log);
+            this.tabControl_Top.Location = new System.Drawing.Point(4, 12);
+            this.tabControl_Top.Name = "tabControl_Top";
+            this.tabControl_Top.SelectedIndex = 0;
+            this.tabControl_Top.Size = new System.Drawing.Size(606, 546);
+            this.tabControl_Top.TabIndex = 4;
             // 
             // tabPage_Setting
             // 
             this.tabPage_Setting.Controls.Add(this.label2);
             this.tabPage_Setting.Controls.Add(this.button_Start);
-            this.tabPage_Setting.Controls.Add(this.dataGridView1);
+            this.tabPage_Setting.Controls.Add(this.dataGridView_StatusList);
+            this.tabPage_Setting.Controls.Add(this.dataGridView_ClientList);
             this.tabPage_Setting.Controls.Add(this.textBox_portNumber);
             this.tabPage_Setting.Controls.Add(this.button_getDataBaseFilePath);
+            this.tabPage_Setting.Controls.Add(this.label4);
             this.tabPage_Setting.Controls.Add(this.label3);
             this.tabPage_Setting.Controls.Add(this.label1);
             this.tabPage_Setting.Controls.Add(this.textBox_DataBaseFilePath);
@@ -132,32 +141,27 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(21, 12);
+            this.label2.Location = new System.Drawing.Point(449, 80);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(34, 15);
             this.label2.TabIndex = 5;
             this.label2.Text = "Port";
             // 
-            // dataGridView1
+            // dataGridView_ClientList
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column_ClientList_Name});
-            this.dataGridView1.Location = new System.Drawing.Point(24, 154);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(251, 262);
-            this.dataGridView1.TabIndex = 3;
-            // 
-            // Column_ClientList_Name
-            // 
-            this.Column_ClientList_Name.HeaderText = "Name";
-            this.Column_ClientList_Name.Name = "Column_ClientList_Name";
-            this.Column_ClientList_Name.Width = 150;
+            this.dataGridView_ClientList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_ClientList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column_ClientList_Name,
+            this.Column_Timeout});
+            this.dataGridView_ClientList.Location = new System.Drawing.Point(24, 80);
+            this.dataGridView_ClientList.Name = "dataGridView_ClientList";
+            this.dataGridView_ClientList.RowTemplate.Height = 24;
+            this.dataGridView_ClientList.Size = new System.Drawing.Size(404, 291);
+            this.dataGridView_ClientList.TabIndex = 3;
             // 
             // button_getDataBaseFilePath
             // 
-            this.button_getDataBaseFilePath.Location = new System.Drawing.Point(543, 92);
+            this.button_getDataBaseFilePath.Location = new System.Drawing.Point(543, 30);
             this.button_getDataBaseFilePath.Name = "button_getDataBaseFilePath";
             this.button_getDataBaseFilePath.Size = new System.Drawing.Size(38, 22);
             this.button_getDataBaseFilePath.TabIndex = 2;
@@ -168,7 +172,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(21, 136);
+            this.label3.Location = new System.Drawing.Point(21, 62);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(67, 15);
             this.label3.TabIndex = 1;
@@ -177,7 +181,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(21, 71);
+            this.label1.Location = new System.Drawing.Point(21, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(119, 15);
             this.label1.TabIndex = 1;
@@ -185,7 +189,7 @@
             // 
             // textBox_DataBaseFilePath
             // 
-            this.textBox_DataBaseFilePath.Location = new System.Drawing.Point(24, 92);
+            this.textBox_DataBaseFilePath.Location = new System.Drawing.Point(24, 30);
             this.textBox_DataBaseFilePath.Name = "textBox_DataBaseFilePath";
             this.textBox_DataBaseFilePath.Size = new System.Drawing.Size(513, 22);
             this.textBox_DataBaseFilePath.TabIndex = 0;
@@ -235,26 +239,76 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(18, 20);
             this.toolStripStatusLabel1.Text = "...";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(21, 374);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(71, 15);
+            this.label4.TabIndex = 1;
+            this.label4.Text = "StatusList";
+            // 
+            // dataGridView_StatusList
+            // 
+            this.dataGridView_StatusList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_StatusList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1,
+            this.Column_Interval,
+            this.Column_check});
+            this.dataGridView_StatusList.Location = new System.Drawing.Point(24, 392);
+            this.dataGridView_StatusList.Name = "dataGridView_StatusList";
+            this.dataGridView_StatusList.RowTemplate.Height = 24;
+            this.dataGridView_StatusList.Size = new System.Drawing.Size(557, 108);
+            this.dataGridView_StatusList.TabIndex = 3;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "StatusName";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.Width = 150;
+            // 
+            // Column_Interval
+            // 
+            this.Column_Interval.HeaderText = "Interval(sec.)";
+            this.Column_Interval.Name = "Column_Interval";
+            // 
+            // Column_check
+            // 
+            this.Column_check.HeaderText = "check";
+            this.Column_check.Name = "Column_check";
+            // 
+            // Column_ClientList_Name
+            // 
+            this.Column_ClientList_Name.HeaderText = "ClientName";
+            this.Column_ClientList_Name.Name = "Column_ClientList_Name";
+            this.Column_ClientList_Name.Width = 150;
+            // 
+            // Column_Timeout
+            // 
+            this.Column_Timeout.HeaderText = "Timeout(sec.)";
+            this.Column_Timeout.Name = "Column_Timeout";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(622, 613);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.tabControl_Top);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Server";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panel_StatusListFrame.ResumeLayout(false);
-            this.tabControl1.ResumeLayout(false);
+            this.tabControl_Top.ResumeLayout(false);
             this.tabPage_Setting.ResumeLayout(false);
             this.tabPage_Setting.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ClientList)).EndInit();
             this.tabPage_Status.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_StatusList)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -267,7 +321,7 @@
         private System.Windows.Forms.Panel panel_StatusListFrame;
         private System.Windows.Forms.Panel panel_StatusList;
         private System.Windows.Forms.VScrollBar vScrollBar_StatusList;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl tabControl_Top;
         private System.Windows.Forms.TabPage tabPage_Status;
         private System.Windows.Forms.TabPage tabPage_Log;
         private System.Windows.Forms.TabPage tabPage_Setting;
@@ -276,11 +330,17 @@
         private System.Windows.Forms.Button button_getDataBaseFilePath;
         private System.Windows.Forms.Timer timer_UpdateList;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column_ClientList_Name;
+        private System.Windows.Forms.DataGridView dataGridView_ClientList;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.DataGridView dataGridView_StatusList;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column_Interval;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Column_check;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column_ClientList_Name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column_Timeout;
     }
 }
 

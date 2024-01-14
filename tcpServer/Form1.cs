@@ -50,10 +50,12 @@ namespace tcpserver
         {
             string paramFilename = Path.Combine(thisExeDirPath, "_param.txt");
 
-            if (File.Exists(paramFilename))
-            {
-                WinFormStringCnv.setControlFromString(this, File.ReadAllText(paramFilename));
-            }
+
+                if (File.Exists(paramFilename))
+                {
+                    WinFormStringCnv.setControlFromString(this, File.ReadAllText(paramFilename));
+                }
+
 
             try
             {
@@ -62,7 +64,6 @@ namespace tcpserver
                 button_Start.Text = "Stop";
                 timer_UpdateList.Start();
 
-
                 if (!await tcp.StartListening(portNumber))
                 {
                     toolStripStatusLabel1.Text = "TCP Listening Start Error";
@@ -70,10 +71,10 @@ namespace tcpserver
                     return;
                 }
 
-
+            }
+            catch {
 
             }
-            catch { }
         }
 
         async private void button_Start_Click(object sender, EventArgs e)
@@ -141,7 +142,7 @@ namespace tcpserver
             }
 
 
-            if (tabControl1.SelectedTab == tabPage_Status)
+            if (tabControl_Top.SelectedTab == tabPage_Status)
             {
                 updateStatusList();
 
@@ -198,9 +199,9 @@ namespace tcpserver
         {
             //マウスのホイールが動いた場合にイベントが発生する
 
-            int targetValue = vScrollBar_StatusList.Value - e.Delta ;
+            int targetValue = vScrollBar_StatusList.Value - e.Delta;
             targetValue = targetValue >= vScrollBar_StatusList_valueMin ? targetValue : vScrollBar_StatusList_valueMin;
-            targetValue = targetValue <= vScrollBar_StatusList_valueMax ? targetValue: vScrollBar_StatusList_valueMax;
+            targetValue = targetValue <= vScrollBar_StatusList_valueMax ? targetValue : vScrollBar_StatusList_valueMax;
 
             vScrollBar_StatusList.Value = targetValue;
         }
@@ -208,7 +209,6 @@ namespace tcpserver
 
         #endregion
         //=====================
-
 
 
         //=====================
@@ -235,7 +235,7 @@ namespace tcpserver
         private void tabPage_Status_Enter(object sender, EventArgs e)
         {
 
-            int ClientCount = dataGridView1.Rows.Count - 1;
+            int ClientCount = dataGridView_ClientList.Rows.Count - 1;
             panel_StatusList.Height = ClientCount * 100;
 
             if (panel_StatusList.Controls.Count != ClientCount)
@@ -248,7 +248,7 @@ namespace tcpserver
                 {
                     panel_StatusList.Controls.Add(new MessageItemView());
                     panel_StatusList.Controls[i].Top = TopBuff;
-                    ((MessageItemView)panel_StatusList.Controls[i]).groupBox_GroupName.Text = dataGridView1.Rows[i].Cells[0].Value.ToString();
+                    ((MessageItemView)panel_StatusList.Controls[i]).groupBox_GroupName.Text = dataGridView_ClientList.Rows[i].Cells[0].Value.ToString();
 
                     TopBuff += panel_StatusList.Controls[i].Height;
 
@@ -279,24 +279,28 @@ namespace tcpserver
 
         private void updateStatusList()
         {
-            using (LiteDatabase litedb = new LiteDatabase(textBox_DataBaseFilePath.Text))
+            try
             {
-                var col = litedb.GetCollection<SocketMessage>("table_Message");
-
-                foreach (MessageItemView messageItemView in panel_StatusList.Controls)
+                using (LiteDatabase litedb = new LiteDatabase(textBox_DataBaseFilePath.Text))
                 {
-                    string groupName = messageItemView.groupBox_GroupName.Text;
-                    try
+                    var col = litedb.GetCollection<SocketMessage>("table_Message");
+
+                    foreach (MessageItemView messageItemView in panel_StatusList.Controls)
                     {
-                        SocketMessage socketMessage = col.Query().Where(x => x.groupName == groupName).OrderBy(x => x.connectTime, 0).First();
-                        messageItemView.setItems(socketMessage);
+                        string groupName = messageItemView.groupBox_GroupName.Text;
+                        try
+                        {
+                            SocketMessage socketMessage = col.Query().Where(x => x.groupName == groupName).OrderBy(x => x.connectTime, 0).First();
+                            messageItemView.setItems(socketMessage,textBox_DataBaseFilePath.Text);
+
+                        }
+                        catch { }
 
                     }
-                    catch { }
 
                 }
-
             }
+            catch { }
 
         }
 

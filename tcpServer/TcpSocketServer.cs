@@ -100,6 +100,7 @@ namespace tcpserver
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.ToString());
+                
             }
 
             return request;
