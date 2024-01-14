@@ -51,10 +51,10 @@ namespace tcpserver
             string paramFilename = Path.Combine(thisExeDirPath, "_param.txt");
 
 
-                if (File.Exists(paramFilename))
-                {
-                    WinFormStringCnv.setControlFromString(this, File.ReadAllText(paramFilename));
-                }
+            if (File.Exists(paramFilename))
+            {
+                WinFormStringCnv.setControlFromString(this, File.ReadAllText(paramFilename));
+            }
 
 
             try
@@ -72,7 +72,8 @@ namespace tcpserver
                 }
 
             }
-            catch {
+            catch
+            {
 
             }
         }
@@ -114,21 +115,34 @@ namespace tcpserver
 
                     if (cols.Length >= 4)
                     {
-                        try
+                        //try
                         {
                             DateTime connectTime = DateTime.Parse(cols[0]);
                             string key = cols[1] + "_" + cols[0];
                             SocketMessage socketMessage = new SocketMessage(connectTime, cols[1], cols[2], cols[3]);
 
+                            foreach (DataGridViewRow Row in dataGridView_StatusList.Rows)
+                            {
+
+                                if (Row.Cells.Count >= 3 && Row.Cells[0].Value!=null && Row.Cells[0].Value.ToString() == cols[2])
+                                {
+                                    socketMessage.check = bool.Parse(Row.Cells[2].Value.ToString());
+
+                                }
+                            }
+
+
                             using (LiteDatabase litedb = new LiteDatabase(textBox_DataBaseFilePath.Text))
                             {
                                 ILiteCollection<SocketMessage> col = litedb.GetCollection<SocketMessage>("table_Message");
+
+
 
                                 col.Insert(key, socketMessage);
                             }
 
                         }
-                        catch
+                        //catch
                         {
 
                         }
@@ -291,7 +305,7 @@ namespace tcpserver
                         try
                         {
                             SocketMessage socketMessage = col.Query().Where(x => x.groupName == groupName).OrderBy(x => x.connectTime, 0).First();
-                            messageItemView.setItems(socketMessage,textBox_DataBaseFilePath.Text);
+                            messageItemView.setItems(socketMessage, textBox_DataBaseFilePath.Text);
 
                         }
                         catch { }

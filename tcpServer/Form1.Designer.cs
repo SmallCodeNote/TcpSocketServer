@@ -50,11 +50,11 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.label4 = new System.Windows.Forms.Label();
             this.dataGridView_StatusList = new System.Windows.Forms.DataGridView();
+            this.Column_ClientList_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column_Timeout = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column_Interval = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column_check = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Column_ClientList_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column_Timeout = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel_StatusListFrame.SuspendLayout();
             this.tabControl_Top.SuspendLayout();
             this.tabPage_Setting.SuspendLayout();
@@ -261,6 +261,17 @@
             this.dataGridView_StatusList.Size = new System.Drawing.Size(557, 108);
             this.dataGridView_StatusList.TabIndex = 3;
             // 
+            // Column_ClientList_Name
+            // 
+            this.Column_ClientList_Name.HeaderText = "ClientName";
+            this.Column_ClientList_Name.Name = "Column_ClientList_Name";
+            this.Column_ClientList_Name.Width = 150;
+            // 
+            // Column_Timeout
+            // 
+            this.Column_Timeout.HeaderText = "Timeout(sec.)";
+            this.Column_Timeout.Name = "Column_Timeout";
+            // 
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.HeaderText = "StatusName";
@@ -274,19 +285,8 @@
             // 
             // Column_check
             // 
-            this.Column_check.HeaderText = "check";
+            this.Column_check.HeaderText = "autoCheck";
             this.Column_check.Name = "Column_check";
-            // 
-            // Column_ClientList_Name
-            // 
-            this.Column_ClientList_Name.HeaderText = "ClientName";
-            this.Column_ClientList_Name.Name = "Column_ClientList_Name";
-            this.Column_ClientList_Name.Width = 150;
-            // 
-            // Column_Timeout
-            // 
-            this.Column_Timeout.HeaderText = "Timeout(sec.)";
-            this.Column_Timeout.Name = "Column_Timeout";
             // 
             // Form1
             // 
@@ -336,11 +336,11 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.DataGridView dataGridView_StatusList;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column_ClientList_Name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column_Timeout;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column_Interval;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Column_check;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column_ClientList_Name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column_Timeout;
     }
 }
 

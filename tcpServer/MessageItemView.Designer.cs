@@ -107,7 +107,6 @@
             this.checkBox_check.TabIndex = 3;
             this.checkBox_check.Text = "check";
             this.checkBox_check.UseVisualStyleBackColor = true;
-            this.checkBox_check.Visible = false;
             this.checkBox_check.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // MessageItemView
