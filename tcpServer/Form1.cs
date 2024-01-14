@@ -115,7 +115,7 @@ namespace tcpserver
 
                     if (cols.Length >= 4)
                     {
-                        //try
+                        try
                         {
                             DateTime connectTime = DateTime.Parse(cols[0]);
                             string key = cols[1] + "_" + cols[0];
@@ -124,7 +124,7 @@ namespace tcpserver
                             foreach (DataGridViewRow Row in dataGridView_StatusList.Rows)
                             {
 
-                                if (Row.Cells.Count >= 3 && Row.Cells[0].Value!=null && Row.Cells[0].Value.ToString() == cols[2])
+                                if (Row.Cells.Count >= 3 && Row.Cells[0].Value != null && Row.Cells[0].Value.ToString() == cols[2])
                                 {
                                     socketMessage.check = bool.Parse(Row.Cells[2].Value.ToString());
 
@@ -142,7 +142,7 @@ namespace tcpserver
                             }
 
                         }
-                        //catch
+                        catch
                         {
 
                         }
