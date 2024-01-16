@@ -118,12 +118,11 @@ namespace tcpserver
                         try
                         {
                             DateTime connectTime = DateTime.Parse(cols[0]);
-                            string key = cols[1] + "_" + cols[0];
                             SocketMessage socketMessage = new SocketMessage(connectTime, cols[1], cols[2], cols[3]);
+                            string key = socketMessage.Key();
 
                             foreach (DataGridViewRow Row in dataGridView_StatusList.Rows)
                             {
-
                                 if (Row.Cells.Count >= 3 && Row.Cells[0].Value != null && Row.Cells[0].Value.ToString() == cols[2])
                                 {
                                     socketMessage.check = bool.Parse(Row.Cells[2].Value.ToString());
@@ -131,12 +130,9 @@ namespace tcpserver
                                 }
                             }
 
-
                             using (LiteDatabase litedb = new LiteDatabase(textBox_DataBaseFilePath.Text))
                             {
                                 ILiteCollection<SocketMessage> col = litedb.GetCollection<SocketMessage>("table_Message");
-
-
 
                                 col.Insert(key, socketMessage);
                             }
@@ -318,5 +314,32 @@ namespace tcpserver
 
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            TimeSpan TP = new TimeSpan(0, 8, 0, 0);
+
+            using (LiteDatabase litedb = new LiteDatabase(textBox_DataBaseFilePath.Text))
+            {
+
+
+                for (DateTime connectTime = DateTime.Parse("2020/01/01");connectTime< DateTime.Parse( "2024/01/31");connectTime += TP)
+                {
+                    SocketMessage socketMessage = new SocketMessage(connectTime, "Test", "Test", "Test");
+                    string key = socketMessage.Key();
+
+                    ILiteCollection<SocketMessage> col = litedb.GetCollection<SocketMessage>("table_Message");
+                    col.Insert(key, socketMessage);
+
+                }
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            BackupLightDB job = new BackupLightDB(textBox_DataBaseFilePath.Text,int.Parse(textBox_PostTime.Text));
+            job.jobSet(textBox_DataBaseFilePath.Text, int.Parse(textBox_PostTime.Text));
+
+        }
     }
 }
