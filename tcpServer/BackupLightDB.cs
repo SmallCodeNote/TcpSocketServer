@@ -14,6 +14,7 @@ namespace tcpserver
     public class BackupLightDB
     {
         Action job;
+        ConnectionString connectionString;
 
         public BackupLightDB(string dbFilename, int backupIntervalMinute)
         {
@@ -26,17 +27,22 @@ namespace tcpserver
 
             JobManager.AddJob(job, s => s.ToRunEvery(1).Hours().At(0));
 
+            connectionString = new ConnectionString();
+            connectionString.Connection = ConnectionType.Shared;
+
         }
 
 
         public void jobSet(string dbFilename, int backupIntervalMinute)
         {
             string backupDirTop = Path.Combine(Path.GetDirectoryName(dbFilename), "_backup");
+            connectionString.Filename = dbFilename;
 
-            using (LiteDatabase litedb = new LiteDatabase(dbFilename))
+            TimeSpan timeSpan = new TimeSpan(0, backupIntervalMinute, 0);
+
+            using (LiteDatabase litedb = new LiteDatabase(connectionString))
             {
                 var col = litedb.GetCollection<SocketMessage>("table_Message");
-                TimeSpan timeSpan = new TimeSpan(0, backupIntervalMinute, 0);
 
                 var result = col.Query()
                     .Where(x => x.connectTime < (DateTime)(DateTime.Now - timeSpan))
