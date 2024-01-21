@@ -13,6 +13,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.Diagnostics;
 
+
+
 using LiteDB;
 
 using WinFormStringCnvClass;
@@ -22,16 +24,23 @@ namespace tcpserver
     public partial class Form1 : Form
     {
         TcpSocketServer tcp;
+        NoticeSocketServer noticeServer;
+
         DateTime LastCheckTime;
         string thisExeDirPath;
         string datebasePath;
         int portNumber;
+
+        ConnectionString _LiteDBconnectionString;
 
         public Form1()
         {
             InitializeComponent();
 
             tcp = new TcpSocketServer();
+
+            noticeServer = new NoticeSocketServer();
+            noticeServer.StartNoticeCheck();
 
             thisExeDirPath = Path.GetDirectoryName(Application.ExecutablePath);
             datebasePath = Path.Combine(thisExeDirPath, "lite.db");
@@ -40,6 +49,9 @@ namespace tcpserver
 
             this.panel_StatusListFrame.MouseWheel += new MouseEventHandler(this.panel_StatusListFrame_MouseWheel);
             this.tabPage_Status.MouseWheel += new MouseEventHandler(this.panel_StatusListFrame_MouseWheel);
+
+            _LiteDBconnectionString = new ConnectionString();
+            _LiteDBconnectionString.Connection = ConnectionType.Shared;
 
         }
 
@@ -50,12 +62,10 @@ namespace tcpserver
         {
             string paramFilename = Path.Combine(thisExeDirPath, "_param.txt");
 
-
             if (File.Exists(paramFilename))
             {
                 WinFormStringCnv.setControlFromString(this, File.ReadAllText(paramFilename));
             }
-
 
             try
             {
@@ -101,15 +111,17 @@ namespace tcpserver
 
         }
 
+
+
         private void timer_UpdateList_Tick(object sender, EventArgs e)
         {
             timer_UpdateList.Stop();
 
-            if ((tcp.LastReceiveTime - LastCheckTime).TotalSeconds > 0 && tcp.messageQueue.Count > 0)
+            if ((tcp.LastReceiveTime - LastCheckTime).TotalSeconds > 0 && tcp.ReceivedSocketQueue.Count > 0)
             {
                 string message = "";
 
-                while (tcp.messageQueue.TryDequeue(out message))
+                while (tcp.ReceivedSocketQueue.TryDequeue(out message))
                 {
                     string[] cols = message.Split('\t');
 
@@ -130,10 +142,10 @@ namespace tcpserver
                                 }
                             }
 
-                            using (LiteDatabase litedb = new LiteDatabase(textBox_DataBaseFilePath.Text))
+                            _LiteDBconnectionString.Filename = textBox_DataBaseFilePath.Text;
+                            using (LiteDatabase litedb = new LiteDatabase(_LiteDBconnectionString.Filename))
                             {
                                 ILiteCollection<SocketMessage> col = litedb.GetCollection<SocketMessage>("table_Message");
-
                                 col.Insert(key, socketMessage);
                             }
 
@@ -291,17 +303,26 @@ namespace tcpserver
         {
             try
             {
-                using (LiteDatabase litedb = new LiteDatabase(textBox_DataBaseFilePath.Text))
+                _LiteDBconnectionString.Filename = textBox_DataBaseFilePath.Text;
+
+                using (LiteDatabase litedb = new LiteDatabase(_LiteDBconnectionString.Filename))
                 {
                     var col = litedb.GetCollection<SocketMessage>("table_Message");
 
                     foreach (MessageItemView messageItemView in panel_StatusList.Controls)
                     {
                         string groupName = messageItemView.groupBox_GroupName.Text;
+
                         try
                         {
-                            SocketMessage socketMessage = col.Query().Where(x => x.groupName == groupName).OrderBy(x => x.connectTime, 0).First();
-                            messageItemView.setItems(socketMessage, textBox_DataBaseFilePath.Text);
+                            ILiteQueryable<SocketMessage> query = col.Query().Where(x => x.groupName == groupName).OrderBy(x => x.connectTime, 0);
+
+                            if (query.Count() > 0)
+                            {
+                                SocketMessage socketMessage = query.First();
+                                messageItemView.setItems(socketMessage, textBox_DataBaseFilePath.Text);
+
+                            }
 
                         }
                         catch { }
@@ -309,6 +330,7 @@ namespace tcpserver
                     }
 
                 }
+
             }
             catch { }
 
@@ -319,11 +341,12 @@ namespace tcpserver
 
             TimeSpan TP = new TimeSpan(0, 8, 0, 0);
 
-            using (LiteDatabase litedb = new LiteDatabase(textBox_DataBaseFilePath.Text))
+            _LiteDBconnectionString.Filename = textBox_DataBaseFilePath.Text;
+            using (LiteDatabase litedb = new LiteDatabase(_LiteDBconnectionString.Filename))
             {
 
 
-                for (DateTime connectTime = DateTime.Parse("2020/01/01");connectTime< DateTime.Parse( "2024/01/31");connectTime += TP)
+                for (DateTime connectTime = DateTime.Parse("2020/01/01"); connectTime < DateTime.Parse("2024/01/31"); connectTime += TP)
                 {
                     SocketMessage socketMessage = new SocketMessage(connectTime, "Test", "Test", "Test");
                     string key = socketMessage.Key();
@@ -337,8 +360,8 @@ namespace tcpserver
 
         private void button2_Click(object sender, EventArgs e)
         {
-            BackupLightDB job = new BackupLightDB(textBox_DataBaseFilePath.Text,int.Parse(textBox_PostTime.Text));
-            job.jobSet(textBox_DataBaseFilePath.Text, int.Parse(textBox_PostTime.Text));
+            BreakupLightDBFile job = new BreakupLightDBFile(textBox_DataBaseFilePath.Text, int.Parse(textBox_PostTime.Text));
+            job.BreakupLightDBFile_byMonthFile(textBox_DataBaseFilePath.Text, int.Parse(textBox_PostTime.Text));
 
         }
     }

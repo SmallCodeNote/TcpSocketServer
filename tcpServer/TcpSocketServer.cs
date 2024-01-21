@@ -17,29 +17,37 @@ Original Code // fix mistype
 
 namespace tcpserver
 {
-
     class TcpSocketServer
     {
         public DateTime LastReceiveTime;
-        public ConcurrentQueue<string> messageQueue;
-        
+
+        /// <summary>
+        /// Received TcpSocket Queue.
+        /// </summary>
+        public ConcurrentQueue<string> ReceivedSocketQueue;
+
+        public int _ReceivedSocketQueueMaxSize = 1024;
+
+
+        private bool _ListeningContinueFlag;
+        public int _bufferSize = 1024;
+
         public TcpSocketServer()
         {
             LastReceiveTime = DateTime.Now;
-            messageQueue = new ConcurrentQueue<string>();
-            
+            ReceivedSocketQueue = new ConcurrentQueue<string>();
+
         }
 
-
-        private bool _Listening;
         public void StopListening()
         {
-            _Listening = false;
-            return ;
+            _ListeningContinueFlag = false;
+            return;
         }
+
         public async Task<bool> StartListening(int port)
         {
-            _Listening = true;
+            _ListeningContinueFlag = true;
             IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Any, port);
             var tcpServer = new TcpListener(localEndPoint);
 
@@ -47,15 +55,15 @@ namespace tcpserver
             {
                 tcpServer.Start();
 
-                while (_Listening)
+                while (_ListeningContinueFlag)
                 {
                     using (var tcpClient = await tcpServer.AcceptTcpClientAsync())
                     {
                         var request = await ReceiveAsync(tcpClient);
-                        
-                        if (messageQueue.Count >= 1024) { string b = ""; messageQueue.TryDequeue(out b); }
+
+                        if (ReceivedSocketQueue.Count >= _ReceivedSocketQueueMaxSize) { string b = ""; ReceivedSocketQueue.TryDequeue(out b); }
                         LastReceiveTime = DateTime.Now;
-                        messageQueue.Enqueue(LastReceiveTime.ToString("yyyy/MM/dd HH:mm:ss.fff")+"\t"+ request);
+                        ReceivedSocketQueue.Enqueue(LastReceiveTime.ToString("yyyy/MM/dd HH:mm:ss.fff") + "\t" + request);
                     }
                 }
 
@@ -69,17 +77,15 @@ namespace tcpserver
             return false;
         }
 
-
         public async Task<string> ReceiveAsync(TcpClient tcpClient)
         {
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[_bufferSize];
             string request = "";
-            
+
             try
             {
                 using (NetworkStream stream = tcpClient.GetStream())
                 {
-                    
                     do
                     {
                         int byteSize = await stream.ReadAsync(buffer, 0, buffer.Length);
@@ -87,20 +93,19 @@ namespace tcpserver
                     }
                     while (stream.DataAvailable);
 
-                    Debug.WriteLine($"Received: {request}");
-
-
                     //Responce code for client
                     var response = "received : " + request;
                     buffer = Encoding.ASCII.GetBytes(response);
                     await stream.WriteAsync(buffer, 0, buffer.Length);
                     Debug.WriteLine($"Response : {response}");
+
                 }
+
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.ToString());
-                
+
             }
 
             return request;

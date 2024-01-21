@@ -44,8 +44,6 @@
             this.Column_Interval = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column_check = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.dataGridView_ClientList = new System.Windows.Forms.DataGridView();
-            this.Column_ClientList_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column_Timeout = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.textBox_PostTime = new System.Windows.Forms.TextBox();
             this.button_getDataBaseFilePath = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
@@ -54,11 +52,19 @@
             this.textBox_DataBaseFilePath = new System.Windows.Forms.TextBox();
             this.tabPage_Status = new System.Windows.Forms.TabPage();
             this.tabPage_Log = new System.Windows.Forms.TabPage();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.timer_UpdateList = new System.Windows.Forms.Timer(this.components);
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.Column_ClientList_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column_Timeout = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column_TimeOutMessage = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabPage_VoiceSetting = new System.Windows.Forms.TabPage();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.ColumnAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column_AddressName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label6 = new System.Windows.Forms.Label();
             this.panel_StatusListFrame.SuspendLayout();
             this.tabControl_Top.SuspendLayout();
             this.tabPage_Setting.SuspendLayout();
@@ -67,13 +73,15 @@
             this.tabPage_Status.SuspendLayout();
             this.tabPage_Log.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.tabPage_VoiceSetting.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // button_Start
             // 
-            this.button_Start.Location = new System.Drawing.Point(457, 325);
+            this.button_Start.Location = new System.Drawing.Point(466, 61);
             this.button_Start.Name = "button_Start";
-            this.button_Start.Size = new System.Drawing.Size(115, 44);
+            this.button_Start.Size = new System.Drawing.Size(115, 30);
             this.button_Start.TabIndex = 0;
             this.button_Start.Text = "Start";
             this.button_Start.UseVisualStyleBackColor = true;
@@ -81,7 +89,7 @@
             // 
             // textBox_portNumber
             // 
-            this.textBox_portNumber.Location = new System.Drawing.Point(457, 288);
+            this.textBox_portNumber.Location = new System.Drawing.Point(345, 66);
             this.textBox_portNumber.Name = "textBox_portNumber";
             this.textBox_portNumber.Size = new System.Drawing.Size(115, 22);
             this.textBox_portNumber.TabIndex = 1;
@@ -115,9 +123,10 @@
             // tabControl_Top
             // 
             this.tabControl_Top.Controls.Add(this.tabPage_Setting);
+            this.tabControl_Top.Controls.Add(this.tabPage_VoiceSetting);
             this.tabControl_Top.Controls.Add(this.tabPage_Status);
             this.tabControl_Top.Controls.Add(this.tabPage_Log);
-            this.tabControl_Top.Location = new System.Drawing.Point(4, 12);
+            this.tabControl_Top.Location = new System.Drawing.Point(0, 0);
             this.tabControl_Top.Name = "tabControl_Top";
             this.tabControl_Top.SelectedIndex = 0;
             this.tabControl_Top.Size = new System.Drawing.Size(606, 546);
@@ -148,16 +157,16 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(454, 62);
+            this.label5.Location = new System.Drawing.Point(343, 12);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(117, 15);
+            this.label5.Size = new System.Drawing.Size(138, 15);
             this.label5.TabIndex = 5;
-            this.label5.Text = "BackupTime(min)";
+            this.label5.Text = "BackupTime(minute)";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(454, 270);
+            this.label2.Location = new System.Drawing.Point(305, 66);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(34, 15);
             this.label2.TabIndex = 5;
@@ -170,10 +179,10 @@
             this.dataGridViewTextBoxColumn1,
             this.Column_Interval,
             this.Column_check});
-            this.dataGridView_StatusList.Location = new System.Drawing.Point(24, 392);
+            this.dataGridView_StatusList.Location = new System.Drawing.Point(24, 336);
             this.dataGridView_StatusList.Name = "dataGridView_StatusList";
             this.dataGridView_StatusList.RowTemplate.Height = 24;
-            this.dataGridView_StatusList.Size = new System.Drawing.Size(557, 108);
+            this.dataGridView_StatusList.Size = new System.Drawing.Size(557, 163);
             this.dataGridView_StatusList.TabIndex = 3;
             // 
             // dataGridViewTextBoxColumn1
@@ -189,7 +198,7 @@
             // 
             // Column_check
             // 
-            this.Column_check.HeaderText = "autoCheck";
+            this.Column_check.HeaderText = "NeedCheck";
             this.Column_check.Name = "Column_check";
             // 
             // dataGridView_ClientList
@@ -197,34 +206,25 @@
             this.dataGridView_ClientList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_ClientList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column_ClientList_Name,
-            this.Column_Timeout});
-            this.dataGridView_ClientList.Location = new System.Drawing.Point(24, 80);
+            this.Column_Timeout,
+            this.Column_TimeOutMessage});
+            this.dataGridView_ClientList.Location = new System.Drawing.Point(24, 102);
             this.dataGridView_ClientList.Name = "dataGridView_ClientList";
             this.dataGridView_ClientList.RowTemplate.Height = 24;
-            this.dataGridView_ClientList.Size = new System.Drawing.Size(404, 291);
+            this.dataGridView_ClientList.Size = new System.Drawing.Size(557, 213);
             this.dataGridView_ClientList.TabIndex = 3;
-            // 
-            // Column_ClientList_Name
-            // 
-            this.Column_ClientList_Name.HeaderText = "ClientName";
-            this.Column_ClientList_Name.Name = "Column_ClientList_Name";
-            this.Column_ClientList_Name.Width = 150;
-            // 
-            // Column_Timeout
-            // 
-            this.Column_Timeout.HeaderText = "Timeout(sec.)";
-            this.Column_Timeout.Name = "Column_Timeout";
             // 
             // textBox_PostTime
             // 
-            this.textBox_PostTime.Location = new System.Drawing.Point(457, 80);
+            this.textBox_PostTime.Location = new System.Drawing.Point(487, 7);
             this.textBox_PostTime.Name = "textBox_PostTime";
-            this.textBox_PostTime.Size = new System.Drawing.Size(115, 22);
+            this.textBox_PostTime.Size = new System.Drawing.Size(94, 22);
             this.textBox_PostTime.TabIndex = 1;
+            this.textBox_PostTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // button_getDataBaseFilePath
             // 
-            this.button_getDataBaseFilePath.Location = new System.Drawing.Point(543, 30);
+            this.button_getDataBaseFilePath.Location = new System.Drawing.Point(543, 33);
             this.button_getDataBaseFilePath.Name = "button_getDataBaseFilePath";
             this.button_getDataBaseFilePath.Size = new System.Drawing.Size(38, 22);
             this.button_getDataBaseFilePath.TabIndex = 2;
@@ -235,7 +235,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(21, 374);
+            this.label4.Location = new System.Drawing.Point(21, 318);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(71, 15);
             this.label4.TabIndex = 1;
@@ -244,7 +244,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(21, 62);
+            this.label3.Location = new System.Drawing.Point(21, 84);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(67, 15);
             this.label3.TabIndex = 1;
@@ -253,7 +253,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(21, 9);
+            this.label1.Location = new System.Drawing.Point(21, 12);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(119, 15);
             this.label1.TabIndex = 1;
@@ -261,7 +261,7 @@
             // 
             // textBox_DataBaseFilePath
             // 
-            this.textBox_DataBaseFilePath.Location = new System.Drawing.Point(24, 30);
+            this.textBox_DataBaseFilePath.Location = new System.Drawing.Point(24, 33);
             this.textBox_DataBaseFilePath.Name = "textBox_DataBaseFilePath";
             this.textBox_DataBaseFilePath.Size = new System.Drawing.Size(513, 22);
             this.textBox_DataBaseFilePath.TabIndex = 0;
@@ -291,6 +291,26 @@
             this.tabPage_Log.Text = "Log";
             this.tabPage_Log.UseVisualStyleBackColor = true;
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(82, 128);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 1;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(84, 40);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // timer_UpdateList
             // 
             this.timer_UpdateList.Interval = 1000;
@@ -313,25 +333,66 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(18, 20);
             this.toolStripStatusLabel1.Text = "...";
             // 
-            // button1
+            // Column_ClientList_Name
             // 
-            this.button1.Location = new System.Drawing.Point(84, 40);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.Column_ClientList_Name.HeaderText = "ClientName";
+            this.Column_ClientList_Name.Name = "Column_ClientList_Name";
+            this.Column_ClientList_Name.Width = 150;
             // 
-            // button2
+            // Column_Timeout
             // 
-            this.button2.Location = new System.Drawing.Point(82, 128);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.Column_Timeout.HeaderText = "Timeout(sec.)";
+            this.Column_Timeout.Name = "Column_Timeout";
+            this.Column_Timeout.Width = 50;
+            // 
+            // Column_TimeOutMessage
+            // 
+            this.Column_TimeOutMessage.HeaderText = "TimeOutMessage";
+            this.Column_TimeOutMessage.Name = "Column_TimeOutMessage";
+            this.Column_TimeOutMessage.Width = 250;
+            // 
+            // tabPage_VoiceSetting
+            // 
+            this.tabPage_VoiceSetting.Controls.Add(this.label6);
+            this.tabPage_VoiceSetting.Controls.Add(this.dataGridView1);
+            this.tabPage_VoiceSetting.Location = new System.Drawing.Point(4, 25);
+            this.tabPage_VoiceSetting.Name = "tabPage_VoiceSetting";
+            this.tabPage_VoiceSetting.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_VoiceSetting.Size = new System.Drawing.Size(598, 517);
+            this.tabPage_VoiceSetting.TabIndex = 3;
+            this.tabPage_VoiceSetting.Text = "VoiceSetting";
+            this.tabPage_VoiceSetting.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ColumnAddress,
+            this.Column_AddressName});
+            this.dataGridView1.Location = new System.Drawing.Point(31, 34);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowTemplate.Height = 24;
+            this.dataGridView1.Size = new System.Drawing.Size(538, 155);
+            this.dataGridView1.TabIndex = 0;
+            // 
+            // ColumnAddress
+            // 
+            this.ColumnAddress.HeaderText = "Address";
+            this.ColumnAddress.Name = "ColumnAddress";
+            // 
+            // Column_AddressName
+            // 
+            this.Column_AddressName.HeaderText = "Name";
+            this.Column_AddressName.Name = "Column_AddressName";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(28, 16);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(131, 15);
+            this.label6.TabIndex = 2;
+            this.label6.Text = "SpeakerAddressList";
             // 
             // Form1
             // 
@@ -355,6 +416,9 @@
             this.tabPage_Log.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.tabPage_VoiceSetting.ResumeLayout(false);
+            this.tabPage_VoiceSetting.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -382,15 +446,21 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.DataGridView dataGridView_StatusList;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column_ClientList_Name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column_Timeout;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column_Interval;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Column_check;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox textBox_PostTime;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column_Interval;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Column_check;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column_ClientList_Name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column_Timeout;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column_TimeOutMessage;
+        private System.Windows.Forms.TabPage tabPage_VoiceSetting;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnAddress;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column_AddressName;
+        private System.Windows.Forms.Label label6;
     }
 }
 
