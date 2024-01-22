@@ -30,6 +30,7 @@ namespace tcpserver
         public NoticeSocketServer()
         {
             NoticeQueue = new ConcurrentQueue<NoticeMessage>();
+            NoticeRunning = new ConcurrentDictionary<string, NoticeMessageHandling>();
         }
 
         public bool AddNotice(NoticeMessage notice)
@@ -104,7 +105,6 @@ namespace tcpserver
 
     }
 
-
     public class NoticeMessageHandling : IDisposable
     {
         private HttpClient httpClient;
@@ -119,7 +119,6 @@ namespace tcpserver
         }
 
         public int _threadSleepLength = 100;
-
 
         public NoticeMessageHandling(NoticeMessage notice, int timeout = 3)
         {
@@ -168,7 +167,12 @@ namespace tcpserver
                     noticeContinue = m.Content.ToString() != "0";
                     Thread.Sleep(_threadSleepLength);
                 }
-                catch { return false; }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.ToString());
+                    return false;
+                }
+
             } while (noticeContinue);
 
             return true;

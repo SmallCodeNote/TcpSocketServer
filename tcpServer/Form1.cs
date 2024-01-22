@@ -127,7 +127,7 @@ namespace tcpserver
 
                     if (cols.Length >= 4)
                     {
-                        try
+                        //try
                         {
                             DateTime connectTime = DateTime.Parse(cols[0]);
                             SocketMessage socketMessage = new SocketMessage(connectTime, cols[1], cols[2], cols[3]);
@@ -150,7 +150,7 @@ namespace tcpserver
                             }
 
                         }
-                        catch
+                        //catch
                         {
 
                         }
