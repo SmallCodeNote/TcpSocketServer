@@ -12,41 +12,35 @@ using System.Diagnostics;
 
 namespace tcpserver
 {
-    public class NoticeSocketServer : IDisposable
+    public class NoticeSocketServer
     {
         /// <summary>
-        /// Received TcpSocket Queue.
+        /// Received Notice Queue.
         /// </summary>
         public ConcurrentQueue<NoticeMessage> NoticeQueue;
 
+        /// <summary>
+        /// Running Notice.
+        /// </summary>
+        public ConcurrentDictionary<string, NoticeMessageHandling> NoticeRunning;
 
         private bool _noticeCheckContinueFlag = false;
+        public int _threadSleepLength = 100;
 
-        private HttpClient httpClient;
-
-        public NoticeSocketServer(int TimeoutSec = 3)
+        public NoticeSocketServer()
         {
-            _initialize(TimeoutSec);
+            NoticeQueue = new ConcurrentQueue<NoticeMessage>();
         }
 
-        public NoticeSocketServer(TimeSpan Timeout)
+        public bool AddNotice(NoticeMessage notice)
         {
-            _initialize(Timeout);
-        }
+            if (!NoticeRunning.ContainsKey(notice.Key))
+            {
+                NoticeQueue.Enqueue(notice);
+                return true;
+            };
 
-        private void _initialize(int TimeoutSec = 3)
-        {
-            if (TimeoutSec < 1) { TimeoutSec = 1; };
-
-            _initialize(new TimeSpan(0, 0, 0, TimeoutSec));
-        }
-
-        private void _initialize(TimeSpan Timeout)
-        {
-            if (Timeout.TotalSeconds < 1) { Timeout = new TimeSpan(0, 0, 0, 1); };
-
-            httpClient = new HttpClient();
-            httpClient.Timeout = Timeout;
+            return false;
         }
 
         public void StartNoticeCheck()
@@ -55,34 +49,51 @@ namespace tcpserver
             {
                 _noticeCheckContinueFlag = true;
 
-                try
+                Task.Run(() =>
                 {
-                    Task.Run(() =>
+                    while (_noticeCheckContinueFlag)
                     {
-                        while (_noticeCheckContinueFlag)
+                        try
                         {
+                            if (NoticeRunning.Count > 0)
+                            {
+                                foreach (var item in NoticeRunning)
+                                {
+                                    if (item.Value.FinishNotice)
+                                    {
+                                        NoticeMessageHandling h;
+                                        if (NoticeRunning.TryRemove(item.Key, out h)) { h.Dispose(); };
+                                    }
+                                }
+                            }
+
                             if (NoticeQueue.Count > 0)
                             {
                                 NoticeMessage b;
                                 if (NoticeQueue.TryDequeue(out b))
                                 {
-                                    sendNoticeMessage(b);
-                                }
+                                    NoticeMessageHandling handling = new NoticeMessageHandling(b);
 
+                                    if (NoticeRunning.TryAdd(b.Key, handling))
+                                    {
+                                        handling.StartNotice();
+                                    }
+                                }
                             }
 
-                            Thread.Sleep(100);
+                            Thread.Sleep(_threadSleepLength);
 
                         }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine(ex.ToString());
+                        }
+                    }
 
-                    });
+                });
 
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.ToString());
-                }
             }
+
         }
 
         public void StopCheck()
@@ -91,21 +102,77 @@ namespace tcpserver
             return;
         }
 
-        public void sendNoticeMessage(NoticeMessage noticeMessage)
+    }
+
+
+    public class NoticeMessageHandling : IDisposable
+    {
+        private HttpClient httpClient;
+        public NoticeMessage notice;
+
+        public bool FinishNotice = false;
+
+        public int timeout
         {
+            get { return (int)httpClient.Timeout.TotalSeconds; }
+            set { httpClient.Timeout = new TimeSpan(0, 0, value); }
+        }
 
-            List<Task> taskList = new List<Task>();
+        public int _threadSleepLength = 100;
 
-            foreach (string address in noticeMessage.addressList)
-            {
-                taskList.Add(Task.Run(() => httpClient.GetStringAsync(address + noticeMessage.message)));
 
-            }
-
-            Task.WaitAll(taskList.ToArray());
+        public NoticeMessageHandling(NoticeMessage notice, int timeout = 3)
+        {
+            this.notice = notice;
+            httpClient = new HttpClient();
+            httpClient.Timeout = new TimeSpan(0, 0, timeout);
 
         }
 
+        public Task StartNotice()
+        {
+            return Task.Run(() =>
+            {
+                FinishNotice = false;
+
+                if (!WaitNoticeFinish())
+                {
+                    FinishNotice = true;
+                    return;
+                }
+
+                SendNotice();
+                Thread.Sleep(timeout * 1000);
+                WaitNoticeFinish();
+                FinishNotice = true;
+            });
+        }
+
+        private string SendNotice()
+        {
+            string parameter = new FormUrlEncodedContent(notice.parameters).ReadAsStringAsync().Result;
+            HttpResponseMessage m = httpClient.GetAsync(notice.address + parameter).Result;
+            return m.Content.ToString();
+        }
+
+        private bool WaitNoticeFinish()
+        {
+            bool noticeContinue = true;
+
+            do
+            {
+                try
+                {
+                    HttpResponseMessage m = httpClient.GetAsync(notice.address + "status -s").Result;
+
+                    noticeContinue = m.Content.ToString() != "0";
+                    Thread.Sleep(_threadSleepLength);
+                }
+                catch { return false; }
+            } while (noticeContinue);
+
+            return true;
+        }
 
         public void Dispose()
         {
@@ -117,13 +184,67 @@ namespace tcpserver
 
     public class NoticeMessage
     {
-        public List<string> addressList;
-        public string message;
+        public string address;
+        public Dictionary<string, string> parameters;
 
-        public NoticeMessage(string addressListup, string message)
+        public string Key
         {
-            this.addressList = new List<string>(addressListup.Split(','));
-            this.message = message;
+            get { return this.address + new FormUrlEncodedContent(this.parameters).ReadAsStringAsync().Result; }
+        }
+
+        public NoticeMessage(string address, Dictionary<string, string> parameters)
+        {
+            this.address = address;
+            this.parameters = parameters;
+
+        }
+
+        public NoticeMessage(string address, string[] parameters)
+        {
+            this.address = address;
+            this.parameters = new Dictionary<string, string>();
+
+            for (int i = 0; i < parameters.Length - 1; i += 2)
+            {
+                this.parameters.Add(parameters[i], parameters[i + 1]);
+            }
+
+        }
+
+        public NoticeMessage(string address, string message, string parameters = "")
+        {
+            this.address = address;
+
+            this.parameters = new Dictionary<string, string>();
+
+            if (message.Length > 0) this.parameters.Add("speech", message);
+
+            string[] cols = parameters.Split('\t');
+
+            for (int i = 0; i < cols.Length - 1; i += 2)
+            {
+                this.parameters.Add(cols[i], cols[i + 1]);
+            }
+
+
+        }
+
+        public static bool operator ==(NoticeMessage c1, NoticeMessage c2)
+        {
+            string p1 = new FormUrlEncodedContent(c1.parameters).ReadAsStringAsync().Result;
+            string p2 = new FormUrlEncodedContent(c2.parameters).ReadAsStringAsync().Result;
+
+            return c1.address == c2.address && p1 == p2;
+        }
+
+        public static bool operator !=(NoticeMessage c1, NoticeMessage c2)
+        {
+            if (c1.address != c2.address) return true;
+
+            string p1 = new FormUrlEncodedContent(c1.parameters).ReadAsStringAsync().Result;
+            string p2 = new FormUrlEncodedContent(c2.parameters).ReadAsStringAsync().Result;
+
+            return p1 != p2;
 
         }
 
