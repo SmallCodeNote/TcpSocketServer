@@ -137,7 +137,7 @@ namespace tcpserver
                             {
                                 if (Row.Cells.Count >= 3 && Row.Cells[0].Value != null && Row.Cells[0].Value.ToString() == cols[2])
                                 {
-                                    socketMessage.check = bool.Parse(Row.Cells[2].Value.ToString());
+                                    socketMessage.needCheck = bool.Parse(Row.Cells[2].Value.ToString());
 
                                 }
                             }
@@ -320,6 +320,7 @@ namespace tcpserver
                             if (query.Count() > 0)
                             {
                                 SocketMessage socketMessage = query.First();
+
                                 messageItemView.setItems(socketMessage, textBox_DataBaseFilePath.Text);
 
                             }
@@ -363,6 +364,52 @@ namespace tcpserver
             BreakupLightDBFile job = new BreakupLightDBFile(textBox_DataBaseFilePath.Text, int.Parse(textBox_PostTime.Text));
             job.BreakupLightDBFile_byMonthFile(textBox_DataBaseFilePath.Text, int.Parse(textBox_PostTime.Text));
 
+        }
+
+        private void tabPage_Log_Enter(object sender, EventArgs e)
+        {
+            try
+            {
+                _LiteDBconnectionString.Filename = textBox_DataBaseFilePath.Text;
+
+                using (LiteDatabase litedb = new LiteDatabase(_LiteDBconnectionString.Filename))
+                {
+                    var col = litedb.GetCollection<SocketMessage>("table_Message");
+
+
+                    try
+                    {
+                        ILiteQueryable<SocketMessage> query = col.Query().OrderBy(x => x.connectTime, 0);
+
+                        if (query.Count() > 0)
+                        {
+                            List<string> Lines = new List<string>();
+                            foreach (SocketMessage socketMessage in query.ToArray())
+                            {
+
+                                Lines.Add(socketMessage.ToString());
+
+                            }
+
+                            textBox_Log.Text = String.Join("\r\n", Lines.ToArray());
+
+                        }
+
+                        label_LogUpdateTime.Text = "Log Update ... "+DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+
+                    }
+                    catch { }
+
+
+                }
+
+            }
+            catch { }
+        }
+
+        private void button_LogReload_Click(object sender, EventArgs e)
+        {
+            tabPage_Log_Enter(null, null);
         }
     }
 }

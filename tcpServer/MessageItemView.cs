@@ -14,8 +14,12 @@ namespace tcpserver
 {
     public partial class MessageItemView : UserControl
     {
-        private SocketMessage _message;
+        public SocketMessage _message;
         private string _dbPath;
+
+        NoticeSocketServer noticeServer;
+        public List<NoticeMessage> _noticeList_CheckChange;
+
         public MessageItemView()
         {
             InitializeComponent();
@@ -42,7 +46,7 @@ namespace tcpserver
             this.label_ElapsedTime.Text = getElapsedTimeString(DateTime.Now - message.connectTime);
             this.label_LastMessage.Text = message.message;
             this.checkBox_check.Checked = message.check;
-            this.checkBox_check.Enabled = true;
+            this.checkBox_check.Enabled = message.needCheck;
 
         }
 
@@ -70,7 +74,13 @@ namespace tcpserver
                     var record = col.FindOne(x => x.connectTime == this._message.connectTime && x.groupName == this._message.groupName && x.status == this._message.status);
                     string key = this._message.groupName + "_" + this._message.connectTime.ToString("yyyy/MM/dd HH:mm:ss.fff");
                     record.check = checkBox_check.Checked;
-                    col.Update(key,record);
+                    col.Update(key, record);
+
+                    foreach (var q in _noticeList_CheckChange)
+                    {
+                        noticeServer.NoticeQueue.Enqueue(q);
+                    }
+
                 }
                 catch
                 {

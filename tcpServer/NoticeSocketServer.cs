@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 
+using System.Xml;
 
 namespace tcpserver
 {
@@ -150,7 +151,8 @@ namespace tcpserver
         private string SendNotice()
         {
             string parameter = new FormUrlEncodedContent(notice.parameters).ReadAsStringAsync().Result;
-            HttpResponseMessage m = httpClient.GetAsync(notice.address + parameter).Result;
+            string url = @"http://" + notice.address + @"/api/control?" + parameter;
+            HttpResponseMessage m = httpClient.GetAsync(url).Result;
             return m.Content.ToString();
         }
 
@@ -162,10 +164,18 @@ namespace tcpserver
             {
                 try
                 {
-                    HttpResponseMessage m = httpClient.GetAsync(notice.address + "status -s").Result;
+                    string url = @"http://" + notice.address + @"/api/status?format=xml";
+                    HttpResponseMessage m = httpClient.GetAsync(url).Result;
 
-                    noticeContinue = m.Content.ToString() != "0";
+                    XmlDocument doc = new XmlDocument();
+                    doc.LoadXml(m.Content.ToString());
+
+                    XmlNode soundNode = doc.SelectSingleNode("//sound[@name='SOUND']");
+                    string soundValue = soundNode.Attributes["value"].Value;
+
+                    noticeContinue = soundValue != "0";
                     Thread.Sleep(_threadSleepLength);
+
                 }
                 catch (Exception ex)
                 {

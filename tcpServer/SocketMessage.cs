@@ -14,6 +14,7 @@ namespace tcpserver
         public string status { get; set; }
         public string message { get; set; }
         public bool check { get; set; }
+        public bool needCheck { get; set; }
 
 
         public SocketMessage(DateTime connectTime, string groupName, string status, string message)
@@ -23,7 +24,7 @@ namespace tcpserver
             this.status = status;
             this.message = message;
             this.check = false;
-
+            this.needCheck = true;
         }
 
         public string Key()
@@ -31,6 +32,11 @@ namespace tcpserver
 
             return groupName + "_" + connectTime.ToString("yyyy/MM/dd HH:mm:ss.fff");
 
+        }
+
+        public override string ToString()
+        {
+            return groupName + "\t" + connectTime.ToString("yyyy/MM/dd HH:mm:ss") + "\t" + status + "\t" + message + "\t" + check.ToString() + "\t" + needCheck.ToString();
         }
 
     }
