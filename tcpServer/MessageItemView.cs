@@ -17,10 +17,10 @@ namespace tcpserver
         public SocketMessage _message;
         private string _dbPath;
 
-        NoticeSocketServer noticeServer;
+        NoticeTransmitter noticeTransmitter;
         public List<NoticeMessage> _noticeList_CheckChange;
 
-        public MessageItemView()
+        public MessageItemView(NoticeTransmitter noticeTransmitter)
         {
             InitializeComponent();
 
@@ -28,6 +28,9 @@ namespace tcpserver
             this.label_LastConnectTime.Text = "";
             this.label_ElapsedTime.Text = "";
             this.label_LastMessage.Text = "";
+
+            this.noticeTransmitter = noticeTransmitter;
+
         }
 
         private void button_Log_Click(object sender, EventArgs e)
@@ -76,9 +79,11 @@ namespace tcpserver
                     record.check = checkBox_check.Checked;
                     col.Update(key, record);
 
+
+
                     foreach (var q in _noticeList_CheckChange)
                     {
-                        noticeServer.NoticeQueue.Enqueue(q);
+                        noticeTransmitter.NoticeQueue.Enqueue(q);
                     }
 
                 }
