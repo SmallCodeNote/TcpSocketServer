@@ -13,7 +13,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Diagnostics;
 
-
+using FluentScheduler;
 
 using LiteDB;
 
@@ -26,7 +26,7 @@ namespace tcpserver
         TcpSocketServer tcp;
         NoticeTransmitter noticeTransmitter;
         List<ClientData> clientList;
-        AddressNote addressNote;
+        AddressBook addressBook;
 
 
         DateTime LastCheckTime;
@@ -39,6 +39,8 @@ namespace tcpserver
         public Form1()
         {
             InitializeComponent();
+            JobManager.Initialize();
+
 
             tcp = new TcpSocketServer();
 
@@ -116,8 +118,6 @@ namespace tcpserver
 
         }
 
-
-
         private void timer_UpdateList_Tick(object sender, EventArgs e)
         {
             timer_UpdateList.Stop();
@@ -138,7 +138,7 @@ namespace tcpserver
                             SocketMessage socketMessage = new SocketMessage(connectTime, cols[1], cols[2], cols[3]);
                             string key = socketMessage.Key();
 
-                            foreach (DataGridViewRow Row in dataGridView_StatusList.Rows)
+                            foreach (DataGridViewRow Row in dataGridView_SchedulerList.Rows)
                             {
                                 if (Row.Cells.Count >= 3 && Row.Cells[0].Value != null && Row.Cells[0].Value.ToString() == cols[2])
                                 {
@@ -192,13 +192,9 @@ namespace tcpserver
 
                         }
 
-
                     }
 
                 }
-
-
-
 
                 LastCheckTime = DateTime.Now;
 
@@ -321,7 +317,6 @@ namespace tcpserver
 
             }
 
-
         }
 
 
@@ -441,7 +436,6 @@ namespace tcpserver
                     }
                     catch { }
 
-
                 }
 
             }
@@ -485,7 +479,10 @@ namespace tcpserver
                 code += cells.Count > 1 && cells[1].Value != null ? "\t" + cells[1].Value.ToString() : "\t";
                 code += cells.Count > 2 && cells[2].Value != null ? "\t" + cells[2].Value.ToString() : "\t";
 
-                ClientData cd = new ClientData(code, addressNote);
+                string addressKeys = cells.Count > 3 && cells[3].Value != null ? cells[3].Value.ToString() : "";
+
+                ClientData cd = new ClientData(code, addressBook.getAddress(addressKeys));
+
                 if (cd.ClientName != "") clientList.Add(cd);
 
             }
@@ -505,11 +502,34 @@ namespace tcpserver
                 if (code != "") addressList.Add(code);
 
             }
-            addressNote = new AddressNote(addressList.ToArray());
+            addressBook = new AddressBook(addressList.ToArray());
         }
 
         private void button_NotifySettingLoad_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void button_SchedulerList_Click(object sender, EventArgs e)
+        {
+            JobManager.StopAndBlock();
+
+            List<string> Lines = new List<string>();
+            for (int i = 0; i < dataGridView_SchedulerList.RowCount - 1; i++)
+            {
+                var cells = dataGridView_SchedulerList.Rows[i].Cells;
+                string code = cells[0].Value.ToString();
+                code += cells.Count > 1 && cells[1].Value != null ? "\t" + cells[1].Value.ToString() : "\t";
+                code += cells.Count > 2 && cells[2].Value != null ? "\t" + cells[2].Value.ToString() : "\t";
+                code += cells.Count > 3 && cells[3].Value != null ? "\t" + cells[3].Value.ToString() : "\t";
+
+                if (code != "") Lines.Add(code);
+
+            }
+
+            var job = new FluentSchedulerRegistry(textBox_DataBaseFilePath.Text,noticeTransmitter, Lines.ToArray());
+
+            JobManager.Initialize(job);
 
         }
     }

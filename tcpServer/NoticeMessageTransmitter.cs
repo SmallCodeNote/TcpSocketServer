@@ -45,7 +45,6 @@ namespace tcpserver
             return false;
         }
 
-
         public void StartNoticeCheck()
         {
             if (!_noticeCheckContinueFlag)

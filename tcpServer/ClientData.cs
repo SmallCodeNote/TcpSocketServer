@@ -11,9 +11,9 @@ namespace tcpserver
         public string ClientName;
         public int Timeout;
         public string TimeoutMessage;
-        public AddressNote TargetAddress;
+        public List<AddressInfo> addressList;
 
-        public ClientData(string Line, AddressNote AddressList)
+        public ClientData(string Line, List<AddressInfo> addressList)
         {
             string[] cols = Line.Split('\t');
 
@@ -22,51 +22,50 @@ namespace tcpserver
                 ClientName = cols[0];
                 Timeout = int.Parse(cols[1]);
                 TimeoutMessage = cols[2];
-                TargetAddress = AddressList;
+                this.addressList = addressList;
             }
             catch
             {
-
                 ClientName = "";
                 Timeout = 0;
                 TimeoutMessage = "";
-                TargetAddress = null;
+                this.addressList = null;
             }
         }
 
     }
 
-    public class AddressNote
+    public class AddressBook
     {
-        Dictionary<string, AddressInfo> addressNote;
+        Dictionary<string, AddressInfo> addressBook;
 
-        public AddressNote(string[] Lines)
+        public AddressBook(string[] Lines)
         {
-            addressNote = new Dictionary<string, AddressInfo>();
+            addressBook = new Dictionary<string, AddressInfo>();
 
             for (int i = 1; i <= Lines.Length; i++)
             {
-                addressNote.Add(i.ToString(), new AddressInfo(Lines[i - 1]));
+                addressBook.Add(i.ToString(), new AddressInfo(Lines[i - 1]));
 
             }
 
         }
 
-        public List<AddressInfo> getAddress(string indexList)
+        public List<AddressInfo> getAddress(string keyIndexList)
         {
-            string[] indexSet = indexList.Split(',');
+            string[] keyIndexSet = keyIndexList.Split(',');
 
             List<AddressInfo> result = new List<AddressInfo>();
 
-            foreach(var i in indexSet)
+            foreach (string key in keyIndexSet)
             {
-                result.Add(addressNote[i]);
+                if (addressBook.ContainsKey(key)) result.Add(addressBook[key]);
             }
 
             return result;
 
         }
-        
+
     }
 
 
@@ -80,8 +79,13 @@ namespace tcpserver
             string[] cols = Line.Split('\t');
 
             address = cols[0];
-            addressName = cols.Length > 1 ?  cols[1] : "";
+            addressName = cols.Length > 1 ? cols[1] : "";
 
+        }
+
+        public override string ToString()
+        {
+            return address;
         }
 
     }

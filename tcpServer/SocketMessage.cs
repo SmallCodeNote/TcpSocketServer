@@ -29,9 +29,7 @@ namespace tcpserver
 
         public string Key()
         {
-
             return groupName + "_" + connectTime.ToString("yyyy/MM/dd HH:mm:ss.fff");
-
         }
 
         public override string ToString()
