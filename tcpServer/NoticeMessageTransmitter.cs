@@ -53,7 +53,8 @@ namespace tcpserver
 
             foreach (var address in targetClient.addressList)
             {
-                NoticeMessage item = new NoticeMessage(address.address, socketMessage.message, socketMessage.parameter);
+                NoticeMessage item = new NoticeMessage(address.address, socketMessage);
+
                 result = result && AddNotice(item);
             }
 
@@ -103,7 +104,7 @@ namespace tcpserver
                         }
                         catch (Exception ex)
                         {
-                            Debug.WriteLine("[[" + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + "]]");
+                            Debug.Write(DateTime.Now.ToString("HH:mm:ss") + " " + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " ");
                             Debug.WriteLine(ex.ToString());
 
                         }
@@ -176,7 +177,7 @@ namespace tcpserver
             string parameter = (notice.parameter != null && notice.parameter.Length > 0 ? ("&" + notice.parameter) : "");
             string url = @"http://" + notice.address + @"/api/control?speech=" + notice.message + parameter;
 
-            Debug.Write( GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " ");
+            Debug.Write(DateTime.Now.ToString("HH:mm:ss") + " " + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " ");
             Debug.WriteLine(url);
 
             if (_debug) { return ""; }
@@ -188,7 +189,7 @@ namespace tcpserver
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("[[" + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + "]]");
+                Debug.Write(DateTime.Now.ToString("HH:mm:ss") + " " + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " ");
                 Debug.WriteLine(ex.ToString());
 
             }
@@ -201,15 +202,23 @@ namespace tcpserver
         {
             DateTime startTime = DateTime.Now;
 
+
+            if (_debug)
+            {
+                Debug.WriteLine("WaitStart " + DateTime.Now.ToString("HH:mm:ss") + " " + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " ");
+                Thread.Sleep(10000);
+                Debug.WriteLine("WaitEnd " + DateTime.Now.ToString("HH:mm:ss") + " " + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " ");
+                
+                return true;
+            }
+
             do
             {
                 try
                 {
                     string url = @"http://" + notice.address + @"/api/status?format=xml";
-                    Debug.Write(GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name+" ");
+                    Debug.Write("WaitStart " + DateTime.Now.ToString("HH:mm:ss") + " " + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " ");
                     Debug.WriteLine(url);
-
-                    if (_debug) { Thread.Sleep(10000); return true; }
 
                     HttpResponseMessage m = httpClient.GetAsync(url).Result;
 
@@ -220,22 +229,26 @@ namespace tcpserver
                     string soundValue = soundNode.Attributes["value"].Value;
 
                     bool waitContinue = soundValue != "0";
-                    if (!waitContinue) return true;
+                    if (!waitContinue)
+                    {
+                        Debug.Write("WaitEnd " + DateTime.Now.ToString("HH:mm:ss") + " " + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " ");
+                        Debug.WriteLine(url);
+                        return true;
+                    }
 
                     Thread.Sleep(_threadSleepLength);
 
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine("[[" + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + "]]");
+                    Debug.Write("WaitEnd_ERROR " + DateTime.Now.ToString("HH:mm:ss") + " " + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + "]]");
                     Debug.WriteLine(ex.ToString());
                     return false;
                 }
 
             } while ((DateTime.Now - startTime).TotalSeconds > WaitNoticeFinish_Timeout);
 
-            Debug.WriteLine("[[" + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + "]]");
-            Debug.WriteLine("waitTimeout");
+            Debug.WriteLine("WaitEnd_TimeOut " + DateTime.Now.ToString("HH:mm:ss") + " " + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + "]]");
 
             return false;
         }
@@ -259,22 +272,13 @@ namespace tcpserver
         {
             get { return this.address + "_" + keyTime.ToString("yyyy/MM/dd HH:mm:ss.fff") + "_" + message; }
         }
-
-        public NoticeMessage(string address, string message, string parameter = "")
-        {
-            this.address = address;
-            this.message = message;
-            this.parameter = parameter;
-            this.keyTime = DateTime.Now;
-        }
-
+        
         public NoticeMessage(string address, SocketMessage socket)
         {
             this.address = address;
             this.message = socket.message;
             this.parameter = socket.parameter;
             this.keyTime = socket.connectTime;
-
         }
 
         public static bool operator ==(NoticeMessage c1, NoticeMessage c2)

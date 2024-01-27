@@ -81,8 +81,6 @@ namespace tcpserver
                     record.check = checkBox_check.Checked;
                     col.Update(key, record);
 
-
-
                     foreach (var q in _noticeList_CheckChange)
                     {
                         noticeTransmitter.NoticeQueue.Enqueue(q);
@@ -91,16 +89,15 @@ namespace tcpserver
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine("[[" + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + "]]");
+                    Debug.Write("[[" + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + "]] ");
                     Debug.WriteLine(ex.ToString());
-
 
                 }
 
             }
         }
 
-        private void button_Clear_Click(object sender, EventArgs e)
+        private void button_AllCheck_Click(object sender, EventArgs e)
         {
             int _retryCount = 10;
 
@@ -111,7 +108,23 @@ namespace tcpserver
                     using (LiteDatabase litedb = new LiteDatabase(_LiteDBconnectionString))
                     {
                         ILiteCollection<SocketMessage> col = litedb.GetCollection<SocketMessage>("table_Message");
+                        //try
+                        {
+                            var records = col.Find(x => x.clientName == this._message.clientName && x.check == false);
 
+                            foreach (var record in records)
+                            {
+                                record.check = true;
+                                col.Update(record.Key(), record);
+                            }
+
+                        }
+                        /*catch (Exception ex)
+                        {
+                            Debug.Write("[[" + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + "]] ");
+                            Debug.WriteLine(ex.ToString());
+
+                        }*/
 
                     }
 
@@ -128,7 +141,6 @@ namespace tcpserver
 
                 }
             }
-
 
 
         }

@@ -173,7 +173,7 @@ namespace tcpserver
 
                             _LiteDBconnectionString.Filename = textBox_DataBaseFilePath.Text;
                             
-                            using (LiteDatabase litedb = new LiteDatabase(_LiteDBconnectionString.Filename))
+                            using (LiteDatabase litedb = new LiteDatabase(_LiteDBconnectionString))
                             {
                                 ILiteCollection<SocketMessage> col = litedb.GetCollection<SocketMessage>("table_Message");
                                 col.Insert(key, socketMessage);
@@ -438,10 +438,9 @@ namespace tcpserver
                 for (DateTime connectTime = DateTime.Parse("2020/01/01"); connectTime < DateTime.Parse("2024/01/31"); connectTime += TP)
                 {
                     SocketMessage socketMessage = new SocketMessage(connectTime, "Test", "Test", "Test", "parameterTest");
-                    string key = socketMessage.Key();
-
                     ILiteCollection<SocketMessage> col = litedb.GetCollection<SocketMessage>("table_Message");
-                    col.Insert(key, socketMessage);
+
+                    col.Insert(socketMessage.Key(), socketMessage);
 
                 }
             }

@@ -30,7 +30,7 @@
         {
             this.groupBox_ClientName = new System.Windows.Forms.GroupBox();
             this.checkBox_check = new System.Windows.Forms.CheckBox();
-            this.button_Clear = new System.Windows.Forms.Button();
+            this.button_AllCheck = new System.Windows.Forms.Button();
             this.label_LastMessage = new System.Windows.Forms.Label();
             this.label_ElapsedTime = new System.Windows.Forms.Label();
             this.label_LastConnectTime = new System.Windows.Forms.Label();
@@ -41,7 +41,7 @@
             // groupBox_ClientName
             // 
             this.groupBox_ClientName.Controls.Add(this.checkBox_check);
-            this.groupBox_ClientName.Controls.Add(this.button_Clear);
+            this.groupBox_ClientName.Controls.Add(this.button_AllCheck);
             this.groupBox_ClientName.Controls.Add(this.label_LastMessage);
             this.groupBox_ClientName.Controls.Add(this.label_ElapsedTime);
             this.groupBox_ClientName.Controls.Add(this.label_LastConnectTime);
@@ -65,14 +65,15 @@
             this.checkBox_check.UseVisualStyleBackColor = true;
             this.checkBox_check.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
-            // button_Clear
+            // button_AllCheck
             // 
-            this.button_Clear.Location = new System.Drawing.Point(465, 9);
-            this.button_Clear.Name = "button_Clear";
-            this.button_Clear.Size = new System.Drawing.Size(24, 80);
-            this.button_Clear.TabIndex = 2;
-            this.button_Clear.UseVisualStyleBackColor = true;
-            this.button_Clear.Click += new System.EventHandler(this.button_Clear_Click);
+            this.button_AllCheck.Location = new System.Drawing.Point(86, 34);
+            this.button_AllCheck.Name = "button_AllCheck";
+            this.button_AllCheck.Size = new System.Drawing.Size(77, 23);
+            this.button_AllCheck.TabIndex = 2;
+            this.button_AllCheck.Text = "AllCheck";
+            this.button_AllCheck.UseVisualStyleBackColor = true;
+            this.button_AllCheck.Click += new System.EventHandler(this.button_AllCheck_Click);
             // 
             // label_LastMessage
             // 
@@ -124,7 +125,7 @@
 
         #endregion
         private System.Windows.Forms.Label label_ElapsedTime;
-        private System.Windows.Forms.Button button_Clear;
+        private System.Windows.Forms.Button button_AllCheck;
         public System.Windows.Forms.GroupBox groupBox_ClientName;
         public System.Windows.Forms.Label label_Status;
         public System.Windows.Forms.Label label_LastConnectTime;

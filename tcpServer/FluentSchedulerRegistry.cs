@@ -158,7 +158,7 @@ namespace tcpserver
                     try
                     {
 
-                        using (LiteDatabase litedb = new LiteDatabase(_LiteDBconnectionString.Filename))
+                        using (LiteDatabase litedb = new LiteDatabase(_LiteDBconnectionString))
                         {
                             ILiteCollection<SocketMessage> col = litedb.GetCollection<SocketMessage>("table_Message");
 
