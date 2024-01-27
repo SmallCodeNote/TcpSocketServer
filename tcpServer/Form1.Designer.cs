@@ -208,7 +208,7 @@
             this.Column_check,
             this.Column_Interval,
             this.Column_IntervalAt});
-            this.dataGridView_SchedulerList.Location = new System.Drawing.Point(24, 336);
+            this.dataGridView_SchedulerList.Location = new System.Drawing.Point(24, 341);
             this.dataGridView_SchedulerList.Name = "dataGridView_SchedulerList";
             this.dataGridView_SchedulerList.RowTemplate.Height = 24;
             this.dataGridView_SchedulerList.Size = new System.Drawing.Size(741, 163);
@@ -249,7 +249,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(21, 318);
+            this.label4.Location = new System.Drawing.Point(21, 323);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(94, 15);
             this.label4.TabIndex = 1;
@@ -485,7 +485,7 @@
             // 
             // button_SchedulerList
             // 
-            this.button_SchedulerList.Location = new System.Drawing.Point(693, 314);
+            this.button_SchedulerList.Location = new System.Drawing.Point(693, 318);
             this.button_SchedulerList.Name = "button_SchedulerList";
             this.button_SchedulerList.Size = new System.Drawing.Size(72, 22);
             this.button_SchedulerList.TabIndex = 6;

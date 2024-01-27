@@ -71,7 +71,9 @@ namespace tcpserver
             }
             catch (Exception ex)
             {
+                Debug.WriteLine("[[" + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + "]]");
                 Debug.WriteLine(ex.ToString());
+
             }
 
             return false;
@@ -104,7 +106,9 @@ namespace tcpserver
             }
             catch (Exception ex)
             {
+                Debug.WriteLine("[[" + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + "]]");
                 Debug.WriteLine(ex.ToString());
+
 
             }
 

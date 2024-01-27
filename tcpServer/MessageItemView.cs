@@ -5,8 +5,11 @@ using System.Drawing;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
+using System.Diagnostics;
 
 using LiteDB;
 
@@ -15,12 +18,14 @@ namespace tcpserver
     public partial class MessageItemView : UserControl
     {
         public SocketMessage _message;
-        private string _dbPath;
+        
+        private ConnectionString _LiteDBconnectionString;
 
         NoticeTransmitter noticeTransmitter;
         public List<NoticeMessage> _noticeList_CheckChange;
+        
 
-        public MessageItemView(NoticeTransmitter noticeTransmitter)
+        public MessageItemView(NoticeTransmitter noticeTransmitter, ConnectionString LiteDBconnectionString)
         {
             InitializeComponent();
 
@@ -31,19 +36,16 @@ namespace tcpserver
 
             this.noticeTransmitter = noticeTransmitter;
 
-        }
-
-        private void button_Log_Click(object sender, EventArgs e)
-        {
+            this._LiteDBconnectionString = LiteDBconnectionString;
 
         }
 
-        public void setItems(SocketMessage message, string dbPath)
+        public void setItems(SocketMessage message)
         {
             _message = message;
-            _dbPath = dbPath;
-
-            this.groupBox_GroupName.Text = message.groupName;
+            
+            
+            this.groupBox_ClientName.Text = message.clientName;
             this.label_Status.Text = message.status.ToString();
             this.label_LastConnectTime.Text = message.connectTime.ToString("yyyy/MM/dd HH:mm:ss");
             this.label_ElapsedTime.Text = getElapsedTimeString(DateTime.Now - message.connectTime);
@@ -68,14 +70,14 @@ namespace tcpserver
         {
             _message.check = checkBox_check.Checked;
 
-            using (LiteDatabase litedb = new LiteDatabase(_dbPath))
+            using (LiteDatabase litedb = new LiteDatabase(_LiteDBconnectionString))
             {
                 var col = litedb.GetCollection<SocketMessage>("table_Message");
 
                 try
                 {
-                    var record = col.FindOne(x => x.connectTime == this._message.connectTime && x.groupName == this._message.groupName && x.status == this._message.status);
-                    string key = this._message.groupName + "_" + this._message.connectTime.ToString("yyyy/MM/dd HH:mm:ss.fff");
+                    var record = col.FindOne(x => x.connectTime == this._message.connectTime && x.clientName == this._message.clientName && x.status == this._message.status);
+                    string key = this._message.clientName + "_" + this._message.connectTime.ToString("yyyy/MM/dd HH:mm:ss.fff");
                     record.check = checkBox_check.Checked;
                     col.Update(key, record);
 
@@ -87,12 +89,48 @@ namespace tcpserver
                     }
 
                 }
-                catch
+                catch (Exception ex)
                 {
+                    Debug.WriteLine("[[" + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + "]]");
+                    Debug.WriteLine(ex.ToString());
+
 
                 }
 
             }
+        }
+
+        private void button_Clear_Click(object sender, EventArgs e)
+        {
+            int _retryCount = 10;
+
+            for (int i = 0; i < _retryCount; i++)
+            {
+                try
+                {
+                    using (LiteDatabase litedb = new LiteDatabase(_LiteDBconnectionString))
+                    {
+                        ILiteCollection<SocketMessage> col = litedb.GetCollection<SocketMessage>("table_Message");
+
+
+                    }
+
+                    break;
+
+                }
+                catch (Exception ex)
+                {
+                    Debug.Write(GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " retry:" + i.ToString());
+                    Debug.WriteLine(ex.ToString());
+                    Thread.Sleep(100);
+
+                    if (i == _retryCount - 1) throw;
+
+                }
+            }
+
+
+
         }
     }
 }

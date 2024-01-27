@@ -28,39 +28,51 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBox_GroupName = new System.Windows.Forms.GroupBox();
-            this.button_Log = new System.Windows.Forms.Button();
+            this.groupBox_ClientName = new System.Windows.Forms.GroupBox();
+            this.checkBox_check = new System.Windows.Forms.CheckBox();
+            this.button_Clear = new System.Windows.Forms.Button();
             this.label_LastMessage = new System.Windows.Forms.Label();
             this.label_ElapsedTime = new System.Windows.Forms.Label();
             this.label_LastConnectTime = new System.Windows.Forms.Label();
             this.label_Status = new System.Windows.Forms.Label();
-            this.checkBox_check = new System.Windows.Forms.CheckBox();
-            this.groupBox_GroupName.SuspendLayout();
+            this.groupBox_ClientName.SuspendLayout();
             this.SuspendLayout();
             // 
-            // groupBox_GroupName
+            // groupBox_ClientName
             // 
-            this.groupBox_GroupName.Controls.Add(this.checkBox_check);
-            this.groupBox_GroupName.Controls.Add(this.button_Log);
-            this.groupBox_GroupName.Controls.Add(this.label_LastMessage);
-            this.groupBox_GroupName.Controls.Add(this.label_ElapsedTime);
-            this.groupBox_GroupName.Controls.Add(this.label_LastConnectTime);
-            this.groupBox_GroupName.Controls.Add(this.label_Status);
-            this.groupBox_GroupName.Location = new System.Drawing.Point(5, 5);
-            this.groupBox_GroupName.Name = "groupBox_GroupName";
-            this.groupBox_GroupName.Size = new System.Drawing.Size(490, 95);
-            this.groupBox_GroupName.TabIndex = 0;
-            this.groupBox_GroupName.TabStop = false;
-            this.groupBox_GroupName.Text = "GroupName";
+            this.groupBox_ClientName.Controls.Add(this.checkBox_check);
+            this.groupBox_ClientName.Controls.Add(this.button_Clear);
+            this.groupBox_ClientName.Controls.Add(this.label_LastMessage);
+            this.groupBox_ClientName.Controls.Add(this.label_ElapsedTime);
+            this.groupBox_ClientName.Controls.Add(this.label_LastConnectTime);
+            this.groupBox_ClientName.Controls.Add(this.label_Status);
+            this.groupBox_ClientName.Location = new System.Drawing.Point(5, 5);
+            this.groupBox_ClientName.Name = "groupBox_ClientName";
+            this.groupBox_ClientName.Size = new System.Drawing.Size(490, 95);
+            this.groupBox_ClientName.TabIndex = 0;
+            this.groupBox_ClientName.TabStop = false;
+            this.groupBox_ClientName.Text = "ClientName";
             // 
-            // button_Log
+            // checkBox_check
             // 
-            this.button_Log.Location = new System.Drawing.Point(465, 9);
-            this.button_Log.Name = "button_Log";
-            this.button_Log.Size = new System.Drawing.Size(24, 80);
-            this.button_Log.TabIndex = 2;
-            this.button_Log.UseVisualStyleBackColor = true;
-            this.button_Log.Click += new System.EventHandler(this.button_Log_Click);
+            this.checkBox_check.AutoSize = true;
+            this.checkBox_check.Enabled = false;
+            this.checkBox_check.Location = new System.Drawing.Point(9, 36);
+            this.checkBox_check.Name = "checkBox_check";
+            this.checkBox_check.Size = new System.Drawing.Size(68, 19);
+            this.checkBox_check.TabIndex = 3;
+            this.checkBox_check.Text = "check";
+            this.checkBox_check.UseVisualStyleBackColor = true;
+            this.checkBox_check.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // button_Clear
+            // 
+            this.button_Clear.Location = new System.Drawing.Point(465, 9);
+            this.button_Clear.Name = "button_Clear";
+            this.button_Clear.Size = new System.Drawing.Size(24, 80);
+            this.button_Clear.TabIndex = 2;
+            this.button_Clear.UseVisualStyleBackColor = true;
+            this.button_Clear.Click += new System.EventHandler(this.button_Clear_Click);
             // 
             // label_LastMessage
             // 
@@ -97,35 +109,23 @@
             this.label_Status.TabIndex = 0;
             this.label_Status.Text = "Status";
             // 
-            // checkBox_check
-            // 
-            this.checkBox_check.AutoSize = true;
-            this.checkBox_check.Enabled = false;
-            this.checkBox_check.Location = new System.Drawing.Point(9, 36);
-            this.checkBox_check.Name = "checkBox_check";
-            this.checkBox_check.Size = new System.Drawing.Size(68, 19);
-            this.checkBox_check.TabIndex = 3;
-            this.checkBox_check.Text = "check";
-            this.checkBox_check.UseVisualStyleBackColor = true;
-            this.checkBox_check.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
-            // 
             // MessageItemView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.groupBox_GroupName);
+            this.Controls.Add(this.groupBox_ClientName);
             this.Name = "MessageItemView";
             this.Size = new System.Drawing.Size(500, 100);
-            this.groupBox_GroupName.ResumeLayout(false);
-            this.groupBox_GroupName.PerformLayout();
+            this.groupBox_ClientName.ResumeLayout(false);
+            this.groupBox_ClientName.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
         private System.Windows.Forms.Label label_ElapsedTime;
-        private System.Windows.Forms.Button button_Log;
-        public System.Windows.Forms.GroupBox groupBox_GroupName;
+        private System.Windows.Forms.Button button_Clear;
+        public System.Windows.Forms.GroupBox groupBox_ClientName;
         public System.Windows.Forms.Label label_Status;
         public System.Windows.Forms.Label label_LastConnectTime;
         public System.Windows.Forms.Label label_LastMessage;

@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using System.Diagnostics;
+
+
 namespace WinFormStringCnvClass
 {
     static class WinFormStringCnv
@@ -73,9 +76,12 @@ namespace WinFormStringCnvClass
                         if (cc.Controls.Count > 0)
                             CreateControlDictionary(cc, ControlDic);
                     }
-                    catch {
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("[[" + System.Reflection.MethodBase.GetCurrentMethod().Name + "]]");
+                        Debug.WriteLine(ex.ToString());
 
-                        Console.WriteLine("ex : "+ System.Reflection.MethodBase.GetCurrentMethod().Name);
+
                     }
                 }
             }

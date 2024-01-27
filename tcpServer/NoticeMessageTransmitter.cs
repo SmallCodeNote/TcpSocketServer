@@ -28,10 +28,11 @@ namespace tcpserver
         private bool _noticeCheckContinueFlag = false;
         public int _threadSleepLength = 100;
 
-        public NoticeTransmitter()
+        public NoticeTransmitter(bool _debug = false)
         {
             NoticeQueue = new ConcurrentQueue<NoticeMessage>();
             NoticeRunning = new ConcurrentDictionary<string, NoticeMessageHandling>();
+
         }
 
         public bool AddNotice(NoticeMessage notice)
@@ -43,6 +44,20 @@ namespace tcpserver
             };
 
             return false;
+
+        }
+
+        public bool AddNotice(ClientData targetClient, SocketMessage socketMessage)
+        {
+            bool result = true;
+
+            foreach (var address in targetClient.addressList)
+            {
+                NoticeMessage item = new NoticeMessage(address.address, socketMessage.message, socketMessage.parameter);
+                result = result && AddNotice(item);
+            }
+
+            return result;
         }
 
         public void StartNoticeCheck()
@@ -88,7 +103,9 @@ namespace tcpserver
                         }
                         catch (Exception ex)
                         {
+                            Debug.WriteLine("[[" + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + "]]");
                             Debug.WriteLine(ex.ToString());
+
                         }
                     }
 
@@ -112,6 +129,11 @@ namespace tcpserver
         public NoticeMessage notice;
 
         public bool FinishNotice = false;
+        public int WaitNoticeFinish_Timeout = 30;
+
+        public int _threadSleepLength = 100;
+        public bool _debug = true;
+
 
         public int timeout
         {
@@ -119,15 +141,14 @@ namespace tcpserver
             set { httpClient.Timeout = new TimeSpan(0, 0, value); }
         }
 
-        public int _threadSleepLength = 100;
 
         public NoticeMessageHandling(NoticeMessage notice, int timeout = 3)
         {
             this.notice = notice;
             httpClient = new HttpClient();
             httpClient.Timeout = new TimeSpan(0, 0, timeout);
-
         }
+
 
         public Task StartNotice()
         {
@@ -145,26 +166,51 @@ namespace tcpserver
                 Thread.Sleep(timeout * 1000);
                 WaitNoticeFinish();
                 FinishNotice = true;
+
             });
+
         }
 
         private string SendNotice()
         {
-            string parameter = new FormUrlEncodedContent(notice.parameters).ReadAsStringAsync().Result;
-            string url = @"http://" + notice.address + @"/api/control?" + parameter;
-            HttpResponseMessage m = httpClient.GetAsync(url).Result;
-            return m.Content.ToString();
+            string parameter = (notice.parameter != null && notice.parameter.Length > 0 ? ("&" + notice.parameter) : "");
+            string url = @"http://" + notice.address + @"/api/control?speech=" + notice.message + parameter;
+
+            Debug.Write( GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " ");
+            Debug.WriteLine(url);
+
+            if (_debug) { return ""; }
+
+            try
+            {
+                HttpResponseMessage m = httpClient.GetAsync(url).Result;
+                return m.Content.ToString();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("[[" + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + "]]");
+                Debug.WriteLine(ex.ToString());
+
+            }
+
+
+            return "";
         }
 
         private bool WaitNoticeFinish()
         {
-            bool noticeContinue = true;
+            DateTime startTime = DateTime.Now;
 
             do
             {
                 try
                 {
                     string url = @"http://" + notice.address + @"/api/status?format=xml";
+                    Debug.Write(GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name+" ");
+                    Debug.WriteLine(url);
+
+                    if (_debug) { Thread.Sleep(10000); return true; }
+
                     HttpResponseMessage m = httpClient.GetAsync(url).Result;
 
                     XmlDocument doc = new XmlDocument();
@@ -173,19 +219,25 @@ namespace tcpserver
                     XmlNode soundNode = doc.SelectSingleNode("//sound[@name='SOUND']");
                     string soundValue = soundNode.Attributes["value"].Value;
 
-                    noticeContinue = soundValue != "0";
+                    bool waitContinue = soundValue != "0";
+                    if (!waitContinue) return true;
+
                     Thread.Sleep(_threadSleepLength);
 
                 }
                 catch (Exception ex)
                 {
+                    Debug.WriteLine("[[" + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + "]]");
                     Debug.WriteLine(ex.ToString());
                     return false;
                 }
 
-            } while (noticeContinue);
+            } while ((DateTime.Now - startTime).TotalSeconds > WaitNoticeFinish_Timeout);
 
-            return true;
+            Debug.WriteLine("[[" + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + "]]");
+            Debug.WriteLine("waitTimeout");
+
+            return false;
         }
 
         public void Dispose()
@@ -199,65 +251,40 @@ namespace tcpserver
     public class NoticeMessage
     {
         public string address;
-        public Dictionary<string, string> parameters;
+        public string message;
+        public string parameter;
+        public DateTime keyTime;
 
         public string Key
         {
-            get { return this.address + new FormUrlEncodedContent(this.parameters).ReadAsStringAsync().Result; }
+            get { return this.address + "_" + keyTime.ToString("yyyy/MM/dd HH:mm:ss.fff") + "_" + message; }
         }
 
-        public NoticeMessage(string address, Dictionary<string, string> parameters)
+        public NoticeMessage(string address, string message, string parameter = "")
         {
             this.address = address;
-            this.parameters = parameters;
-
+            this.message = message;
+            this.parameter = parameter;
+            this.keyTime = DateTime.Now;
         }
 
-        public NoticeMessage(string address, string[] parameters)
+        public NoticeMessage(string address, SocketMessage socket)
         {
             this.address = address;
-            this.parameters = new Dictionary<string, string>();
-
-            for (int i = 0; i < parameters.Length - 1; i += 2)
-            {
-                this.parameters.Add(parameters[i], parameters[i + 1]);
-            }
-
-        }
-
-        public NoticeMessage(string address, string message, string parameters = "")
-        {
-            this.address = address;
-
-            this.parameters = new Dictionary<string, string>();
-
-            if (message.Length > 0) this.parameters.Add("speech", message);
-
-            string[] cols = parameters.Split('\t');
-
-            for (int i = 0; i < cols.Length - 1; i += 2)
-            {
-                this.parameters.Add(cols[i], cols[i + 1]);
-            }
+            this.message = socket.message;
+            this.parameter = socket.parameter;
+            this.keyTime = socket.connectTime;
 
         }
 
         public static bool operator ==(NoticeMessage c1, NoticeMessage c2)
         {
-            string p1 = new FormUrlEncodedContent(c1.parameters).ReadAsStringAsync().Result;
-            string p2 = new FormUrlEncodedContent(c2.parameters).ReadAsStringAsync().Result;
-
-            return c1.address == c2.address && p1 == p2;
+            return c1.Key == c2.Key;
         }
 
         public static bool operator !=(NoticeMessage c1, NoticeMessage c2)
         {
-            if (c1.address != c2.address) return true;
-
-            string p1 = new FormUrlEncodedContent(c1.parameters).ReadAsStringAsync().Result;
-            string p2 = new FormUrlEncodedContent(c2.parameters).ReadAsStringAsync().Result;
-
-            return p1 != p2;
+            return c1.Key != c2.Key;
 
         }
 
