@@ -250,7 +250,7 @@ namespace tcpserver
 
                             if (target.lastAccessTime == null)
                             {
-                                target.lastAccessTime = DateTime.MinValue;
+                                target.lastAccessTime = DateTime.Now;
                             };
                             if (latestRecord != null && target.lastAccessTime < latestRecord.connectTime) { target.lastAccessTime = latestRecord.connectTime; };
 

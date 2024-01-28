@@ -45,7 +45,7 @@ namespace tcpserver
                 this.addressList = null;
             }
 
-            lastAccessTime = DateTime.MinValue;
+            lastAccessTime = DateTime.Now;
             lastTimeoutDetectedTime = DateTime.MinValue;
         }
 

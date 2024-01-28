@@ -108,7 +108,9 @@ namespace tcpserver
                         ILiteCollection<SocketMessage> col = litedb.GetCollection<SocketMessage>("table_Message");
                         try
                         {
-                            var records = col.Find(x => x.clientName == this._message.clientName && x.check == false);
+                            var records = col.Query()
+                                .Where(x => x.clientName == this._message.clientName && x.check == false)
+                                .ToList();
 
                             foreach (var record in records)
                             {
