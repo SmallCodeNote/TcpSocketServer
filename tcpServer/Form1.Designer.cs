@@ -50,12 +50,19 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBox_DataBaseFilePath = new System.Windows.Forms.TextBox();
             this.tabPage_NotifySetting = new System.Windows.Forms.TabPage();
+            this.textBox_httpTimeout = new System.Windows.Forms.TextBox();
             this.textBox_ClearMessageParameter = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.textBox_TimeoutMessageParameter = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.button_ClientListLoad = new System.Windows.Forms.Button();
             this.dataGridView_ClientList = new System.Windows.Forms.DataGridView();
+            this.Column_ClientList_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column_Target = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column_needCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Column_Timeout = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column_TimeOutMessage = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label3 = new System.Windows.Forms.Label();
             this.button_AddressListLoad = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
@@ -73,13 +80,6 @@
             this.timer_UpdateList = new System.Windows.Forms.Timer(this.components);
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.label9 = new System.Windows.Forms.Label();
-            this.textBox_httpTimeout = new System.Windows.Forms.TextBox();
-            this.Column_ClientList_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column_Target = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column_needCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Column_Timeout = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column_TimeOutMessage = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel_StatusListFrame.SuspendLayout();
             this.tabControl_Top.SuspendLayout();
             this.tabPage_Setting.SuspendLayout();
@@ -293,12 +293,30 @@
             this.tabPage_NotifySetting.Text = "NotifySetting";
             this.tabPage_NotifySetting.UseVisualStyleBackColor = true;
             // 
+            // textBox_httpTimeout
+            // 
+            this.textBox_httpTimeout.Location = new System.Drawing.Point(600, 342);
+            this.textBox_httpTimeout.Name = "textBox_httpTimeout";
+            this.textBox_httpTimeout.Size = new System.Drawing.Size(108, 22);
+            this.textBox_httpTimeout.TabIndex = 12;
+            this.textBox_httpTimeout.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBox_httpTimeout.TextChanged += new System.EventHandler(this.textBox_httpTimeout_TextChanged);
+            // 
             // textBox_ClearMessageParameter
             // 
             this.textBox_ClearMessageParameter.Location = new System.Drawing.Point(214, 273);
             this.textBox_ClearMessageParameter.Name = "textBox_ClearMessageParameter";
             this.textBox_ClearMessageParameter.Size = new System.Drawing.Size(542, 22);
             this.textBox_ClearMessageParameter.TabIndex = 11;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(599, 324);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(125, 15);
+            this.label9.TabIndex = 10;
+            this.label9.Text = "http Timeout(sec.)";
             // 
             // label8
             // 
@@ -351,6 +369,34 @@
             this.dataGridView_ClientList.TabIndex = 8;
             this.dataGridView_ClientList.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_ClientList_CellValueChanged);
             this.dataGridView_ClientList.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridView_ClientList_CurrentCellDirtyStateChanged);
+            // 
+            // Column_ClientList_Name
+            // 
+            this.Column_ClientList_Name.HeaderText = "ClientName";
+            this.Column_ClientList_Name.Name = "Column_ClientList_Name";
+            // 
+            // Column_Target
+            // 
+            this.Column_Target.HeaderText = "NoticeTarget";
+            this.Column_Target.Name = "Column_Target";
+            // 
+            // Column_needCheck
+            // 
+            this.Column_needCheck.HeaderText = "check";
+            this.Column_needCheck.Name = "Column_needCheck";
+            this.Column_needCheck.Width = 50;
+            // 
+            // Column_Timeout
+            // 
+            this.Column_Timeout.HeaderText = "Timeout(sec.)";
+            this.Column_Timeout.Name = "Column_Timeout";
+            this.Column_Timeout.Width = 50;
+            // 
+            // Column_TimeOutMessage
+            // 
+            this.Column_TimeOutMessage.HeaderText = "TimeOutMessage";
+            this.Column_TimeOutMessage.Name = "Column_TimeOutMessage";
+            this.Column_TimeOutMessage.Width = 250;
             // 
             // label3
             // 
@@ -513,51 +559,6 @@
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(18, 20);
             this.toolStripStatusLabel1.Text = "...";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(599, 324);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(89, 15);
-            this.label9.TabIndex = 10;
-            this.label9.Text = "http Timeout";
-            // 
-            // textBox_httpTimeout
-            // 
-            this.textBox_httpTimeout.Location = new System.Drawing.Point(600, 342);
-            this.textBox_httpTimeout.Name = "textBox_httpTimeout";
-            this.textBox_httpTimeout.Size = new System.Drawing.Size(108, 22);
-            this.textBox_httpTimeout.TabIndex = 12;
-            this.textBox_httpTimeout.TextChanged += new System.EventHandler(this.textBox_httpTimeout_TextChanged);
-            // 
-            // Column_ClientList_Name
-            // 
-            this.Column_ClientList_Name.HeaderText = "ClientName";
-            this.Column_ClientList_Name.Name = "Column_ClientList_Name";
-            // 
-            // Column_Target
-            // 
-            this.Column_Target.HeaderText = "NoticeTarget";
-            this.Column_Target.Name = "Column_Target";
-            // 
-            // Column_needCheck
-            // 
-            this.Column_needCheck.HeaderText = "check";
-            this.Column_needCheck.Name = "Column_needCheck";
-            this.Column_needCheck.Width = 50;
-            // 
-            // Column_Timeout
-            // 
-            this.Column_Timeout.HeaderText = "Timeout(sec.)";
-            this.Column_Timeout.Name = "Column_Timeout";
-            this.Column_Timeout.Width = 50;
-            // 
-            // Column_TimeOutMessage
-            // 
-            this.Column_TimeOutMessage.HeaderText = "TimeOutMessage";
-            this.Column_TimeOutMessage.Name = "Column_TimeOutMessage";
-            this.Column_TimeOutMessage.Width = 250;
             // 
             // Form1
             // 
