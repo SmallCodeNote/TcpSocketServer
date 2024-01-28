@@ -8,9 +8,9 @@ textBox_DataBaseFilePath	R:\LiteDB.db
 textBox_httpTimeout	3
 textBox_ClearMessageParameter	
 textBox_TimeoutMessageParameter	voice=female&notify=6
-dataGridView_ClientList	Client1	1,2,3	True	65	Client1の接続がタイムアウトしました。
-dataGridView_ClientList	Client2	1,2	True	20	Client2の接続がタイムアウトしました。
-dataGridView_ClientList	Client3	2	True	20	Client3の接続がタイムアウトしました。
+dataGridView_ClientList	Client1	1,2,3	True	65	Client1 Timeout.
+dataGridView_ClientList	Client2	1,2	True	20	Client2 Timeout.
+dataGridView_ClientList	Client3	2	True	20	Client3 Timeout.
 dataGridView_AddressList	Address1	signaltower1
 dataGridView_AddressList	Address2	signaltower2
 dataGridView_AddressList	Address3	signaltower3
