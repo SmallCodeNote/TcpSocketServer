@@ -8,29 +8,45 @@ namespace tcpserver
 {
     public class ClientData
     {
-        public string ClientName;
-        public int Timeout;
-        public string TimeoutMessage;
+        public string clientName;
+        public int timeoutLength;
+        public string timeoutMessage;
         public List<AddressInfo> addressList;
 
+        public bool timeoutCheck;
+
+        public DateTime lastAccessTime;
+        public DateTime lastTimeoutDetectedTime;
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Line">clientName + "\t" + timeoutCheck + "\t" + timeoutLength + "\t" + timeoutMessage</param>
+        /// <param name="addressList"></param>
         public ClientData(string Line, List<AddressInfo> addressList)
         {
             string[] cols = Line.Split('\t');
 
             try
             {
-                ClientName = cols[0];
-                Timeout = int.Parse(cols[1]);
-                TimeoutMessage = cols[2];
+                clientName = cols[0];
+                timeoutCheck = bool.Parse(cols[1]);
+                timeoutLength = int.Parse(cols[2]);
+                timeoutMessage = cols[3];
                 this.addressList = addressList;
             }
             catch
             {
-                ClientName = "";
-                Timeout = 0;
-                TimeoutMessage = "";
+                clientName = "";
+                timeoutCheck = false;
+                timeoutLength = 0;
+                timeoutMessage = "";
                 this.addressList = null;
             }
+
+            lastAccessTime = DateTime.MinValue;
+            lastTimeoutDetectedTime = DateTime.MinValue;
         }
 
     }

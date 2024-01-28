@@ -7,7 +7,6 @@ using System.Windows.Forms;
 
 using System.Diagnostics;
 
-
 namespace WinFormStringCnvClass
 {
     static class WinFormStringCnv
@@ -78,10 +77,7 @@ namespace WinFormStringCnvClass
                     }
                     catch (Exception ex)
                     {
-                        Debug.WriteLine("[[" + System.Reflection.MethodBase.GetCurrentMethod().Name + "]]");
-                        Debug.WriteLine(ex.ToString());
-
-
+                        Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + " " + ex.ToString());
                     }
                 }
             }
@@ -148,11 +144,20 @@ namespace WinFormStringCnvClass
                 {
                     try
                     {
-                        Value = toEscape(c[Col.Index, Row.Index].Value.ToString());
+                        if (c[Col.Index, Row.Index].Value == null) {
+                            Value = "";
+                        }
+                        else
+                        {
+                            Value = toEscape(c[Col.Index, Row.Index].Value.ToString());
+                        }
+
                         Line += "\t" + Value;
+
                     }
-                    catch {
-                        Console.WriteLine("ex : " + System.Reflection.MethodBase.GetCurrentMethod().Name);
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + " " + ex.ToString());
                     }
                 }
 

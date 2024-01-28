@@ -29,19 +29,19 @@ namespace tcpserver
         List<ClientData> clientList;
         AddressBook addressBook;
 
-
         DateTime LastCheckTime;
         string thisExeDirPath;
         string datebasePath;
         int portNumber;
 
         ConnectionString _LiteDBconnectionString;
+        static int _dbOpenRetryCount = 10;
+
 
         public Form1()
         {
             InitializeComponent();
             JobManager.Initialize();
-
 
             tcp = new TcpSocketServer();
 
@@ -79,6 +79,8 @@ namespace tcpserver
             AddressListInitialize();
             SchedulerInitialize();
 
+            int.TryParse(textBox_httpTimeout.Text, out noticeTransmitter.httpTimeout);
+
             try
             {
                 portNumber = int.Parse(textBox_portNumber.Text);
@@ -96,10 +98,7 @@ namespace tcpserver
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("[[" + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + "]]");
-                Debug.WriteLine(ex.ToString());
-
-
+                Debug.WriteLine(GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " EX:" + ex.ToString());
             }
 
         }
@@ -126,11 +125,7 @@ namespace tcpserver
             }
 
         }
-        //dataGridView_SchedulerList CellIndex
-        static int idx_StatusName = 0;
-        static int idx_NeedCheck = 1;
-        static int idx_Interval = 2;
-        static int idx_At = 3;
+
         private void timer_UpdateList_Tick(object sender, EventArgs e)
         {
             timer_UpdateList.Stop();
@@ -142,7 +137,6 @@ namespace tcpserver
                 while (tcp.ReceivedSocketQueue.TryDequeue(out receivedSocketMessage))
                 {
                     string[] cols = receivedSocketMessage.Split('\t');
-
 
                     if (cols.Length >= 4)
                     {
@@ -158,21 +152,11 @@ namespace tcpserver
 
                         try
                         {
-
                             SocketMessage socketMessage = new SocketMessage(connectTime, clientName, status, message, parameter, needCheck);
                             string key = socketMessage.Key();
 
-                            foreach (DataGridViewRow Row in dataGridView_SchedulerList.Rows)
-                            {
-                                if (Row.Cells.Count >= 3 && Row.Cells[idx_StatusName].Value != null && Row.Cells[idx_StatusName].Value.ToString() == status)
-                                {
-                                    socketMessage.needCheck = bool.Parse(Row.Cells[idx_NeedCheck].Value.ToString());
-
-                                }
-                            }
-
                             _LiteDBconnectionString.Filename = textBox_DataBaseFilePath.Text;
-                            
+
                             using (LiteDatabase litedb = new LiteDatabase(_LiteDBconnectionString))
                             {
                                 ILiteCollection<SocketMessage> col = litedb.GetCollection<SocketMessage>("table_Message");
@@ -182,43 +166,42 @@ namespace tcpserver
                         }
                         catch (Exception ex)
                         {
-                            Debug.WriteLine("[[" + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + "]]");
-                            Debug.WriteLine(ex.ToString());
-
-
+                            Debug.WriteLine(GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " EX:" + ex.ToString());
                         }
 
                     }
 
                 }
 
-                //NoticeCheck
-
-                List<string> clientNameList = new List<string>();
-
-                int _retryCount = 10;
-
-                for (int i = 0; i < _retryCount; i++)
+                //========================
+                // NoticeCheck
+                //========================
+                for (int retryIndex = 0; retryIndex < _dbOpenRetryCount; retryIndex++)
                 {
                     try
                     {
+                        _LiteDBconnectionString.Filename = textBox_DataBaseFilePath.Text;
                         using (LiteDatabase litedb = new LiteDatabase(_LiteDBconnectionString))
                         {
                             ILiteCollection<SocketMessage> col = litedb.GetCollection<SocketMessage>("table_Message");
 
-                            foreach (var targetName in clientNameList)
+                            foreach (var target in clientList)
                             {
-                                var latestNoticeRecord = col.Query().Where(x => x.status == "Notice" && x.clientName == targetName).OrderByDescending(x => x.connectTime).FirstOrDefault();
-                                var latestWarningRecord = col.Query().Where(x => x.status == "Warning" && x.check == false && x.clientName == targetName).OrderByDescending(x => x.connectTime).FirstOrDefault();
+                                var latestNoticeRecord = col.Query()
+                                    .Where(x => x.needCheck == false && x.clientName == target.clientName)
+                                    .OrderByDescending(x => x.connectTime)
+                                    .FirstOrDefault();
 
-                                if (latestWarningRecord != null && latestNoticeRecord != null && latestNoticeRecord.connectTime > latestWarningRecord.connectTime)
+                                var latestNeedCheckRecord = col.Query()
+                                    .Where(x => x.needCheck == true && x.check == false && x.clientName == target.clientName)
+                                    .OrderByDescending(x => x.connectTime)
+                                    .FirstOrDefault();
+
+
+                                if (latestNeedCheckRecord != null && latestNoticeRecord != null && latestNoticeRecord.connectTime > latestNeedCheckRecord.connectTime)
                                 {
-                                    List<NoticeMessage> notices = new List<NoticeMessage>();
-
-                                    foreach (var add in notices)
-                                    {
-                                        noticeTransmitter.AddNotice(add);
-                                    }
+                                    noticeTransmitter.AddNotice(target, latestNeedCheckRecord);
+                                    noticeTransmitter.AddNotice(target, latestNoticeRecord);
 
                                 }
 
@@ -231,11 +214,11 @@ namespace tcpserver
                     }
                     catch (Exception ex)
                     {
-                        Debug.Write(GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " retry:"+ i.ToString());
+                        Debug.Write(GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " retry:" + retryIndex.ToString());
                         Debug.WriteLine(ex.ToString());
                         Thread.Sleep(100);
 
-                        if (i == _retryCount - 1) throw;
+                        if (retryIndex == _dbOpenRetryCount - 1) throw;
 
                     }
                 }
@@ -245,12 +228,66 @@ namespace tcpserver
             }
 
 
+            //========================
+            // TimeoutCheck
+            //========================
+
+            for (int retryIndex = 0; retryIndex < _dbOpenRetryCount; retryIndex++)
+            {
+                try
+                {
+                    _LiteDBconnectionString.Filename = textBox_DataBaseFilePath.Text;
+                    using (LiteDatabase litedb = new LiteDatabase(_LiteDBconnectionString))
+                    {
+                        ILiteCollection<SocketMessage> col = litedb.GetCollection<SocketMessage>("table_Message");
+
+                        foreach (var target in clientList)
+                        {
+                            var latestRecord = col.Query()
+                                .Where(x => x.clientName == target.clientName)
+                                .OrderByDescending(x => x.connectTime)
+                                .FirstOrDefault();
+
+                            if (target.lastAccessTime == null)
+                            {
+                                target.lastAccessTime = DateTime.MinValue;
+                            };
+                            if (latestRecord != null && target.lastAccessTime < latestRecord.connectTime) { target.lastAccessTime = latestRecord.connectTime; };
+
+                            bool flag1 = (DateTime.Now - target.lastAccessTime).TotalSeconds > target.timeoutLength;
+                            bool flag2 = (DateTime.Now - target.lastTimeoutDetectedTime).TotalSeconds > target.timeoutLength;
+
+                            if (target.timeoutCheck && flag1 && flag2)
+                            {
+                                SocketMessage timeoutMessage = new SocketMessage(target.lastAccessTime, target.clientName, "Timeout", target.timeoutMessage, "", true);
+                                noticeTransmitter.AddNotice(target, timeoutMessage);
+                                target.lastTimeoutDetectedTime = DateTime.Now;
+
+                            }
+
+                        }
+
+                    }
+
+                    break;
+
+                }
+                catch (Exception ex)
+                {
+                    Debug.Write(GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " retry:" + retryIndex.ToString());
+                    Debug.WriteLine(ex.ToString());
+                    Thread.Sleep(100);
+
+                    if (retryIndex == _dbOpenRetryCount - 1) throw;
+
+                }
+            }
+
             if (tabControl_Top.SelectedTab == tabPage_Status)
             {
                 updateStatusList();
 
             }
-
 
             if (button_Start.Text != "Start")
             {
@@ -408,9 +445,9 @@ namespace tcpserver
                         }
                         catch (Exception ex)
                         {
-                            Debug.WriteLine("[[" + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + "]]");
-                            Debug.WriteLine(ex.ToString());
+                            Debug.WriteLine(GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " EX:" + ex.ToString());
                         }
+
 
                     }
 
@@ -419,39 +456,12 @@ namespace tcpserver
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("[[" + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + "]]");
-                Debug.WriteLine(ex.ToString());
+                Debug.WriteLine(GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " EX:" + ex.ToString());
             }
 
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-            TimeSpan TP = new TimeSpan(0, 8, 0, 0);
-
-            _LiteDBconnectionString.Filename = textBox_DataBaseFilePath.Text;
-            using (LiteDatabase litedb = new LiteDatabase(_LiteDBconnectionString))
-            {
-
-
-                for (DateTime connectTime = DateTime.Parse("2020/01/01"); connectTime < DateTime.Parse("2024/01/31"); connectTime += TP)
-                {
-                    SocketMessage socketMessage = new SocketMessage(connectTime, "Test", "Test", "Test", "parameterTest");
-                    ILiteCollection<SocketMessage> col = litedb.GetCollection<SocketMessage>("table_Message");
-
-                    col.Insert(socketMessage.Key(), socketMessage);
-
-                }
-            }
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            BreakupLightDBFile job = new BreakupLightDBFile(textBox_DataBaseFilePath.Text, int.Parse(textBox_PostTime.Text));
-            job.BreakupLightDBFile_byMonthFile(textBox_DataBaseFilePath.Text, int.Parse(textBox_PostTime.Text));
 
         }
+
 
         private void tabPage_Log_Enter(object sender, EventArgs e)
         {
@@ -463,23 +473,18 @@ namespace tcpserver
                 {
                     var col = litedb.GetCollection<SocketMessage>("table_Message");
 
-
                     try
                     {
                         ILiteQueryable<SocketMessage> query = col.Query().OrderBy(x => x.connectTime, 0);
-
                         if (query.Count() > 0)
                         {
                             List<string> Lines = new List<string>();
                             foreach (SocketMessage socketMessage in query.ToArray())
                             {
-
                                 Lines.Add(socketMessage.ToString());
-
                             }
 
                             textBox_Log.Text = String.Join("\r\n", Lines.ToArray());
-
                         }
 
                         label_LogUpdateTime.Text = "Log Update ... " + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
@@ -487,8 +492,7 @@ namespace tcpserver
                     }
                     catch (Exception ex)
                     {
-                        Debug.WriteLine("[[" + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + "]]");
-                        Debug.WriteLine(ex.ToString());
+                        Debug.WriteLine(GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " EX:" + ex.ToString());
                     }
 
                 }
@@ -496,16 +500,15 @@ namespace tcpserver
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("[[" + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + "]]");
-                Debug.WriteLine(ex.ToString());
+                Debug.WriteLine(GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " EX:" + ex.ToString());
             }
+
         }
 
         private void button_LogReload_Click(object sender, EventArgs e)
         {
             tabPage_Log_Enter(null, null);
         }
-
 
         private void DataGridView_CellPainting_AddRowIndex(object sender, DataGridViewCellPaintingEventArgs e)
         {
@@ -529,6 +532,7 @@ namespace tcpserver
         {
             ClientListInitialize();
 
+
         }
 
         private void button_AddressListLoad_Click(object sender, EventArgs e)
@@ -536,44 +540,52 @@ namespace tcpserver
             AddressListInitialize();
         }
 
-        private void button_NotifySettingLoad_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void button_SchedulerList_Click(object sender, EventArgs e)
         {
             SchedulerInitialize();
         }
+
         private void ClientListInitialize()
         {
             clientList.Clear();
 
             button_AddressListLoad_Click(null, null);
 
-            for (int i = 0; i < dataGridView_ClientList.RowCount - 2; i++)
+            for (int i = 0; i < dataGridView_ClientList.RowCount - 1; i++)
             {
-                var cells = dataGridView_ClientList.Rows[i].Cells;
-                string code = cells[0].Value.ToString();
-                code += cells.Count > 1 && cells[1].Value != null ? "\t" + cells[1].Value.ToString() : "\t";
-                code += cells.Count > 2 && cells[2].Value != null ? "\t" + cells[2].Value.ToString() : "\t";
+                try
+                {
+                    var cells = dataGridView_ClientList.Rows[i].Cells;
 
-                string addressKeys = cells.Count > 3 && cells[3].Value != null ? cells[3].Value.ToString() : "";
+                    string clientName = cells[0].Value.ToString();
+                    string addressKeys = cells[1].Value.ToString();
+                    string timeoutCheck = cells[2].Value.ToString();
+                    string timeoutLength = cells[3].Value.ToString();
+                    string timeoutMessage = cells[4].Value.ToString();
 
-                ClientData cd = new ClientData(code, addressBook.getAddress(addressKeys));
+                    string code = clientName + "\t" + timeoutCheck + "\t" + timeoutLength + "\t" + timeoutMessage;
 
-                if (cd.ClientName != "") clientList.Add(cd);
+                    ClientData cd = new ClientData(code, addressBook.getAddress(addressKeys));
+
+                    if (cd.clientName != "") clientList.Add(cd);
+
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " EX:" + ex.ToString());
+                }
 
             }
 
-        }
+            ButtonEnable(button_ClientListLoad, false);
 
+        }
 
         private void AddressListInitialize()
         {
             List<string> addressList = new List<string>();
 
-            for (int i = 0; i < dataGridView_AddressList.RowCount - 2; i++)
+            for (int i = 0; i < dataGridView_AddressList.RowCount - 1; i++)
             {
                 var cells = dataGridView_AddressList.Rows[i].Cells;
                 string code = cells[0].Value.ToString();
@@ -582,13 +594,15 @@ namespace tcpserver
                 if (code != "") addressList.Add(code);
 
             }
+
             addressBook = new AddressBook(addressList.ToArray());
 
+            ButtonEnable(button_AddressListLoad, false);
 
         }
+
         private void SchedulerInitialize()
         {
-
             JobManager.StopAndBlock();
 
             List<string> Lines = new List<string>();
@@ -608,9 +622,77 @@ namespace tcpserver
 
             JobManager.Initialize(job);
 
+            ButtonEnable(button_SchedulerList, false);
+
         }
 
+        private void textBox_httpTimeout_TextChanged(object sender, EventArgs e)
+        {
+            int.TryParse(textBox_httpTimeout.Text, out noticeTransmitter.httpTimeout);
 
+        }
+
+        private void button_CreateDammyData_Click(object sender, EventArgs e)
+        {
+            TimeSpan TP = new TimeSpan(0, 8, 0, 0);
+
+            _LiteDBconnectionString.Filename = textBox_DataBaseFilePath.Text;
+            using (LiteDatabase litedb = new LiteDatabase(_LiteDBconnectionString))
+            {
+                for (DateTime connectTime = DateTime.Parse("2020/01/01"); connectTime < DateTime.Parse("2024/01/31"); connectTime += TP)
+                {
+                    SocketMessage socketMessage = new SocketMessage(connectTime, "Test", "Test", "Test", "parameterTest");
+                    ILiteCollection<SocketMessage> col = litedb.GetCollection<SocketMessage>("table_Message");
+
+                    col.Insert(socketMessage.Key(), socketMessage);
+
+                }
+            }
+        }
+
+        private void button_BreakupDatabasefile_Click(object sender, EventArgs e)
+        {
+            BreakupLightDBFile job = new BreakupLightDBFile(textBox_DataBaseFilePath.Text, int.Parse(textBox_PostTime.Text));
+            job.BreakupLightDBFile_byMonthFile(textBox_DataBaseFilePath.Text, int.Parse(textBox_PostTime.Text));
+        }
+
+        private void dataGridView_ClientList_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            button_ClientListLoad.Enabled = true;
+            button_ClientListLoad.BackColor = Color.GreenYellow;
+        }
+
+        private void dataGridView_ClientList_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            ButtonEnable(button_ClientListLoad, true);
+        }
+
+        private void dataGridView_AddressList_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            ButtonEnable(button_AddressListLoad, true);
+        }
+
+        private void dataGridView_SchedulerList_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            ButtonEnable(button_SchedulerList, true);
+        }
+
+        private void ButtonEnable(Button button, bool enable)
+        {
+            if (enable)
+            {
+                button.Enabled = true;
+                button.BackColor = Color.GreenYellow;
+            }
+            else
+            {
+                button.Enabled = false;
+                button.BackColor = Color.Transparent;
+            }
+
+
+        }
 
     }
+
 }

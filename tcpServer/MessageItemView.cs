@@ -89,9 +89,7 @@ namespace tcpserver
                 }
                 catch (Exception ex)
                 {
-                    Debug.Write("[[" + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + "]] ");
-                    Debug.WriteLine(ex.ToString());
-
+                    Debug.WriteLine(GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " " + ex.ToString());
                 }
 
             }
@@ -101,14 +99,14 @@ namespace tcpserver
         {
             int _retryCount = 10;
 
-            for (int i = 0; i < _retryCount; i++)
+            for (int retryIndex = 0; retryIndex < _retryCount; retryIndex++)
             {
                 try
                 {
                     using (LiteDatabase litedb = new LiteDatabase(_LiteDBconnectionString))
                     {
                         ILiteCollection<SocketMessage> col = litedb.GetCollection<SocketMessage>("table_Message");
-                        //try
+                        try
                         {
                             var records = col.Find(x => x.clientName == this._message.clientName && x.check == false);
 
@@ -119,12 +117,10 @@ namespace tcpserver
                             }
 
                         }
-                        /*catch (Exception ex)
+                        catch (Exception ex)
                         {
-                            Debug.Write("[[" + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + "]] ");
-                            Debug.WriteLine(ex.ToString());
-
-                        }*/
+                            Debug.WriteLine(GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " " + ex.ToString());
+                        }
 
                     }
 
@@ -133,11 +129,11 @@ namespace tcpserver
                 }
                 catch (Exception ex)
                 {
-                    Debug.Write(GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " retry:" + i.ToString());
+                    Debug.Write(GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " retry:" + retryIndex.ToString());
                     Debug.WriteLine(ex.ToString());
                     Thread.Sleep(100);
 
-                    if (i == _retryCount - 1) throw;
+                    if (retryIndex == _retryCount - 1) throw;
 
                 }
             }

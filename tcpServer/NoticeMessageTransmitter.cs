@@ -28,6 +28,9 @@ namespace tcpserver
         private bool _noticeCheckContinueFlag = false;
         public int _threadSleepLength = 100;
 
+        public int httpTimeout = 3;
+
+
         public NoticeTransmitter(bool _debug = false)
         {
             NoticeQueue = new ConcurrentQueue<NoticeMessage>();
@@ -90,7 +93,7 @@ namespace tcpserver
                                 NoticeMessage b;
                                 if (NoticeQueue.TryDequeue(out b))
                                 {
-                                    NoticeMessageHandling handling = new NoticeMessageHandling(b);
+                                    NoticeMessageHandling handling = new NoticeMessageHandling(b, httpTimeout);
 
                                     if (NoticeRunning.TryAdd(b.Key, handling))
                                     {
@@ -174,8 +177,13 @@ namespace tcpserver
 
         private string SendNotice()
         {
-            string parameter = (notice.parameter != null && notice.parameter.Length > 0 ? ("&" + notice.parameter) : "");
-            string url = @"http://" + notice.address + @"/api/control?speech=" + notice.message + parameter;
+            string speech = (notice.message != null && notice.message.Length > 0) ? "speech=" + notice.message : "";
+            string parameter = (notice.parameter != null && notice.parameter.Length > 0) ?  notice.parameter : "";
+            string separator = (speech.Length > 0 && parameter.Length > 0) ? "&" : "";
+
+            if (speech.Length == 0 && parameter.Length == 0) return "";
+           
+            string url = @"http://" + notice.address + @"/api/control?" + speech + separator + parameter;
 
             Debug.Write(DateTime.Now.ToString("HH:mm:ss") + " " + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " ");
             Debug.WriteLine(url);
@@ -191,9 +199,7 @@ namespace tcpserver
             {
                 Debug.Write(DateTime.Now.ToString("HH:mm:ss") + " " + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " ");
                 Debug.WriteLine(ex.ToString());
-
             }
-
 
             return "";
         }
@@ -202,12 +208,11 @@ namespace tcpserver
         {
             DateTime startTime = DateTime.Now;
 
-
             if (_debug)
             {
-                Debug.WriteLine("WaitStart " + DateTime.Now.ToString("HH:mm:ss") + " " + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " ");
+                Debug.WriteLine("WaitStart_Debug " + DateTime.Now.ToString("HH:mm:ss") + " " + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " ");
                 Thread.Sleep(10000);
-                Debug.WriteLine("WaitEnd " + DateTime.Now.ToString("HH:mm:ss") + " " + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " ");
+                Debug.WriteLine("WaitEnd_Debug " + DateTime.Now.ToString("HH:mm:ss") + " " + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " ");
                 
                 return true;
             }
