@@ -1,0 +1,20 @@
+dataGridView_SchedulerList	Notice	EveryHours	0,15,30,45
+dataGridView_SchedulerList	Warning	EverySeconds	5
+dataGridView_SchedulerList	Error	EverySeconds	5
+dataGridView_SchedulerList	TimeOut	EverySeconds	30
+textBox_PostTime	1440
+textBox_portNumber	1024
+textBox_DataBaseFilePath	R:\LiteDB.db
+textBox_httpTimeout	3
+textBox_ClearMessageParameter	
+textBox_TimeoutMessageParameter	voice=female&notify=6
+dataGridView_ClientList	Client1	1,2,3	True	65	Client1の接続がタイムアウトしました。
+dataGridView_ClientList	Client2	1,2	True	20	Client2の接続がタイムアウトしました。
+dataGridView_ClientList	Client3	2	True	20	Client3の接続がタイムアウトしました。
+dataGridView_AddressList	Address1	signaltower1
+dataGridView_AddressList	Address2	signaltower2
+dataGridView_AddressList	Address3	signaltower3
+dataGridView_AddressList	Address4	signaltower4
+dataGridView_AddressList	Address5	signaltower5
+checkBox_check	True
+textBox_Log	Client1\\t\\2024/01/24 05:16:22\\t\\Error\\t\\Error Message\\t\\False\\t\\True\\r\\\\n\\Client1\\t\\2024/01/24 05:15:55\\t\\Notice\\t\\Notice\\t\\False\\t\\False\\r\\\\n\\Client1\\t\\2024/01/24 04:54:15\\t\\Warning\\t\\TestMessage1\\t\\True\\t\\True
