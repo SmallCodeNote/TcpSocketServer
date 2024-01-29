@@ -1,0 +1,7 @@
+comboBox_Status	Notice
+checkBox_NeedCheck	False
+textBox_PortNumber	1024
+textBox_Address	localhost
+textBox_Parameter	Parameter
+textBox_Message	Client1_Notice Message
+textBox_ClientName	Client1
