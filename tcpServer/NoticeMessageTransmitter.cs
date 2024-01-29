@@ -192,8 +192,8 @@ namespace tcpserver
 
             try
             {
-                HttpResponseMessage m = httpClient.GetAsync(url).Result;
-                return m.Content.ToString();
+                string pageBody = httpClient.GetStringAsync(url).Result;
+                return pageBody;
             }
             catch (Exception ex)
             {
@@ -225,10 +225,10 @@ namespace tcpserver
                     Debug.Write("WaitStart " + DateTime.Now.ToString("HH:mm:ss") + " " + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " ");
                     Debug.WriteLine(url);
 
-                    HttpResponseMessage m = httpClient.GetAsync(url).Result;
+                    string pageBody = httpClient.GetStringAsync(url).Result;
 
                     XmlDocument doc = new XmlDocument();
-                    doc.LoadXml(m.Content.ToString());
+                    doc.LoadXml(pageBody);
 
                     XmlNode soundNode = doc.SelectSingleNode("//sound[@name='SOUND']");
                     string soundValue = soundNode.Attributes["value"].Value;
