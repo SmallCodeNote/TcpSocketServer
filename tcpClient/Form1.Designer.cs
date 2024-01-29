@@ -78,10 +78,9 @@
             // 
             // label_Return
             // 
-            this.label_Return.AutoSize = true;
             this.label_Return.Location = new System.Drawing.Point(170, 52);
             this.label_Return.Name = "label_Return";
-            this.label_Return.Size = new System.Drawing.Size(16, 15);
+            this.label_Return.Size = new System.Drawing.Size(319, 120);
             this.label_Return.TabIndex = 3;
             this.label_Return.Text = "...";
             // 
@@ -141,7 +140,7 @@
             // checkBox_NeedCheck
             // 
             this.checkBox_NeedCheck.AutoSize = true;
-            this.checkBox_NeedCheck.Location = new System.Drawing.Point(170, 84);
+            this.checkBox_NeedCheck.Location = new System.Drawing.Point(15, 111);
             this.checkBox_NeedCheck.Name = "checkBox_NeedCheck";
             this.checkBox_NeedCheck.Size = new System.Drawing.Size(103, 19);
             this.checkBox_NeedCheck.TabIndex = 5;

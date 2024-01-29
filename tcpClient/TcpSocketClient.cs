@@ -9,8 +9,9 @@ using System.Net.Sockets;
 using System.Diagnostics;
 
 /*
-Original Code : adapt .NetFramework4.8
+Original Code :
  https://marunaka-blog.com/cshap-tcpclient-create/2314/
+ code adapt .NetFramework4.8
 */
 
 namespace tcpClient
@@ -23,30 +24,24 @@ namespace tcpClient
             var readBuffer = new byte[1024];
             var response = "";
 
-            // サーバーへ接続
             try
             {
-                // クライアント作成
                 using (var tcpclient = new TcpClient())
                 {
-                    // 送受信タイムアウト設定
                     tcpclient.SendTimeout = 1000;
                     tcpclient.ReceiveTimeout = 1000;
 
-                    // サーバーへ接続開始
                     await tcpclient.ConnectAsync(ipaddress, port);
-                    Debug.WriteLine("サーバーと通信確立");
+                    Debug.WriteLine("Server connected.");
                     using (var stream = tcpclient.GetStream())
                     {
-                        // サーバーへリクエストを送信
                         writeBuffer = System.Text.Encoding.ASCII.GetBytes(request);
                         await stream.WriteAsync(writeBuffer, 0, writeBuffer.Length);
-                        Debug.WriteLine($"サーバーへ[{request}]を送信");
+                        Debug.WriteLine($"Send [{request}] to server.");
 
-                        // サーバーからレスポンスを受信
                         var length = await stream.ReadAsync(readBuffer, 0, readBuffer.Length);
                         response = System.Text.Encoding.ASCII.GetString(readBuffer, 0, length);
-                        Debug.WriteLine($"サーバーから[{response}]を受信");
+                        Debug.WriteLine($"Recieved [{response}] from server.");
                     }
                 }
             }
