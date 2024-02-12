@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using FluentScheduler;
+
 using WinFormStringCnvClass;
 
 namespace tcpClient
@@ -34,6 +36,15 @@ namespace tcpClient
 
         }
 
+        public void SendMessage()
+        {
+            string sendMessage = textBox_ClientName.Text + "\t" + comboBox_Status.Text + "\t" + textBox_Message.Text + DateTime.Now.ToString("yyyyMMdd_HHmmss") + "\t" + textBox_Parameter.Text + "\t" + checkBox_NeedCheck.Checked.ToString();
+
+            var responce = tcp.StartClient(textBox_Address.Text, int.Parse(textBox_PortNumber.Text), sendMessage).Result;
+            label_Return.Text = responce;
+
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             string paramFilename = Path.Combine(thisExeDirPath, "_param.txt");
@@ -49,5 +60,33 @@ namespace tcpClient
             string paramFilename = Path.Combine(thisExeDirPath, "_param.txt");
             File.WriteAllText(paramFilename, FormContents);
         }
+
+        private void button_SchedulerList_Click(object sender, EventArgs e)
+        {
+            SchedulerInitialize();
+        }
+        private void SchedulerInitialize()
+        {
+            JobManager.StopAndBlock();
+
+            List<string> Lines = new List<string>();
+            for (int i = 0; i < dataGridView_SchedulerList.RowCount - 1; i++)
+            {
+                var cells = dataGridView_SchedulerList.Rows[i].Cells;
+                string code = cells[0].Value.ToString();
+                code += cells.Count > 1 && cells[1].Value != null ? "\t" + cells[1].Value.ToString() : "\t";
+                code += cells.Count > 2 && cells[2].Value != null ? "\t" + cells[2].Value.ToString() : "\t";
+                code += cells.Count > 3 && cells[3].Value != null ? "\t" + cells[3].Value.ToString() : "\t";
+
+                if (code != "") Lines.Add(code);
+
+            }
+
+            var job = new FluentSchedulerRegistry( Lines.ToArray());
+
+            JobManager.Initialize(job);
+
+        }
+
     }
 }

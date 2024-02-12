@@ -43,6 +43,13 @@
             this.textBox_Parameter = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.comboBox_Status = new System.Windows.Forms.ComboBox();
+            this.button_SchedulerList = new System.Windows.Forms.Button();
+            this.dataGridView_SchedulerList = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column_Interval = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column_IntervalAt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label7 = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_SchedulerList)).BeginInit();
             this.SuspendLayout();
             // 
             // textBox_ClientName
@@ -56,19 +63,19 @@
             // 
             this.textBox_Address.Location = new System.Drawing.Point(170, 27);
             this.textBox_Address.Name = "textBox_Address";
-            this.textBox_Address.Size = new System.Drawing.Size(132, 22);
+            this.textBox_Address.Size = new System.Drawing.Size(292, 22);
             this.textBox_Address.TabIndex = 1;
             // 
             // textBox_PortNumber
             // 
-            this.textBox_PortNumber.Location = new System.Drawing.Point(308, 27);
+            this.textBox_PortNumber.Location = new System.Drawing.Point(468, 27);
             this.textBox_PortNumber.Name = "textBox_PortNumber";
             this.textBox_PortNumber.Size = new System.Drawing.Size(100, 22);
             this.textBox_PortNumber.TabIndex = 1;
             // 
             // button_SendMessage
             // 
-            this.button_SendMessage.Location = new System.Drawing.Point(414, 26);
+            this.button_SendMessage.Location = new System.Drawing.Point(574, 26);
             this.button_SendMessage.Name = "button_SendMessage";
             this.button_SendMessage.Size = new System.Drawing.Size(75, 23);
             this.button_SendMessage.TabIndex = 2;
@@ -80,7 +87,7 @@
             // 
             this.label_Return.Location = new System.Drawing.Point(170, 52);
             this.label_Return.Name = "label_Return";
-            this.label_Return.Size = new System.Drawing.Size(319, 120);
+            this.label_Return.Size = new System.Drawing.Size(479, 86);
             this.label_Return.TabIndex = 3;
             this.label_Return.Text = "...";
             // 
@@ -96,7 +103,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(305, 11);
+            this.label2.Location = new System.Drawing.Point(465, 11);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(34, 15);
             this.label2.TabIndex = 3;
@@ -113,16 +120,16 @@
             // 
             // textBox_Message
             // 
-            this.textBox_Message.Location = new System.Drawing.Point(15, 190);
+            this.textBox_Message.Location = new System.Drawing.Point(15, 141);
             this.textBox_Message.Multiline = true;
             this.textBox_Message.Name = "textBox_Message";
-            this.textBox_Message.Size = new System.Drawing.Size(476, 49);
+            this.textBox_Message.Size = new System.Drawing.Size(634, 49);
             this.textBox_Message.TabIndex = 0;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 172);
+            this.label4.Location = new System.Drawing.Point(12, 123);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(62, 15);
             this.label4.TabIndex = 3;
@@ -131,7 +138,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 63);
+            this.label5.Location = new System.Drawing.Point(12, 51);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(48, 15);
             this.label5.TabIndex = 3;
@@ -140,7 +147,7 @@
             // checkBox_NeedCheck
             // 
             this.checkBox_NeedCheck.AutoSize = true;
-            this.checkBox_NeedCheck.Location = new System.Drawing.Point(15, 111);
+            this.checkBox_NeedCheck.Location = new System.Drawing.Point(15, 99);
             this.checkBox_NeedCheck.Name = "checkBox_NeedCheck";
             this.checkBox_NeedCheck.Size = new System.Drawing.Size(103, 19);
             this.checkBox_NeedCheck.TabIndex = 5;
@@ -149,16 +156,16 @@
             // 
             // textBox_Parameter
             // 
-            this.textBox_Parameter.Location = new System.Drawing.Point(12, 274);
+            this.textBox_Parameter.Location = new System.Drawing.Point(15, 213);
             this.textBox_Parameter.Multiline = true;
             this.textBox_Parameter.Name = "textBox_Parameter";
-            this.textBox_Parameter.Size = new System.Drawing.Size(476, 49);
+            this.textBox_Parameter.Size = new System.Drawing.Size(634, 49);
             this.textBox_Parameter.TabIndex = 0;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 256);
+            this.label6.Location = new System.Drawing.Point(15, 195);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(72, 15);
             this.label6.TabIndex = 3;
@@ -171,16 +178,67 @@
             "Notice",
             "Warning",
             "Error"});
-            this.comboBox_Status.Location = new System.Drawing.Point(15, 82);
+            this.comboBox_Status.Location = new System.Drawing.Point(15, 70);
             this.comboBox_Status.Name = "comboBox_Status";
             this.comboBox_Status.Size = new System.Drawing.Size(121, 23);
             this.comboBox_Status.TabIndex = 6;
+            // 
+            // button_SchedulerList
+            // 
+            this.button_SchedulerList.Location = new System.Drawing.Point(687, 273);
+            this.button_SchedulerList.Name = "button_SchedulerList";
+            this.button_SchedulerList.Size = new System.Drawing.Size(72, 22);
+            this.button_SchedulerList.TabIndex = 9;
+            this.button_SchedulerList.Text = "Load";
+            this.button_SchedulerList.UseVisualStyleBackColor = true;
+            this.button_SchedulerList.Click += new System.EventHandler(this.button_SchedulerList_Click);
+            // 
+            // dataGridView_SchedulerList
+            // 
+            this.dataGridView_SchedulerList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_SchedulerList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1,
+            this.Column_Interval,
+            this.Column_IntervalAt});
+            this.dataGridView_SchedulerList.Location = new System.Drawing.Point(18, 296);
+            this.dataGridView_SchedulerList.Name = "dataGridView_SchedulerList";
+            this.dataGridView_SchedulerList.RowTemplate.Height = 24;
+            this.dataGridView_SchedulerList.Size = new System.Drawing.Size(741, 358);
+            this.dataGridView_SchedulerList.TabIndex = 8;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "StatusName";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            // 
+            // Column_Interval
+            // 
+            this.Column_Interval.HeaderText = "Interval";
+            this.Column_Interval.Name = "Column_Interval";
+            // 
+            // Column_IntervalAt
+            // 
+            this.Column_IntervalAt.HeaderText = "At";
+            this.Column_IntervalAt.Name = "Column_IntervalAt";
+            this.Column_IntervalAt.Width = 300;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(15, 278);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(94, 15);
+            this.label7.TabIndex = 7;
+            this.label7.Text = "SchedulerList";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(534, 333);
+            this.ClientSize = new System.Drawing.Size(786, 675);
+            this.Controls.Add(this.button_SchedulerList);
+            this.Controls.Add(this.dataGridView_SchedulerList);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.comboBox_Status);
             this.Controls.Add(this.checkBox_NeedCheck);
             this.Controls.Add(this.label2);
@@ -200,6 +258,7 @@
             this.Text = "Client";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_SchedulerList)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -222,6 +281,12 @@
         private System.Windows.Forms.TextBox textBox_Parameter;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox comboBox_Status;
+        private System.Windows.Forms.Button button_SchedulerList;
+        private System.Windows.Forms.DataGridView dataGridView_SchedulerList;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column_Interval;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column_IntervalAt;
+        private System.Windows.Forms.Label label7;
     }
 }
 
