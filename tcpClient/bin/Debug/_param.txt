@@ -1,7 +1,9 @@
-comboBox_Status	Notice
-checkBox_NeedCheck	False
-textBox_PortNumber	1024
-textBox_Address	localhost
-textBox_Parameter	Parameter
-textBox_Message	Client1_Notice Message
+comboBox_ScheduleUnit	EverySeconds
 textBox_ClientName	Client1
+comboBox_Status	Notice
+textBox_Message	Client1_Notice Message
+checkBox_NeedCheck	False
+textBox_Parameter	Parameter
+textBox_Address	localhost
+textBox_ScheduleUnitParam	5
+textBox_PortNumber	1024
