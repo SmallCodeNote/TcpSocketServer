@@ -27,14 +27,6 @@ namespace tcpClient
 
         }
 
-        async private void button_SendMessage_Click(object sender, EventArgs e)
-        {
-            string sendMessage = textBox_ClientName.Text + "\t" + comboBox_Status.Text + "\t" + textBox_Message.Text + DateTime.Now.ToString("yyyyMMdd_HHmmss") + "\t" + textBox_Parameter.Text + "\t" + checkBox_NeedCheck.Checked.ToString();
-
-            var responce = await tcp.StartClient(textBox_Address.Text, int.Parse(textBox_PortNumber.Text), sendMessage);
-            label_Return.Text = responce;
-
-        }
 
         public void SendMessage()
         {
@@ -70,23 +62,49 @@ namespace tcpClient
             JobManager.StopAndBlock();
 
             List<string> Lines = new List<string>();
-            for (int i = 0; i < dataGridView_SchedulerList.RowCount - 1; i++)
-            {
-                var cells = dataGridView_SchedulerList.Rows[i].Cells;
-                string code = cells[0].Value.ToString();
-                code += cells.Count > 1 && cells[1].Value != null ? "\t" + cells[1].Value.ToString() : "\t";
-                code += cells.Count > 2 && cells[2].Value != null ? "\t" + cells[2].Value.ToString() : "\t";
-                code += cells.Count > 3 && cells[3].Value != null ? "\t" + cells[3].Value.ToString() : "\t";
 
-                if (code != "") Lines.Add(code);
+            string Address = textBox_Address.Text;
+            string PortNumber = textBox_PortNumber.Text;
+            string ScheduleUnit = comboBox_ScheduleUnit.Text;
+            string ScheduleUnitParam = textBox_ScheduleUnitParam.Text;
+            string ClientName = textBox_ClientName.Text;
+            string Status = comboBox_Status.Text;
+            string Message = textBox_Message.Text;
+            string Parameter = textBox_Parameter.Text;
+            string NeedCheck = checkBox_NeedCheck.Checked.ToString();
 
-            }
+            List<string> ColList = new List<string>();
+            ColList.Add(Address);
+            ColList.Add(PortNumber.ToString());
+            ColList.Add(ScheduleUnit);
+            ColList.Add(ScheduleUnitParam);
+            ColList.Add(ClientName);
+            ColList.Add(Status);
+            ColList.Add(Message);
+            ColList.Add(Parameter);
+            ColList.Add(NeedCheck.ToString());
 
-            var job = new FluentSchedulerRegistry( Lines.ToArray());
+            Lines.Add(String.Join("\t",ColList.ToArray()));
+
+            var job = new FluentSchedulerRegistry(tcp, Lines.ToArray());
 
             JobManager.Initialize(job);
 
         }
 
+        async private void button_SendMessage_Click(object sender, EventArgs e)
+        {
+            string sendMessage = textBox_ClientName.Text + "\t" + comboBox_Status.Text + "\t" + textBox_Message.Text + DateTime.Now.ToString("yyyyMMdd_HHmmss") + "\t" + textBox_Parameter.Text + "\t" + checkBox_NeedCheck.Checked.ToString();
+
+            var responce = await tcp.StartClient(textBox_Address.Text, int.Parse(textBox_PortNumber.Text), sendMessage);
+            label_Return.Text = responce;
+
+        }
+
+        private void button_AddSchedule_Click(object sender, EventArgs e)
+        {
+            SchedulerInitialize();
+
+        }
     }
 }

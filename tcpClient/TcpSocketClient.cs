@@ -8,7 +8,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Diagnostics;
 
-using FluentScheduler;
 /*
 Original Code :
  https://marunaka-blog.com/cshap-tcpclient-create/2314/
@@ -17,7 +16,7 @@ Original Code :
 
 namespace tcpClient
 {
-    class TcpSocketClient
+    public class TcpSocketClient
     {
         public async Task<string> StartClient(string ipaddress, int port, string request)
         {
@@ -54,120 +53,7 @@ namespace tcpClient
             return response;
         }
 
-
-
     }
 
-    public class FluentSchedulerRegistry : Registry
-    {
-
-        public List<string> ScheduleList;
-        public string DataBaseFilePath;
-
-
-        private int idxName = 0;
-        //private int idxCheck = 1;
-        private int idxUnit = 1;
-        private int idxAt = 2;
-
-        public FluentSchedulerRegistry(string[] Lines)
-        {
-
-            foreach (string Line in Lines)
-            {
-                string[] cols = Line.Split('\t');
-
-                string StatusName = cols[idxName];
-
-                if (cols[idxUnit] == "EveryDays")
-                {
-                    try
-                    {
-                        string[] atinfo = cols[idxAt].Split(',');
-                        foreach (string t in atinfo)
-                        {
-                            int[] hm = Array.ConvertAll(t.Split(':'), s => int.Parse(s));
-                            int h = hm[0];
-                            int m = hm[1];
-
-                            FluentSchedulerJob job = new FluentSchedulerJob();
-                            Schedule(job.Execute()).ToRunEvery(1).Days().At(h, m);
-                            ScheduleList.Add("EveryDays at " + t);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine(GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " " + ex.ToString());
-
-                        ScheduleList.Add("ERROR: " + Line);
-                    }
-                }
-                else if (cols[idxUnit] == "EveryHours")
-                {
-                    try
-                    {
-                        int[] atinfo = Array.ConvertAll(cols[idxAt].Split(','), s => int.Parse(s));
-                        foreach (int m in atinfo)
-                        {
-                            FluentSchedulerJob job = new FluentSchedulerJob();
-                            Schedule(job.Execute()).ToRunEvery(1).Hours().At(m);
-                            ScheduleList.Add("EveryHours at " + m.ToString());
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine(GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " " + ex.ToString());
-
-                        ScheduleList.Add("ERROR: " + Line);
-                    }
-
-                }
-                else if (cols[idxUnit] == "EverySeconds")
-                {
-                    try
-                    {
-                        int[] atinfo = Array.ConvertAll(cols[idxAt].Split(','), s => int.Parse(s));
-                        foreach (int s in atinfo)
-                        {
-                            FluentSchedulerJob job = new FluentSchedulerJob();
-                            Schedule(job.Execute()).ToRunEvery(s).Seconds();
-                            ScheduleList.Add("EverySeconds at " + s.ToString());
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine(GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " " + ex.ToString());
-
-                        ScheduleList.Add("ERROR: " + Line);
-                    }
-
-                }
-
-            }
-
-        }
-    }
-
-    public class FluentSchedulerJob
-    {
-
-        public FluentSchedulerJob()
-        {
-
-
-        }
-
-        public Action Execute()
-        {
-            return new Action(delegate ()
-            {
-
-            });
-
-        }
-
-
-
-    }
 
 }
