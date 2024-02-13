@@ -98,6 +98,7 @@ namespace tcpClient
             }
 
         }
+
     }
 
     public class FluentSchedulerJobParam
@@ -150,8 +151,6 @@ namespace tcpClient
             this.NeedCheck = bool.Parse(cols[i]);
 
         }
-
-
     }
 
 

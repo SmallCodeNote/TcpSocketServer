@@ -27,7 +27,6 @@ namespace tcpClient
 
         }
 
-
         public void SendMessage()
         {
             string sendMessage = textBox_ClientName.Text + "\t" + comboBox_Status.Text + "\t" + textBox_Message.Text + DateTime.Now.ToString("yyyyMMdd_HHmmss") + "\t" + textBox_Parameter.Text + "\t" + checkBox_NeedCheck.Checked.ToString();
@@ -57,6 +56,23 @@ namespace tcpClient
         {
             SchedulerInitialize();
         }
+        
+
+        private void button_SendMessage_Click(object sender, EventArgs e)
+        {
+            string sendMessage = textBox_ClientName.Text + "\t" + comboBox_Status.Text + "\t" + textBox_Message.Text + DateTime.Now.ToString("yyyyMMdd_HHmmss") + "\t" + textBox_Parameter.Text + "\t" + checkBox_NeedCheck.Checked.ToString();
+
+            var responce = tcp.StartClient(textBox_Address.Text, int.Parse(textBox_PortNumber.Text), sendMessage).Result;
+            label_Return.Text = responce;
+
+        }
+
+        private void button_AddSchedule_Click(object sender, EventArgs e)
+        {
+            SchedulerInitialize();
+
+        }
+
         private void SchedulerInitialize()
         {
             JobManager.StopAndBlock();
@@ -84,26 +100,11 @@ namespace tcpClient
             ColList.Add(Parameter);
             ColList.Add(NeedCheck.ToString());
 
-            Lines.Add(String.Join("\t",ColList.ToArray()));
+            Lines.Add(String.Join("\t", ColList.ToArray()));
 
             var job = new FluentSchedulerRegistry(tcp, Lines.ToArray());
 
             JobManager.Initialize(job);
-
-        }
-
-        async private void button_SendMessage_Click(object sender, EventArgs e)
-        {
-            string sendMessage = textBox_ClientName.Text + "\t" + comboBox_Status.Text + "\t" + textBox_Message.Text + DateTime.Now.ToString("yyyyMMdd_HHmmss") + "\t" + textBox_Parameter.Text + "\t" + checkBox_NeedCheck.Checked.ToString();
-
-            var responce = await tcp.StartClient(textBox_Address.Text, int.Parse(textBox_PortNumber.Text), sendMessage);
-            label_Return.Text = responce;
-
-        }
-
-        private void button_AddSchedule_Click(object sender, EventArgs e)
-        {
-            SchedulerInitialize();
 
         }
     }
