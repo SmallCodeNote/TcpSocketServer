@@ -1,9 +1,10 @@
-comboBox_ScheduleUnit	EverySeconds
+comboBox_ScheduleUnit	OnceAtSeconds
+textBox_JobName	TestJob3
 textBox_ClientName	Client1
 comboBox_Status	Notice
-textBox_Message	Client1_Notice Message
+textBox_Message	Client1_Notice Message3
 checkBox_NeedCheck	False
 textBox_Parameter	Parameter
 textBox_Address	localhost
-textBox_ScheduleUnitParam	5
+textBox_ScheduleUnitParam	7
 textBox_PortNumber	1024
