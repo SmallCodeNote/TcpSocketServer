@@ -71,7 +71,11 @@ namespace WinFormStringCnvClass
             {
                 if (cc.Name.Length > 0)
                 {
-                    ControlDic.Add(cc.Name, cc);
+                    try
+                    {
+                        ControlDic.Add(cc.Name, cc);
+                    }
+                    catch { }
                     if (cc.Controls.Count > 0)
                         CreateControlDictionary(cc, ControlDic);
                 }

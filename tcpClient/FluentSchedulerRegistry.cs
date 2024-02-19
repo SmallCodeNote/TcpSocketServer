@@ -17,7 +17,7 @@ namespace tcpClient
 
         public List<FluentSchedulerJob> ScheduleJobList;
 
-        public string[] ScheduleUnitList = new string[] { "EveryDays", "EveryHours", "EverySeconds" };
+        public string[] ScheduleUnitList = new string[] { "Once", "EveryDays", "EveryHours", "EverySeconds" };
 
 
         public FluentSchedulerRegistry(TcpSocketClient tcp, string[] Lines)
@@ -42,7 +42,8 @@ namespace tcpClient
                             int m = hm[1];
 
                             FluentSchedulerJob job = new FluentSchedulerJob(param);
-                            Schedule(job.Execute()).ToRunEvery(1).Days().At(h, m);
+                            Schedule(job.Execute()).WithName(param.ToString()).ToRunEvery(1).Days().At(h, m);
+                            
                             ScheduleList.Add("EveryDays at " + t);
                         }
                     }
@@ -62,7 +63,7 @@ namespace tcpClient
                         foreach (int m in atinfo)
                         {
                             FluentSchedulerJob job = new FluentSchedulerJob(param);
-                            Schedule(job.Execute()).ToRunEvery(1).Hours().At(m);
+                            Schedule(job.Execute()).WithName(param.ToString()).ToRunEvery(1).Hours().At(m);
                             ScheduleList.Add("EveryHours at " + m.ToString());
                         }
                     }
@@ -82,7 +83,7 @@ namespace tcpClient
                         foreach (int s in atinfo)
                         {
                             FluentSchedulerJob job = new FluentSchedulerJob(param);
-                            Schedule(job.Execute()).ToRunEvery(s).Seconds();
+                            Schedule(job.Execute()).WithName(param.ToString()).ToRunEvery(s).Seconds();
                             ScheduleList.Add("EverySeconds at " + s.ToString());
                         }
                     }
@@ -94,7 +95,66 @@ namespace tcpClient
                     }
 
                 }
+                else if (param.ScheduleUnit == "OnceAtSeconds")
+                {
+                    try
+                    {
+                        int[] atinfo = Array.ConvertAll(param.ScheduleUnitParam.Split(','), s => int.Parse(s));
+                        foreach (int s in atinfo)
+                        {
+                            FluentSchedulerJob job = new FluentSchedulerJob(param);
+                            Schedule(job.Execute()).WithName(param.ToString()).ToRunOnceIn(s).Seconds();
+                            ScheduleList.Add("Once at " + s.ToString());
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " " + ex.ToString());
 
+                        ScheduleList.Add("ERROR: " + Line);
+                    }
+
+                }
+                else if (param.ScheduleUnit == "OnceAtMinutes")
+                {
+                    try
+                    {
+                        int[] atinfo = Array.ConvertAll(param.ScheduleUnitParam.Split(','), s => int.Parse(s));
+                        foreach (int s in atinfo)
+                        {
+                            FluentSchedulerJob job = new FluentSchedulerJob(param);
+                            Schedule(job.Execute()).WithName(param.ToString()).ToRunOnceIn(s).Minutes();
+                            ScheduleList.Add("Once at " + s.ToString());
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " " + ex.ToString());
+
+                        ScheduleList.Add("ERROR: " + Line);
+                    }
+
+                }
+                else if (param.ScheduleUnit == "OnceAtHours")
+                {
+                    try
+                    {
+                        int[] atinfo = Array.ConvertAll(param.ScheduleUnitParam.Split(','), s => int.Parse(s));
+                        foreach (int s in atinfo)
+                        {
+                            FluentSchedulerJob job = new FluentSchedulerJob(param);
+                            Schedule(job.Execute()).WithName(param.ToString()).ToRunOnceIn(s).Hours();
+                            ScheduleList.Add("Once at " + s.ToString());
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " " + ex.ToString());
+
+                        ScheduleList.Add("ERROR: " + Line);
+                    }
+
+                }
             }
 
         }
@@ -108,6 +168,7 @@ namespace tcpClient
         public string Address = "";
         public int PortNumber = 1024;
 
+        public string JobName = "";
         public string ScheduleUnit = "";
         public string ScheduleUnitParam = "";
         public string ClientName = "";
@@ -115,13 +176,17 @@ namespace tcpClient
         public string Message = "";
         public string Parameter = "";
         public bool NeedCheck = false;
+        public DateTime createTime;
 
-        public FluentSchedulerJobParam(TcpSocketClient tcp, string address, int portNumber, string scheduleUnit, string scheduleUnitParam, string clientName, string status, string message, string parameter, bool needCheck)
+        public FluentSchedulerJobParam(TcpSocketClient tcp, string address, int portNumber,string JobName, string scheduleUnit, string scheduleUnitParam, string clientName, string status, string message, string parameter, bool needCheck)
         {
             this.tcp = tcp;
 
             this.Address = address;
             this.PortNumber = portNumber;
+
+
+            this.JobName = JobName;
             this.ScheduleUnit = scheduleUnit;
             this.ScheduleUnitParam = scheduleUnitParam;
             this.ClientName = clientName;
@@ -129,6 +194,8 @@ namespace tcpClient
             this.Message = message;
             this.Parameter = parameter;
             this.NeedCheck = needCheck;
+
+            createTime = DateTime.Now;
 
         }
 
@@ -142,6 +209,8 @@ namespace tcpClient
 
             this.Address = cols[i]; i++;
             this.PortNumber = int.Parse(cols[i]); i++;
+
+            this.JobName = cols[i]; i++;
             this.ScheduleUnit = cols[i]; i++;
             this.ScheduleUnitParam = cols[i]; i++;
             this.ClientName = cols[i]; i++;
@@ -150,6 +219,28 @@ namespace tcpClient
             this.Parameter = cols[i]; i++;
             this.NeedCheck = bool.Parse(cols[i]);
 
+            createTime = DateTime.Now;
+
+
+        }
+
+        public override string ToString()
+        {
+            List<string> Cols = new List<string>();
+
+            Cols.Add(this.JobName);
+            Cols.Add(this.Address);
+            Cols.Add(this.PortNumber.ToString());
+            Cols.Add(this.ScheduleUnit);
+            Cols.Add(this.ScheduleUnitParam);
+            Cols.Add(this.ClientName);
+            Cols.Add(this.Status);
+            Cols.Add(this.Message);
+            Cols.Add(this.Parameter);
+            Cols.Add(this.NeedCheck.ToString());
+            Cols.Add(this.createTime.ToString("yyyy/MM/dd HH:mm:ss.fff"));
+
+            return string.Join("\t",Cols.ToArray());
         }
     }
 
@@ -157,21 +248,26 @@ namespace tcpClient
     public class FluentSchedulerJob
     {
         public FluentSchedulerJobParam param;
-
-        private string _Responce = "";
-        public string Responce { get { return _Responce; } }
+        public string Responce { get; private set; } = "";
 
         public FluentSchedulerJob(FluentSchedulerJobParam param)
         {
             this.param = param;
         }
 
-        public FluentSchedulerJob(TcpSocketClient tcp, string address, int portNumber, string scheduleUnit, string clientName, string status, string message, string parameter, bool needCheck)
+        public override string ToString()
+        {
+            return param.ToString();
+        }
+
+        public FluentSchedulerJob(TcpSocketClient tcp, string address, int portNumber,string jobname, string scheduleUnit, string clientName, string status, string message, string parameter, bool needCheck)
         {
             param.tcp = tcp;
 
             param.Address = address;
             param.PortNumber = portNumber;
+
+            param.JobName = jobname;
             param.ScheduleUnit = scheduleUnit;
             param.ClientName = clientName;
             param.Status = status;
@@ -188,13 +284,10 @@ namespace tcpClient
                 string sendMessage = param.ClientName + "\t" + param.Status + "\t" + param.Message + "\t"
                 + param.Parameter + "\t" + param.NeedCheck.ToString();
 
-                _Responce = param.tcp.StartClient(param.Address, param.PortNumber, sendMessage).Result;
+                Responce = param.tcp.StartClient(param.Address, param.PortNumber, sendMessage).Result;
 
             });
 
         }
-
-
-
     }
 }

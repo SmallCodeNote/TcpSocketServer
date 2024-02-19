@@ -50,37 +50,49 @@
             this.button_AddSchedule = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage_Edit = new System.Windows.Forms.TabPage();
+            this.label9 = new System.Windows.Forms.Label();
+            this.textBox_JobName = new System.Windows.Forms.TextBox();
             this.tabPage_View = new System.Windows.Forms.TabPage();
+            this.vScrollBar_StatusList = new System.Windows.Forms.VScrollBar();
+            this.panel_StatusListFrame = new System.Windows.Forms.Panel();
+            this.panel_StatusList = new System.Windows.Forms.Panel();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage_Edit.SuspendLayout();
+            this.tabPage_View.SuspendLayout();
+            this.panel_StatusListFrame.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBox_ClientName
             // 
-            this.textBox_ClientName.Location = new System.Drawing.Point(18, 30);
+            this.textBox_ClientName.Location = new System.Drawing.Point(16, 137);
+            this.textBox_ClientName.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_ClientName.Name = "textBox_ClientName";
-            this.textBox_ClientName.Size = new System.Drawing.Size(101, 22);
+            this.textBox_ClientName.Size = new System.Drawing.Size(77, 19);
             this.textBox_ClientName.TabIndex = 0;
             // 
             // textBox_Address
             // 
-            this.textBox_Address.Location = new System.Drawing.Point(173, 30);
+            this.textBox_Address.Location = new System.Drawing.Point(132, 137);
+            this.textBox_Address.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Address.Name = "textBox_Address";
-            this.textBox_Address.Size = new System.Drawing.Size(292, 22);
+            this.textBox_Address.Size = new System.Drawing.Size(220, 19);
             this.textBox_Address.TabIndex = 1;
             // 
             // textBox_PortNumber
             // 
-            this.textBox_PortNumber.Location = new System.Drawing.Point(471, 30);
+            this.textBox_PortNumber.Location = new System.Drawing.Point(355, 137);
+            this.textBox_PortNumber.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_PortNumber.Name = "textBox_PortNumber";
-            this.textBox_PortNumber.Size = new System.Drawing.Size(100, 22);
+            this.textBox_PortNumber.Size = new System.Drawing.Size(76, 19);
             this.textBox_PortNumber.TabIndex = 1;
             // 
             // button_SendMessage
             // 
-            this.button_SendMessage.Location = new System.Drawing.Point(577, 271);
+            this.button_SendMessage.Location = new System.Drawing.Point(435, 330);
+            this.button_SendMessage.Margin = new System.Windows.Forms.Padding(2);
             this.button_SendMessage.Name = "button_SendMessage";
-            this.button_SendMessage.Size = new System.Drawing.Size(75, 23);
+            this.button_SendMessage.Size = new System.Drawing.Size(56, 18);
             this.button_SendMessage.TabIndex = 2;
             this.button_SendMessage.Text = "Send";
             this.button_SendMessage.UseVisualStyleBackColor = true;
@@ -88,89 +100,99 @@
             // 
             // label_Return
             // 
-            this.label_Return.Location = new System.Drawing.Point(173, 55);
+            this.label_Return.Location = new System.Drawing.Point(132, 157);
+            this.label_Return.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Return.Name = "label_Return";
-            this.label_Return.Size = new System.Drawing.Size(479, 86);
+            this.label_Return.Size = new System.Drawing.Size(359, 69);
             this.label_Return.TabIndex = 3;
             this.label_Return.Text = "...";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(173, 12);
+            this.label1.Location = new System.Drawing.Point(132, 123);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(57, 15);
+            this.label1.Size = new System.Drawing.Size(47, 12);
             this.label1.TabIndex = 3;
             this.label1.Text = "Address";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(468, 14);
+            this.label2.Location = new System.Drawing.Point(353, 124);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(34, 15);
+            this.label2.Size = new System.Drawing.Size(26, 12);
             this.label2.TabIndex = 3;
             this.label2.Text = "Port";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(15, 12);
+            this.label3.Location = new System.Drawing.Point(13, 123);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(80, 15);
+            this.label3.Size = new System.Drawing.Size(64, 12);
             this.label3.TabIndex = 3;
             this.label3.Text = "ClientName";
             // 
             // textBox_Message
             // 
-            this.textBox_Message.Location = new System.Drawing.Point(18, 144);
+            this.textBox_Message.Location = new System.Drawing.Point(16, 228);
+            this.textBox_Message.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Message.Multiline = true;
             this.textBox_Message.Name = "textBox_Message";
-            this.textBox_Message.Size = new System.Drawing.Size(634, 49);
+            this.textBox_Message.Size = new System.Drawing.Size(476, 40);
             this.textBox_Message.TabIndex = 0;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(15, 126);
+            this.label4.Location = new System.Drawing.Point(13, 214);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(62, 15);
+            this.label4.Size = new System.Drawing.Size(50, 12);
             this.label4.TabIndex = 3;
             this.label4.Text = "Message";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(15, 54);
+            this.label5.Location = new System.Drawing.Point(13, 156);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(48, 15);
+            this.label5.Size = new System.Drawing.Size(38, 12);
             this.label5.TabIndex = 3;
             this.label5.Text = "Status";
             // 
             // checkBox_NeedCheck
             // 
             this.checkBox_NeedCheck.AutoSize = true;
-            this.checkBox_NeedCheck.Location = new System.Drawing.Point(18, 102);
+            this.checkBox_NeedCheck.Location = new System.Drawing.Point(16, 195);
+            this.checkBox_NeedCheck.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_NeedCheck.Name = "checkBox_NeedCheck";
-            this.checkBox_NeedCheck.Size = new System.Drawing.Size(103, 19);
+            this.checkBox_NeedCheck.Size = new System.Drawing.Size(82, 16);
             this.checkBox_NeedCheck.TabIndex = 5;
             this.checkBox_NeedCheck.Text = "NeedCheck";
             this.checkBox_NeedCheck.UseVisualStyleBackColor = true;
             // 
             // textBox_Parameter
             // 
-            this.textBox_Parameter.Location = new System.Drawing.Point(18, 216);
+            this.textBox_Parameter.Location = new System.Drawing.Point(16, 286);
+            this.textBox_Parameter.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Parameter.Multiline = true;
             this.textBox_Parameter.Name = "textBox_Parameter";
-            this.textBox_Parameter.Size = new System.Drawing.Size(634, 49);
+            this.textBox_Parameter.Size = new System.Drawing.Size(476, 40);
             this.textBox_Parameter.TabIndex = 0;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(18, 198);
+            this.label6.Location = new System.Drawing.Point(16, 271);
+            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(72, 15);
+            this.label6.Size = new System.Drawing.Size(57, 12);
             this.label6.TabIndex = 3;
             this.label6.Text = "Parameter";
             // 
@@ -181,9 +203,10 @@
             "Notice",
             "Warning",
             "Error"});
-            this.comboBox_Status.Location = new System.Drawing.Point(18, 73);
+            this.comboBox_Status.Location = new System.Drawing.Point(16, 171);
+            this.comboBox_Status.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox_Status.Name = "comboBox_Status";
-            this.comboBox_Status.Size = new System.Drawing.Size(121, 23);
+            this.comboBox_Status.Size = new System.Drawing.Size(92, 20);
             this.comboBox_Status.TabIndex = 6;
             // 
             // comboBox_ScheduleUnit
@@ -192,42 +215,50 @@
             this.comboBox_ScheduleUnit.Items.AddRange(new object[] {
             "EveryDays",
             "EveryHours",
-            "EverySeconds"});
-            this.comboBox_ScheduleUnit.Location = new System.Drawing.Point(18, 311);
+            "EverySeconds",
+            "OnceAtSeconds",
+            "OnceAtMinutes",
+            "OnceAtHours"});
+            this.comboBox_ScheduleUnit.Location = new System.Drawing.Point(12, 72);
+            this.comboBox_ScheduleUnit.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox_ScheduleUnit.Name = "comboBox_ScheduleUnit";
-            this.comboBox_ScheduleUnit.Size = new System.Drawing.Size(163, 23);
+            this.comboBox_ScheduleUnit.Size = new System.Drawing.Size(123, 20);
             this.comboBox_ScheduleUnit.TabIndex = 6;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(18, 293);
+            this.label7.Location = new System.Drawing.Point(12, 57);
+            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(54, 15);
+            this.label7.Size = new System.Drawing.Size(43, 12);
             this.label7.TabIndex = 3;
             this.label7.Text = "Interval";
             // 
             // textBox_ScheduleUnitParam
             // 
-            this.textBox_ScheduleUnitParam.Location = new System.Drawing.Point(187, 312);
+            this.textBox_ScheduleUnitParam.Location = new System.Drawing.Point(138, 73);
+            this.textBox_ScheduleUnitParam.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_ScheduleUnitParam.Name = "textBox_ScheduleUnitParam";
-            this.textBox_ScheduleUnitParam.Size = new System.Drawing.Size(465, 22);
+            this.textBox_ScheduleUnitParam.Size = new System.Drawing.Size(350, 19);
             this.textBox_ScheduleUnitParam.TabIndex = 1;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(184, 293);
+            this.label8.Location = new System.Drawing.Point(136, 57);
+            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(21, 15);
+            this.label8.Size = new System.Drawing.Size(17, 12);
             this.label8.TabIndex = 3;
             this.label8.Text = "At";
             // 
             // button_AddSchedule
             // 
-            this.button_AddSchedule.Location = new System.Drawing.Point(577, 12);
+            this.button_AddSchedule.Location = new System.Drawing.Point(435, 115);
+            this.button_AddSchedule.Margin = new System.Windows.Forms.Padding(2);
             this.button_AddSchedule.Name = "button_AddSchedule";
-            this.button_AddSchedule.Size = new System.Drawing.Size(75, 41);
+            this.button_AddSchedule.Size = new System.Drawing.Size(56, 41);
             this.button_AddSchedule.TabIndex = 2;
             this.button_AddSchedule.Text = "Add";
             this.button_AddSchedule.UseVisualStyleBackColor = true;
@@ -238,15 +269,18 @@
             this.tabControl1.Controls.Add(this.tabPage_Edit);
             this.tabControl1.Controls.Add(this.tabPage_View);
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(680, 418);
+            this.tabControl1.Size = new System.Drawing.Size(510, 394);
             this.tabControl1.TabIndex = 7;
             // 
             // tabPage_Edit
             // 
+            this.tabPage_Edit.Controls.Add(this.label9);
             this.tabPage_Edit.Controls.Add(this.label3);
             this.tabPage_Edit.Controls.Add(this.comboBox_ScheduleUnit);
+            this.tabPage_Edit.Controls.Add(this.textBox_JobName);
             this.tabPage_Edit.Controls.Add(this.textBox_ClientName);
             this.tabPage_Edit.Controls.Add(this.comboBox_Status);
             this.tabPage_Edit.Controls.Add(this.textBox_Message);
@@ -265,30 +299,90 @@
             this.tabPage_Edit.Controls.Add(this.label_Return);
             this.tabPage_Edit.Controls.Add(this.label8);
             this.tabPage_Edit.Controls.Add(this.label1);
-            this.tabPage_Edit.Location = new System.Drawing.Point(4, 25);
+            this.tabPage_Edit.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_Edit.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage_Edit.Name = "tabPage_Edit";
-            this.tabPage_Edit.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage_Edit.Size = new System.Drawing.Size(672, 389);
+            this.tabPage_Edit.Padding = new System.Windows.Forms.Padding(2);
+            this.tabPage_Edit.Size = new System.Drawing.Size(502, 368);
             this.tabPage_Edit.TabIndex = 0;
             this.tabPage_Edit.Text = "Edit";
             this.tabPage_Edit.UseVisualStyleBackColor = true;
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(14, 11);
+            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(53, 12);
+            this.label9.TabIndex = 3;
+            this.label9.Text = "JobName";
+            // 
+            // textBox_JobName
+            // 
+            this.textBox_JobName.Location = new System.Drawing.Point(12, 27);
+            this.textBox_JobName.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox_JobName.Name = "textBox_JobName";
+            this.textBox_JobName.Size = new System.Drawing.Size(476, 19);
+            this.textBox_JobName.TabIndex = 0;
+            // 
             // tabPage_View
             // 
-            this.tabPage_View.Location = new System.Drawing.Point(4, 25);
+            this.tabPage_View.Controls.Add(this.vScrollBar_StatusList);
+            this.tabPage_View.Controls.Add(this.panel_StatusListFrame);
+            this.tabPage_View.Controls.Add(this.textBox1);
+            this.tabPage_View.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_View.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage_View.Name = "tabPage_View";
-            this.tabPage_View.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage_View.Size = new System.Drawing.Size(672, 389);
+            this.tabPage_View.Padding = new System.Windows.Forms.Padding(2);
+            this.tabPage_View.Size = new System.Drawing.Size(502, 368);
             this.tabPage_View.TabIndex = 1;
             this.tabPage_View.Text = "View";
             this.tabPage_View.UseVisualStyleBackColor = true;
+            this.tabPage_View.Enter += new System.EventHandler(this.tabPage_View_Enter);
+            // 
+            // vScrollBar_StatusList
+            // 
+            this.vScrollBar_StatusList.Location = new System.Drawing.Point(421, 67);
+            this.vScrollBar_StatusList.Name = "vScrollBar_StatusList";
+            this.vScrollBar_StatusList.Size = new System.Drawing.Size(26, 283);
+            this.vScrollBar_StatusList.TabIndex = 2;
+            this.vScrollBar_StatusList.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_StatusList_Scroll);
+            this.vScrollBar_StatusList.ValueChanged += new System.EventHandler(this.vScrollBar_StatusList_ValueChanged);
+            // 
+            // panel_StatusListFrame
+            // 
+            this.panel_StatusListFrame.Controls.Add(this.panel_StatusList);
+            this.panel_StatusListFrame.Location = new System.Drawing.Point(18, 67);
+            this.panel_StatusListFrame.Name = "panel_StatusListFrame";
+            this.panel_StatusListFrame.Size = new System.Drawing.Size(400, 283);
+            this.panel_StatusListFrame.TabIndex = 1;
+            // 
+            // panel_StatusList
+            // 
+            this.panel_StatusList.Location = new System.Drawing.Point(0, 0);
+            this.panel_StatusList.Name = "panel_StatusList";
+            this.panel_StatusList.Size = new System.Drawing.Size(400, 180);
+            this.panel_StatusList.TabIndex = 0;
+            this.panel_StatusList.SizeChanged += new System.EventHandler(this.panel_StatusList_SizeChanged);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(18, 5);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBox1.Size = new System.Drawing.Size(462, 56);
+            this.textBox1.TabIndex = 0;
+            this.textBox1.WordWrap = false;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(680, 428);
+            this.ClientSize = new System.Drawing.Size(510, 402);
             this.Controls.Add(this.tabControl1);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "Client";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
@@ -296,6 +390,9 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage_Edit.ResumeLayout(false);
             this.tabPage_Edit.PerformLayout();
+            this.tabPage_View.ResumeLayout(false);
+            this.tabPage_View.PerformLayout();
+            this.panel_StatusListFrame.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -325,6 +422,12 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage_Edit;
         private System.Windows.Forms.TabPage tabPage_View;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox textBox_JobName;
+        private System.Windows.Forms.VScrollBar vScrollBar_StatusList;
+        private System.Windows.Forms.Panel panel_StatusListFrame;
+        private System.Windows.Forms.Panel panel_StatusList;
     }
 }
 

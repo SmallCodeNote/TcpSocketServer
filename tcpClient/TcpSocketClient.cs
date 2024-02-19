@@ -28,8 +28,8 @@ namespace tcpClient
             {
                 using (var tcpclient = new TcpClient())
                 {
-                    tcpclient.SendTimeout = 1000;
-                    tcpclient.ReceiveTimeout = 1000;
+                    tcpclient.SendTimeout = 1000;//ms
+                    tcpclient.ReceiveTimeout = 1000;//ms
 
                     await tcpclient.ConnectAsync(ipaddress, port);
                     Debug.WriteLine("Server connected.");
