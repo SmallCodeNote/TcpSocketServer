@@ -139,7 +139,6 @@ namespace tcpClient
 
             }
 
-            textBox1.Text = string.Join("\r\n", scheduleList.ToArray());
 
             updateStatusList();
 

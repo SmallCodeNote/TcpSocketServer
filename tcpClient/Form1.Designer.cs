@@ -56,7 +56,6 @@
             this.vScrollBar_StatusList = new System.Windows.Forms.VScrollBar();
             this.panel_StatusListFrame = new System.Windows.Forms.Panel();
             this.panel_StatusList = new System.Windows.Forms.Panel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage_Edit.SuspendLayout();
             this.tabPage_View.SuspendLayout();
@@ -330,7 +329,6 @@
             // 
             this.tabPage_View.Controls.Add(this.vScrollBar_StatusList);
             this.tabPage_View.Controls.Add(this.panel_StatusListFrame);
-            this.tabPage_View.Controls.Add(this.textBox1);
             this.tabPage_View.Location = new System.Drawing.Point(4, 22);
             this.tabPage_View.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage_View.Name = "tabPage_View";
@@ -343,9 +341,9 @@
             // 
             // vScrollBar_StatusList
             // 
-            this.vScrollBar_StatusList.Location = new System.Drawing.Point(421, 67);
+            this.vScrollBar_StatusList.Location = new System.Drawing.Point(411, 5);
             this.vScrollBar_StatusList.Name = "vScrollBar_StatusList";
-            this.vScrollBar_StatusList.Size = new System.Drawing.Size(26, 283);
+            this.vScrollBar_StatusList.Size = new System.Drawing.Size(26, 358);
             this.vScrollBar_StatusList.TabIndex = 2;
             this.vScrollBar_StatusList.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_StatusList_Scroll);
             this.vScrollBar_StatusList.ValueChanged += new System.EventHandler(this.vScrollBar_StatusList_ValueChanged);
@@ -353,9 +351,9 @@
             // panel_StatusListFrame
             // 
             this.panel_StatusListFrame.Controls.Add(this.panel_StatusList);
-            this.panel_StatusListFrame.Location = new System.Drawing.Point(18, 67);
+            this.panel_StatusListFrame.Location = new System.Drawing.Point(8, 5);
             this.panel_StatusListFrame.Name = "panel_StatusListFrame";
-            this.panel_StatusListFrame.Size = new System.Drawing.Size(400, 283);
+            this.panel_StatusListFrame.Size = new System.Drawing.Size(400, 358);
             this.panel_StatusListFrame.TabIndex = 1;
             // 
             // panel_StatusList
@@ -365,16 +363,6 @@
             this.panel_StatusList.Size = new System.Drawing.Size(400, 180);
             this.panel_StatusList.TabIndex = 0;
             this.panel_StatusList.SizeChanged += new System.EventHandler(this.panel_StatusList_SizeChanged);
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(18, 5);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox1.Size = new System.Drawing.Size(462, 56);
-            this.textBox1.TabIndex = 0;
-            this.textBox1.WordWrap = false;
             // 
             // Form1
             // 
@@ -391,7 +379,6 @@
             this.tabPage_Edit.ResumeLayout(false);
             this.tabPage_Edit.PerformLayout();
             this.tabPage_View.ResumeLayout(false);
-            this.tabPage_View.PerformLayout();
             this.panel_StatusListFrame.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -422,7 +409,6 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage_Edit;
         private System.Windows.Forms.TabPage tabPage_View;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox textBox_JobName;
         private System.Windows.Forms.VScrollBar vScrollBar_StatusList;
