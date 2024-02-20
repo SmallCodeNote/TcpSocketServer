@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.textBox_ClientName = new System.Windows.Forms.TextBox();
             this.textBox_Address = new System.Windows.Forms.TextBox();
             this.textBox_PortNumber = new System.Windows.Forms.TextBox();
@@ -56,6 +57,7 @@
             this.vScrollBar_StatusList = new System.Windows.Forms.VScrollBar();
             this.panel_StatusListFrame = new System.Windows.Forms.Panel();
             this.panel_StatusList = new System.Windows.Forms.Panel();
+            this.timer_ClientViewUpdate = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPage_Edit.SuspendLayout();
             this.tabPage_View.SuspendLayout();
@@ -338,6 +340,7 @@
             this.tabPage_View.Text = "View";
             this.tabPage_View.UseVisualStyleBackColor = true;
             this.tabPage_View.Enter += new System.EventHandler(this.tabPage_View_Enter);
+            this.tabPage_View.Leave += new System.EventHandler(this.tabPage_View_Leave);
             // 
             // vScrollBar_StatusList
             // 
@@ -363,6 +366,10 @@
             this.panel_StatusList.Size = new System.Drawing.Size(400, 180);
             this.panel_StatusList.TabIndex = 0;
             this.panel_StatusList.SizeChanged += new System.EventHandler(this.panel_StatusList_SizeChanged);
+            // 
+            // timer_ClientViewUpdate
+            // 
+            this.timer_ClientViewUpdate.Tick += new System.EventHandler(this.timer_ClientViewUpdate_Tick);
             // 
             // Form1
             // 
@@ -414,6 +421,7 @@
         private System.Windows.Forms.VScrollBar vScrollBar_StatusList;
         private System.Windows.Forms.Panel panel_StatusListFrame;
         private System.Windows.Forms.Panel panel_StatusList;
+        private System.Windows.Forms.Timer timer_ClientViewUpdate;
     }
 }
 

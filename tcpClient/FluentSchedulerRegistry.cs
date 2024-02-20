@@ -43,7 +43,7 @@ namespace tcpClient
 
                             FluentSchedulerJob job = new FluentSchedulerJob(param);
                             Schedule(job.Execute()).WithName(param.ToString()).ToRunEvery(1).Days().At(h, m);
-                            
+
                             ScheduleList.Add("EveryDays at " + t);
                         }
                     }
@@ -163,6 +163,7 @@ namespace tcpClient
 
     public class FluentSchedulerJobParam
     {
+        public Form1 form1;
         public TcpSocketClient tcp;
 
         public string Address = "";
@@ -178,7 +179,7 @@ namespace tcpClient
         public bool NeedCheck = false;
         public DateTime createTime;
 
-        public FluentSchedulerJobParam(TcpSocketClient tcp, string address, int portNumber,string JobName, string scheduleUnit, string scheduleUnitParam, string clientName, string status, string message, string parameter, bool needCheck)
+        public FluentSchedulerJobParam(TcpSocketClient tcp, string address, int portNumber, string JobName, string scheduleUnit, string scheduleUnitParam, string clientName, string status, string message, string parameter, bool needCheck)
         {
             this.tcp = tcp;
 
@@ -201,7 +202,6 @@ namespace tcpClient
 
         public FluentSchedulerJobParam(TcpSocketClient tcp, string Line)
         {
-
             string[] cols = Line.Split('\t');
 
             this.tcp = tcp;
@@ -240,7 +240,7 @@ namespace tcpClient
             Cols.Add(this.NeedCheck.ToString());
             Cols.Add(this.createTime.ToString("yyyy/MM/dd HH:mm:ss.fff"));
 
-            return string.Join("\t",Cols.ToArray());
+            return string.Join("\t", Cols.ToArray());
         }
     }
 
@@ -260,8 +260,9 @@ namespace tcpClient
             return param.ToString();
         }
 
-        public FluentSchedulerJob(TcpSocketClient tcp, string address, int portNumber,string jobname, string scheduleUnit, string clientName, string status, string message, string parameter, bool needCheck)
+        public FluentSchedulerJob(TcpSocketClient tcp, string address, int portNumber, string jobname, string scheduleUnit, string clientName, string status, string message, string parameter, bool needCheck)
         {
+
             param.tcp = tcp;
 
             param.Address = address;
@@ -285,6 +286,21 @@ namespace tcpClient
                 + param.Parameter + "\t" + param.NeedCheck.ToString();
 
                 Responce = param.tcp.StartClient(param.Address, param.PortNumber, sendMessage).Result;
+
+                if (param.ScheduleUnit.IndexOf("Once") >= 0)
+                {
+                    JobManager.RemoveJob(param.ToString());
+                    int jobCount = 1;
+                    int timeout = 10;
+                    do
+                    {
+                        System.Threading.Thread.Sleep(10);
+                        jobCount = JobManager.AllSchedules.Where((x) => x.Name == param.ToString()).ToArray().Length;
+                        timeout--;
+                    } while (jobCount > 0 && timeout > 0);
+
+
+                }
 
             });
 

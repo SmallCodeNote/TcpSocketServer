@@ -35,7 +35,7 @@ namespace tcpClient
             {
                 WinFormStringCnv.setControlFromString(this, File.ReadAllText(paramFilename));
             }
-            
+
             this.panel_StatusListFrame.MouseWheel += new MouseEventHandler(this.panel_StatusListFrame_MouseWheel);
             this.tabPage_Edit.MouseWheel += new MouseEventHandler(this.panel_StatusListFrame_MouseWheel);
 
@@ -55,13 +55,13 @@ namespace tcpClient
         }
 
 
-        private void button_SendMessage_Click(object sender, EventArgs e)
+        private async void button_SendMessage_Click(object sender, EventArgs e)
         {
 
             //JobManager.AddJob();
             string sendMessage = textBox_ClientName.Text + "\t" + comboBox_Status.Text + "\t" + textBox_Message.Text + DateTime.Now.ToString("yyyyMMdd_HHmmss") + "\t" + textBox_Parameter.Text + "\t" + checkBox_NeedCheck.Checked.ToString();
 
-            var responce = tcp.StartClient(textBox_Address.Text, int.Parse(textBox_PortNumber.Text), sendMessage).Result;
+            var responce = await tcp.StartClient(textBox_Address.Text, int.Parse(textBox_PortNumber.Text), sendMessage);
             label_Return.Text = responce;
 
         }
@@ -122,8 +122,9 @@ namespace tcpClient
 
         public void tabPage_View_Enter(object sender = null, EventArgs e = null)
         {
-            var allSchedules = JobManager.AllSchedules;
+            if(sender!=null) timer_ClientViewUpdate.Start();
 
+            var allSchedules = JobManager.AllSchedules;
 
             List<string> scheduleList = new List<string>();
 
@@ -138,7 +139,6 @@ namespace tcpClient
                 scheduleList.Add(string.Join("\t", Cols.ToArray()));
 
             }
-
 
             updateStatusList();
 
@@ -208,14 +208,14 @@ namespace tcpClient
 
                 foreach (var schedule in sortedSchedules)
                 {
-                    
+
                     List<string> Cols = new List<string>();
 
                     var jobItemView = new JobItemView();
                     jobItemView.Top = topLocation;
                     jobItemView.Left = 0;
 
-                    jobItemView.setLabel(schedule,this);
+                    jobItemView.setLabel(schedule, this);
 
                     panel_StatusList.Controls.Add(jobItemView);
 
@@ -234,5 +234,20 @@ namespace tcpClient
 
         }
 
+        int JobManager_AllSchedules_Count_Buff = 0;
+        private void timer_ClientViewUpdate_Tick(object sender, EventArgs e)
+        {
+            int jobCount = JobManager.AllSchedules.Count();
+            if (JobManager_AllSchedules_Count_Buff != jobCount)
+            {
+                JobManager_AllSchedules_Count_Buff = jobCount;
+                tabPage_View_Enter();
+            }
+        }
+
+        private void tabPage_View_Leave(object sender, EventArgs e)
+        {
+            timer_ClientViewUpdate.Stop();
+        }
     }
 }
