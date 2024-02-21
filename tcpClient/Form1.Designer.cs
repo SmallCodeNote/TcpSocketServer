@@ -40,7 +40,6 @@
             this.textBox_Message = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.checkBox_NeedCheck = new System.Windows.Forms.CheckBox();
             this.textBox_Parameter = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.comboBox_Status = new System.Windows.Forms.ComboBox();
@@ -58,6 +57,8 @@
             this.panel_StatusListFrame = new System.Windows.Forms.Panel();
             this.panel_StatusList = new System.Windows.Forms.Panel();
             this.timer_ClientViewUpdate = new System.Windows.Forms.Timer(this.components);
+            this.label10 = new System.Windows.Forms.Label();
+            this.comboBox_checkStyle = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabPage_Edit.SuspendLayout();
             this.tabPage_View.SuspendLayout();
@@ -66,7 +67,7 @@
             // 
             // textBox_ClientName
             // 
-            this.textBox_ClientName.Location = new System.Drawing.Point(16, 137);
+            this.textBox_ClientName.Location = new System.Drawing.Point(16, 115);
             this.textBox_ClientName.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_ClientName.Name = "textBox_ClientName";
             this.textBox_ClientName.Size = new System.Drawing.Size(77, 19);
@@ -74,7 +75,7 @@
             // 
             // textBox_Address
             // 
-            this.textBox_Address.Location = new System.Drawing.Point(132, 137);
+            this.textBox_Address.Location = new System.Drawing.Point(132, 115);
             this.textBox_Address.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Address.Name = "textBox_Address";
             this.textBox_Address.Size = new System.Drawing.Size(220, 19);
@@ -82,7 +83,7 @@
             // 
             // textBox_PortNumber
             // 
-            this.textBox_PortNumber.Location = new System.Drawing.Point(355, 137);
+            this.textBox_PortNumber.Location = new System.Drawing.Point(355, 115);
             this.textBox_PortNumber.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_PortNumber.Name = "textBox_PortNumber";
             this.textBox_PortNumber.Size = new System.Drawing.Size(76, 19);
@@ -111,7 +112,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(132, 123);
+            this.label1.Location = new System.Drawing.Point(132, 101);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(47, 12);
@@ -121,7 +122,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(353, 124);
+            this.label2.Location = new System.Drawing.Point(353, 102);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(26, 12);
@@ -131,7 +132,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(13, 123);
+            this.label3.Location = new System.Drawing.Point(13, 101);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(64, 12);
@@ -160,23 +161,12 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(13, 156);
+            this.label5.Location = new System.Drawing.Point(13, 139);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(38, 12);
             this.label5.TabIndex = 3;
             this.label5.Text = "Status";
-            // 
-            // checkBox_NeedCheck
-            // 
-            this.checkBox_NeedCheck.AutoSize = true;
-            this.checkBox_NeedCheck.Location = new System.Drawing.Point(16, 195);
-            this.checkBox_NeedCheck.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBox_NeedCheck.Name = "checkBox_NeedCheck";
-            this.checkBox_NeedCheck.Size = new System.Drawing.Size(82, 16);
-            this.checkBox_NeedCheck.TabIndex = 5;
-            this.checkBox_NeedCheck.Text = "NeedCheck";
-            this.checkBox_NeedCheck.UseVisualStyleBackColor = true;
             // 
             // textBox_Parameter
             // 
@@ -204,10 +194,10 @@
             "Notice",
             "Warning",
             "Error"});
-            this.comboBox_Status.Location = new System.Drawing.Point(16, 171);
+            this.comboBox_Status.Location = new System.Drawing.Point(16, 154);
             this.comboBox_Status.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox_Status.Name = "comboBox_Status";
-            this.comboBox_Status.Size = new System.Drawing.Size(92, 20);
+            this.comboBox_Status.Size = new System.Drawing.Size(77, 20);
             this.comboBox_Status.TabIndex = 6;
             // 
             // comboBox_ScheduleUnit
@@ -283,9 +273,9 @@
             this.tabPage_Edit.Controls.Add(this.comboBox_ScheduleUnit);
             this.tabPage_Edit.Controls.Add(this.textBox_JobName);
             this.tabPage_Edit.Controls.Add(this.textBox_ClientName);
+            this.tabPage_Edit.Controls.Add(this.comboBox_checkStyle);
             this.tabPage_Edit.Controls.Add(this.comboBox_Status);
             this.tabPage_Edit.Controls.Add(this.textBox_Message);
-            this.tabPage_Edit.Controls.Add(this.checkBox_NeedCheck);
             this.tabPage_Edit.Controls.Add(this.textBox_Parameter);
             this.tabPage_Edit.Controls.Add(this.label2);
             this.tabPage_Edit.Controls.Add(this.textBox_Address);
@@ -295,6 +285,7 @@
             this.tabPage_Edit.Controls.Add(this.textBox_PortNumber);
             this.tabPage_Edit.Controls.Add(this.label7);
             this.tabPage_Edit.Controls.Add(this.button_SendMessage);
+            this.tabPage_Edit.Controls.Add(this.label10);
             this.tabPage_Edit.Controls.Add(this.label5);
             this.tabPage_Edit.Controls.Add(this.button_AddSchedule);
             this.tabPage_Edit.Controls.Add(this.label_Return);
@@ -371,6 +362,28 @@
             // 
             this.timer_ClientViewUpdate.Tick += new System.EventHandler(this.timer_ClientViewUpdate_Tick);
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(13, 178);
+            this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(61, 12);
+            this.label10.TabIndex = 3;
+            this.label10.Text = "checkStyle";
+            // 
+            // comboBox_checkStyle
+            // 
+            this.comboBox_checkStyle.FormattingEnabled = true;
+            this.comboBox_checkStyle.Items.AddRange(new object[] {
+            "Once",
+            "Ever"});
+            this.comboBox_checkStyle.Location = new System.Drawing.Point(16, 192);
+            this.comboBox_checkStyle.Margin = new System.Windows.Forms.Padding(2);
+            this.comboBox_checkStyle.Name = "comboBox_checkStyle";
+            this.comboBox_checkStyle.Size = new System.Drawing.Size(77, 20);
+            this.comboBox_checkStyle.TabIndex = 6;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -404,7 +417,6 @@
         private System.Windows.Forms.TextBox textBox_Message;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.CheckBox checkBox_NeedCheck;
         private System.Windows.Forms.TextBox textBox_Parameter;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox comboBox_Status;
@@ -422,6 +434,8 @@
         private System.Windows.Forms.Panel panel_StatusListFrame;
         private System.Windows.Forms.Panel panel_StatusList;
         private System.Windows.Forms.Timer timer_ClientViewUpdate;
+        private System.Windows.Forms.ComboBox comboBox_checkStyle;
+        private System.Windows.Forms.Label label10;
     }
 }
 

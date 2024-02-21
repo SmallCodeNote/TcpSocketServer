@@ -176,10 +176,10 @@ namespace tcpClient
         public string Status = "";
         public string Message = "";
         public string Parameter = "";
-        public bool NeedCheck = false;
+        public string CheckStyle = "Once";
         public DateTime createTime;
 
-        public FluentSchedulerJobParam(TcpSocketClient tcp, string address, int portNumber, string JobName, string scheduleUnit, string scheduleUnitParam, string clientName, string status, string message, string parameter, bool needCheck)
+        public FluentSchedulerJobParam(TcpSocketClient tcp, string address, int portNumber, string JobName, string scheduleUnit, string scheduleUnitParam, string clientName, string status, string message, string parameter, string CheckStyle)
         {
             this.tcp = tcp;
 
@@ -194,7 +194,7 @@ namespace tcpClient
             this.Status = status;
             this.Message = message;
             this.Parameter = parameter;
-            this.NeedCheck = needCheck;
+            this.CheckStyle = CheckStyle;
 
             createTime = DateTime.Now;
 
@@ -217,7 +217,7 @@ namespace tcpClient
             this.Status = cols[i]; i++;
             this.Message = cols[i]; i++;
             this.Parameter = cols[i]; i++;
-            this.NeedCheck = bool.Parse(cols[i]);
+            this.CheckStyle = cols[i];
 
             createTime = DateTime.Now;
 
@@ -237,7 +237,7 @@ namespace tcpClient
             Cols.Add(this.Status);
             Cols.Add(this.Message);
             Cols.Add(this.Parameter);
-            Cols.Add(this.NeedCheck.ToString());
+            Cols.Add(this.CheckStyle.ToString());
             Cols.Add(this.createTime.ToString("yyyy/MM/dd HH:mm:ss.fff"));
 
             return string.Join("\t", Cols.ToArray());
@@ -260,7 +260,7 @@ namespace tcpClient
             return param.ToString();
         }
 
-        public FluentSchedulerJob(TcpSocketClient tcp, string address, int portNumber, string jobname, string scheduleUnit, string clientName, string status, string message, string parameter, bool needCheck)
+        public FluentSchedulerJob(TcpSocketClient tcp, string address, int portNumber, string jobname, string scheduleUnit, string clientName, string status, string message, string parameter, string CheckStyle)
         {
 
             param.tcp = tcp;
@@ -274,7 +274,7 @@ namespace tcpClient
             param.Status = status;
             param.Message = message;
             param.Parameter = parameter;
-            param.NeedCheck = needCheck;
+            param.CheckStyle = CheckStyle;
 
         }
 
@@ -283,7 +283,7 @@ namespace tcpClient
             return new Action(delegate ()
             {
                 string sendMessage = param.ClientName + "\t" + param.Status + "\t" + param.Message + "\t"
-                + param.Parameter + "\t" + param.NeedCheck.ToString();
+                + param.Parameter + "\t" + param.CheckStyle.ToString();
 
                 Responce = param.tcp.StartClient(param.Address, param.PortNumber, sendMessage).Result;
 

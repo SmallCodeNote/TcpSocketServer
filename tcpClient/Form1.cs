@@ -59,7 +59,7 @@ namespace tcpClient
         {
 
             //JobManager.AddJob();
-            string sendMessage = textBox_ClientName.Text + "\t" + comboBox_Status.Text + "\t" + textBox_Message.Text + DateTime.Now.ToString("yyyyMMdd_HHmmss") + "\t" + textBox_Parameter.Text + "\t" + checkBox_NeedCheck.Checked.ToString();
+            string sendMessage = textBox_ClientName.Text + "\t" + comboBox_Status.Text + "\t" + textBox_Message.Text + DateTime.Now.ToString("yyyyMMdd_HHmmss") + "\t" + textBox_Parameter.Text + "\t" + comboBox_checkStyle.Text;
 
             var responce = await tcp.StartClient(textBox_Address.Text, int.Parse(textBox_PortNumber.Text), sendMessage);
             label_Return.Text = responce;
@@ -74,7 +74,7 @@ namespace tcpClient
         /*
         public void SendMessage()
         {
-            string sendMessage = textBox_ClientName.Text + "\t" + comboBox_Status.Text + "\t" + textBox_Message.Text + DateTime.Now.ToString("yyyyMMdd_HHmmss") + "\t" + textBox_Parameter.Text + "\t" + checkBox_NeedCheck.Checked.ToString();
+            string sendMessage = textBox_ClientName.Text + "\t" + comboBox_Status.Text + "\t" + textBox_Message.Text + DateTime.Now.ToString("yyyyMMdd_HHmmss") + "\t" + textBox_Parameter.Text + "\t" + checkBox_CheckStyle.Checked.ToString();
 
             var responce = tcp.StartClient(textBox_Address.Text, int.Parse(textBox_PortNumber.Text), sendMessage).Result;
             label_Return.Text = responce;
@@ -97,7 +97,7 @@ namespace tcpClient
             string Status = comboBox_Status.Text;
             string Message = textBox_Message.Text;
             string Parameter = textBox_Parameter.Text;
-            string NeedCheck = checkBox_NeedCheck.Checked.ToString();
+            string CheckStyle = comboBox_checkStyle.Text;
 
             List<string> ColList = new List<string>();
             ColList.Add(Address);
@@ -110,7 +110,7 @@ namespace tcpClient
             ColList.Add(Status);
             ColList.Add(Message);
             ColList.Add(Parameter);
-            ColList.Add(NeedCheck.ToString());
+            ColList.Add(CheckStyle.ToString());
 
             Lines.Add(String.Join("\t", ColList.ToArray()));
 

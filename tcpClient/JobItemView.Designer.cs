@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.groupBox_Job = new System.Windows.Forms.GroupBox();
+            this.label_Next = new System.Windows.Forms.Label();
             this.button_DeleteJob = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label_NeedCheck = new System.Windows.Forms.Label();
@@ -42,7 +43,6 @@
             this.label_ScheduleUnit = new System.Windows.Forms.Label();
             this.label_PortNumber = new System.Windows.Forms.Label();
             this.timer_update = new System.Windows.Forms.Timer(this.components);
-            this.label_Next = new System.Windows.Forms.Label();
             this.groupBox_Job.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -67,6 +67,15 @@
             this.groupBox_Job.TabStop = false;
             this.groupBox_Job.Text = "JobName";
             // 
+            // label_Next
+            // 
+            this.label_Next.AutoSize = true;
+            this.label_Next.Location = new System.Drawing.Point(309, 15);
+            this.label_Next.Name = "label_Next";
+            this.label_Next.Size = new System.Drawing.Size(11, 12);
+            this.label_Next.TabIndex = 2;
+            this.label_Next.Text = "...";
+            // 
             // button_DeleteJob
             // 
             this.button_DeleteJob.Location = new System.Drawing.Point(373, 10);
@@ -84,7 +93,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(63, 12);
             this.label1.TabIndex = 0;
-            this.label1.Text = "NeedCheck";
+            this.label1.Text = "CheckStyle";
             // 
             // label_NeedCheck
             // 
@@ -170,15 +179,6 @@
             // 
             this.timer_update.Interval = 1000;
             this.timer_update.Tick += new System.EventHandler(this.timer_update_Tick);
-            // 
-            // label_Next
-            // 
-            this.label_Next.AutoSize = true;
-            this.label_Next.Location = new System.Drawing.Point(309, 15);
-            this.label_Next.Name = "label_Next";
-            this.label_Next.Size = new System.Drawing.Size(11, 12);
-            this.label_Next.TabIndex = 2;
-            this.label_Next.Text = "...";
             // 
             // JobItemView
             // 
