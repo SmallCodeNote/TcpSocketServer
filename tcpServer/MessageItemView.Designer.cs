@@ -46,9 +46,11 @@
             this.groupBox_ClientName.Controls.Add(this.label_ElapsedTime);
             this.groupBox_ClientName.Controls.Add(this.label_LastConnectTime);
             this.groupBox_ClientName.Controls.Add(this.label_Status);
-            this.groupBox_ClientName.Location = new System.Drawing.Point(5, 5);
+            this.groupBox_ClientName.Location = new System.Drawing.Point(0, 0);
+            this.groupBox_ClientName.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox_ClientName.Name = "groupBox_ClientName";
-            this.groupBox_ClientName.Size = new System.Drawing.Size(490, 95);
+            this.groupBox_ClientName.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox_ClientName.Size = new System.Drawing.Size(368, 75);
             this.groupBox_ClientName.TabIndex = 0;
             this.groupBox_ClientName.TabStop = false;
             this.groupBox_ClientName.Text = "ClientName";
@@ -57,9 +59,10 @@
             // 
             this.checkBox_check.AutoSize = true;
             this.checkBox_check.Enabled = false;
-            this.checkBox_check.Location = new System.Drawing.Point(9, 36);
+            this.checkBox_check.Location = new System.Drawing.Point(7, 29);
+            this.checkBox_check.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_check.Name = "checkBox_check";
-            this.checkBox_check.Size = new System.Drawing.Size(68, 19);
+            this.checkBox_check.Size = new System.Drawing.Size(54, 16);
             this.checkBox_check.TabIndex = 3;
             this.checkBox_check.Text = "check";
             this.checkBox_check.UseVisualStyleBackColor = true;
@@ -67,9 +70,10 @@
             // 
             // button_AllCheck
             // 
-            this.button_AllCheck.Location = new System.Drawing.Point(86, 34);
+            this.button_AllCheck.Location = new System.Drawing.Point(64, 27);
+            this.button_AllCheck.Margin = new System.Windows.Forms.Padding(2);
             this.button_AllCheck.Name = "button_AllCheck";
-            this.button_AllCheck.Size = new System.Drawing.Size(77, 23);
+            this.button_AllCheck.Size = new System.Drawing.Size(75, 18);
             this.button_AllCheck.TabIndex = 2;
             this.button_AllCheck.Text = "AllCheck";
             this.button_AllCheck.UseVisualStyleBackColor = true;
@@ -77,46 +81,51 @@
             // 
             // label_LastMessage
             // 
-            this.label_LastMessage.Location = new System.Drawing.Point(169, 17);
+            this.label_LastMessage.Location = new System.Drawing.Point(127, 14);
+            this.label_LastMessage.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_LastMessage.Name = "label_LastMessage";
-            this.label_LastMessage.Size = new System.Drawing.Size(290, 72);
+            this.label_LastMessage.Size = new System.Drawing.Size(218, 58);
             this.label_LastMessage.TabIndex = 1;
             this.label_LastMessage.Text = "Message";
             // 
             // label_ElapsedTime
             // 
             this.label_ElapsedTime.AutoSize = true;
-            this.label_ElapsedTime.Location = new System.Drawing.Point(6, 72);
+            this.label_ElapsedTime.Location = new System.Drawing.Point(4, 58);
+            this.label_ElapsedTime.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_ElapsedTime.Name = "label_ElapsedTime";
-            this.label_ElapsedTime.Size = new System.Drawing.Size(85, 15);
+            this.label_ElapsedTime.Size = new System.Drawing.Size(70, 12);
             this.label_ElapsedTime.TabIndex = 0;
             this.label_ElapsedTime.Text = "ElapsedTime";
             // 
             // label_LastConnectTime
             // 
             this.label_LastConnectTime.AutoSize = true;
-            this.label_LastConnectTime.Location = new System.Drawing.Point(6, 57);
+            this.label_LastConnectTime.Location = new System.Drawing.Point(4, 46);
+            this.label_LastConnectTime.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_LastConnectTime.Name = "label_LastConnectTime";
-            this.label_LastConnectTime.Size = new System.Drawing.Size(120, 15);
+            this.label_LastConnectTime.Size = new System.Drawing.Size(94, 12);
             this.label_LastConnectTime.TabIndex = 0;
             this.label_LastConnectTime.Text = "LastConnectTime";
             // 
             // label_Status
             // 
             this.label_Status.AutoSize = true;
-            this.label_Status.Location = new System.Drawing.Point(6, 18);
+            this.label_Status.Location = new System.Drawing.Point(4, 14);
+            this.label_Status.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Status.Name = "label_Status";
-            this.label_Status.Size = new System.Drawing.Size(48, 15);
+            this.label_Status.Size = new System.Drawing.Size(38, 12);
             this.label_Status.TabIndex = 0;
             this.label_Status.Text = "Status";
             // 
             // MessageItemView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox_ClientName);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MessageItemView";
-            this.Size = new System.Drawing.Size(500, 100);
+            this.Size = new System.Drawing.Size(375, 80);
             this.groupBox_ClientName.ResumeLayout(false);
             this.groupBox_ClientName.PerformLayout();
             this.ResumeLayout(false);

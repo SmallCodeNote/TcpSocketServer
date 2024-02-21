@@ -10,10 +10,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Diagnostics;
 
-/*
-Original Code // fix mistype
- https://marunaka-blog.com/cshap-tcplistener-create/2293/
-*/
 
 namespace tcpserver
 {

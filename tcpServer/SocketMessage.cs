@@ -14,18 +14,21 @@ namespace tcpserver
         public string status { get; set; }
         public string message { get; set; }
         public bool check { get; set; }
-        public bool needCheck { get; set; }
+        /// <summary>
+        /// Once/Ever
+        /// </summary>
+        public string checkStyle { get; set; }
         public string parameter { get; set; }
 
 
-        public SocketMessage(DateTime connectTime, string clientName, string status, string message, string parameter, bool needCheck = true)
+        public SocketMessage(DateTime connectTime, string clientName, string status, string message, string parameter, string checkStyle = "Once")
         {
             this.connectTime = connectTime;
             this.clientName = clientName;
             this.status = status;
             this.message = message;
             this.check = false;
-            this.needCheck = needCheck;
+            this.checkStyle = checkStyle;
             this.parameter = parameter;
 
         }
@@ -37,7 +40,7 @@ namespace tcpserver
 
         public override string ToString()
         {
-            return clientName + "\t" + connectTime.ToString("yyyy/MM/dd HH:mm:ss") + "\t" + status + "\t" + message + "\t" + check.ToString() + "\t" + needCheck.ToString();
+            return clientName + "\t" + connectTime.ToString("yyyy/MM/dd HH:mm:ss") + "\t" + status + "\t" + message + "\t" + check.ToString() + "\t" + checkStyle;
         }
 
     }

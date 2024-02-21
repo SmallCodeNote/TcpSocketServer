@@ -51,7 +51,7 @@ namespace tcpserver
             this.label_ElapsedTime.Text = getElapsedTimeString(DateTime.Now - message.connectTime);
             this.label_LastMessage.Text = message.message;
             this.checkBox_check.Checked = message.check;
-            this.checkBox_check.Enabled = message.needCheck;
+            
 
         }
 
@@ -97,9 +97,9 @@ namespace tcpserver
 
         private void button_AllCheck_Click(object sender, EventArgs e)
         {
-            int _retryCount = 10;
+            int _retryCountMax = 10;
 
-            for (int retryIndex = 0; retryIndex < _retryCount; retryIndex++)
+            for (int retryCount = 0; retryCount < _retryCountMax; retryCount++)
             {
                 try
                 {
@@ -131,11 +131,11 @@ namespace tcpserver
                 }
                 catch (Exception ex)
                 {
-                    Debug.Write(GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " retry:" + retryIndex.ToString());
+                    Debug.Write(GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " retry:" + retryCount.ToString());
                     Debug.WriteLine(ex.ToString());
                     Thread.Sleep(100);
 
-                    if (retryIndex == _retryCount - 1) throw;
+                    if (retryCount == _retryCountMax - 1) throw;
 
                 }
             }

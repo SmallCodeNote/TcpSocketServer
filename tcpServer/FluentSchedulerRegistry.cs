@@ -2,48 +2,67 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
-using FluentScheduler;
 using System.Diagnostics;
 
-namespace tcpClient
+using FluentScheduler;
+using LiteDB;
+
+
+namespace tcpserver
 {
-    public class FluentSchedulerRegistry : Registry
+    public class FluentSchedulerRegistry_FromScheduleLines : Registry
     {
-        public TcpSocketClient tcp;
         public List<string> ScheduleList;
         public string DataBaseFilePath;
 
-        public List<FluentSchedulerJob> ScheduleJobList;
+        private ConnectionString _LiteDBconnectionString;
+        private NoticeTransmitter noticeTransmitter;
 
-        public string[] ScheduleUnitList = new string[] { "Once", "EveryDays", "EveryHours", "EverySeconds" };
+        List<ClientData> clientList;
+        List<FluentSchedulerJob_SchedulerLineRun> jobList;
 
+        private int Name_idx = 0;
+        private int Unit_idx = 1;
+        private int At_idx = 2;
 
-        public FluentSchedulerRegistry(TcpSocketClient tcp, string[] Lines)
+        public FluentSchedulerRegistry_FromScheduleLines(string DataBaseFilePath, NoticeTransmitter noticeTransmitter, string[] Lines, List<ClientData> clientList)
         {
+            _LiteDBconnectionString = new ConnectionString();
+            _LiteDBconnectionString.Connection = ConnectionType.Shared;
+            _LiteDBconnectionString.Filename = DataBaseFilePath;
+
+            jobList = new List<FluentSchedulerJob_SchedulerLineRun>();
+
+            this.noticeTransmitter = noticeTransmitter;
+            this.clientList = clientList;
+
             ScheduleList = new List<string>();
-            this.tcp = tcp;
-            ScheduleJobList = new List<FluentSchedulerJob>();
 
             foreach (string Line in Lines)
             {
-                FluentSchedulerJobParam param = new FluentSchedulerJobParam(tcp, Line);
+                string[] cols = Line.Split('\t');
 
-                if (param.ScheduleUnit == "EveryDays")
+                string targetStatusName = cols[Name_idx];
+                string IntervalUnitString = cols[Unit_idx];
+                string IntervalParam = cols[At_idx];
+
+
+                if (IntervalUnitString == "EveryDays")
                 {
                     try
                     {
-                        string[] atinfo = param.ScheduleUnitParam.Split(',');
+                        string[] atinfo = IntervalParam.Split(',');
                         foreach (string t in atinfo)
                         {
                             int[] hm = Array.ConvertAll(t.Split(':'), s => int.Parse(s));
                             int h = hm[0];
                             int m = hm[1];
 
-                            FluentSchedulerJob job = new FluentSchedulerJob(param);
-                            Schedule(job.Execute()).WithName(param.ToString()).ToRunEvery(1).Days().At(h, m);
-                            
+                            var job = new FluentSchedulerJob_SchedulerLineRun(_LiteDBconnectionString, noticeTransmitter, targetStatusName, new TimeSpan(24, 0, 0), clientList);
+                            Schedule(job.Execute()).WithName(targetStatusName).ToRunEvery(1).Days().At(h, m);
                             ScheduleList.Add("EveryDays at " + t);
                         }
                     }
@@ -53,17 +72,16 @@ namespace tcpClient
 
                         ScheduleList.Add("ERROR: " + Line);
                     }
-
                 }
-                else if (param.ScheduleUnit == "EveryHours")
+                else if (IntervalUnitString == "EveryHours")
                 {
                     try
                     {
-                        int[] atinfo = Array.ConvertAll(param.ScheduleUnitParam.Split(','), s => int.Parse(s));
+                        int[] atinfo = Array.ConvertAll(IntervalParam.Split(','), s => int.Parse(s));
                         foreach (int m in atinfo)
                         {
-                            FluentSchedulerJob job = new FluentSchedulerJob(param);
-                            Schedule(job.Execute()).WithName(param.ToString()).ToRunEvery(1).Hours().At(m);
+                            var job = new FluentSchedulerJob_SchedulerLineRun(_LiteDBconnectionString, noticeTransmitter, targetStatusName, new TimeSpan(1, 0, 0), clientList);
+                            Schedule(job.Execute()).WithName(targetStatusName).ToRunEvery(1).Hours().At(m);
                             ScheduleList.Add("EveryHours at " + m.ToString());
                         }
                     }
@@ -75,15 +93,15 @@ namespace tcpClient
                     }
 
                 }
-                else if (param.ScheduleUnit == "EverySeconds")
+                else if (IntervalUnitString == "EverySeconds")
                 {
                     try
                     {
-                        int[] atinfo = Array.ConvertAll(param.ScheduleUnitParam.Split(','), s => int.Parse(s));
+                        int[] atinfo = Array.ConvertAll(IntervalParam.Split(','), s => int.Parse(s));
                         foreach (int s in atinfo)
                         {
-                            FluentSchedulerJob job = new FluentSchedulerJob(param);
-                            Schedule(job.Execute()).WithName(param.ToString()).ToRunEvery(s).Seconds();
+                            var job = new FluentSchedulerJob_SchedulerLineRun(_LiteDBconnectionString, noticeTransmitter, targetStatusName, new TimeSpan(0, 0, s), clientList);
+                            Schedule(job.Execute()).WithName(targetStatusName).ToRunEvery(s).Seconds();
                             ScheduleList.Add("EverySeconds at " + s.ToString());
                         }
                     }
@@ -93,187 +111,30 @@ namespace tcpClient
 
                         ScheduleList.Add("ERROR: " + Line);
                     }
-
-                }
-                else if (param.ScheduleUnit == "OnceAtSeconds")
-                {
-                    try
-                    {
-                        int[] atinfo = Array.ConvertAll(param.ScheduleUnitParam.Split(','), s => int.Parse(s));
-                        foreach (int s in atinfo)
-                        {
-                            FluentSchedulerJob job = new FluentSchedulerJob(param);
-                            Schedule(job.Execute()).WithName(param.ToString()).ToRunOnceIn(s).Seconds();
-                            ScheduleList.Add("Once at " + s.ToString());
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine(GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " " + ex.ToString());
-
-                        ScheduleList.Add("ERROR: " + Line);
-                    }
-
-                }
-                else if (param.ScheduleUnit == "OnceAtMinutes")
-                {
-                    try
-                    {
-                        int[] atinfo = Array.ConvertAll(param.ScheduleUnitParam.Split(','), s => int.Parse(s));
-                        foreach (int s in atinfo)
-                        {
-                            FluentSchedulerJob job = new FluentSchedulerJob(param);
-                            Schedule(job.Execute()).WithName(param.ToString()).ToRunOnceIn(s).Minutes();
-                            ScheduleList.Add("Once at " + s.ToString());
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine(GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " " + ex.ToString());
-
-                        ScheduleList.Add("ERROR: " + Line);
-                    }
-
-                }
-                else if (param.ScheduleUnit == "OnceAtHours")
-                {
-                    try
-                    {
-                        int[] atinfo = Array.ConvertAll(param.ScheduleUnitParam.Split(','), s => int.Parse(s));
-                        foreach (int s in atinfo)
-                        {
-                            FluentSchedulerJob job = new FluentSchedulerJob(param);
-                            Schedule(job.Execute()).WithName(param.ToString()).ToRunOnceIn(s).Hours();
-                            ScheduleList.Add("Once at " + s.ToString());
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine(GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " " + ex.ToString());
-
-                        ScheduleList.Add("ERROR: " + Line);
-                    }
-
                 }
             }
-
-        }
-
-    }
-
-    public class FluentSchedulerJobParam
-    {
-        public TcpSocketClient tcp;
-
-        public string Address = "";
-        public int PortNumber = 1024;
-
-        public string JobName = "";
-        public string ScheduleUnit = "";
-        public string ScheduleUnitParam = "";
-        public string ClientName = "";
-        public string Status = "";
-        public string Message = "";
-        public string Parameter = "";
-        public bool NeedCheck = false;
-        public DateTime createTime;
-
-        public FluentSchedulerJobParam(TcpSocketClient tcp, string address, int portNumber,string JobName, string scheduleUnit, string scheduleUnitParam, string clientName, string status, string message, string parameter, bool needCheck)
-        {
-            this.tcp = tcp;
-
-            this.Address = address;
-            this.PortNumber = portNumber;
-
-
-            this.JobName = JobName;
-            this.ScheduleUnit = scheduleUnit;
-            this.ScheduleUnitParam = scheduleUnitParam;
-            this.ClientName = clientName;
-            this.Status = status;
-            this.Message = message;
-            this.Parameter = parameter;
-            this.NeedCheck = needCheck;
-
-            createTime = DateTime.Now;
-
-        }
-
-        public FluentSchedulerJobParam(TcpSocketClient tcp, string Line)
-        {
-
-            string[] cols = Line.Split('\t');
-
-            this.tcp = tcp;
-            int i = 0;
-
-            this.Address = cols[i]; i++;
-            this.PortNumber = int.Parse(cols[i]); i++;
-
-            this.JobName = cols[i]; i++;
-            this.ScheduleUnit = cols[i]; i++;
-            this.ScheduleUnitParam = cols[i]; i++;
-            this.ClientName = cols[i]; i++;
-            this.Status = cols[i]; i++;
-            this.Message = cols[i]; i++;
-            this.Parameter = cols[i]; i++;
-            this.NeedCheck = bool.Parse(cols[i]);
-
-            createTime = DateTime.Now;
-
-
-        }
-
-        public override string ToString()
-        {
-            List<string> Cols = new List<string>();
-
-            Cols.Add(this.JobName);
-            Cols.Add(this.Address);
-            Cols.Add(this.PortNumber.ToString());
-            Cols.Add(this.ScheduleUnit);
-            Cols.Add(this.ScheduleUnitParam);
-            Cols.Add(this.ClientName);
-            Cols.Add(this.Status);
-            Cols.Add(this.Message);
-            Cols.Add(this.Parameter);
-            Cols.Add(this.NeedCheck.ToString());
-            Cols.Add(this.createTime.ToString("yyyy/MM/dd HH:mm:ss.fff"));
-
-            return string.Join("\t",Cols.ToArray());
         }
     }
 
-
-    public class FluentSchedulerJob
+    public class FluentSchedulerJob_SchedulerLineRun
     {
-        public FluentSchedulerJobParam param;
-        public string Responce { get; private set; } = "";
+        public string targetStatusName;
+        public bool CheckNeed;
+        public DateTime LastRunTime;
 
-        public FluentSchedulerJob(FluentSchedulerJobParam param)
+        private ConnectionString _LiteDBconnectionString;
+        private NoticeTransmitter noticeTransmitter;
+        private List<ClientData> clientList;
+
+
+        public FluentSchedulerJob_SchedulerLineRun(ConnectionString _LiteDBconnectionString, NoticeTransmitter noticeTransmitter, string targetStatusName, TimeSpan jobInterval, List<ClientData> clientList)
         {
-            this.param = param;
-        }
+            this._LiteDBconnectionString = _LiteDBconnectionString;
+            this.noticeTransmitter = noticeTransmitter;
+            this.targetStatusName = targetStatusName;
 
-        public override string ToString()
-        {
-            return param.ToString();
-        }
-
-        public FluentSchedulerJob(TcpSocketClient tcp, string address, int portNumber,string jobname, string scheduleUnit, string clientName, string status, string message, string parameter, bool needCheck)
-        {
-            param.tcp = tcp;
-
-            param.Address = address;
-            param.PortNumber = portNumber;
-
-            param.JobName = jobname;
-            param.ScheduleUnit = scheduleUnit;
-            param.ClientName = clientName;
-            param.Status = status;
-            param.Message = message;
-            param.Parameter = parameter;
-            param.NeedCheck = needCheck;
+            this.LastRunTime = DateTime.Now - jobInterval;
+            this.clientList = clientList;
 
         }
 
@@ -281,13 +142,67 @@ namespace tcpClient
         {
             return new Action(delegate ()
             {
-                string sendMessage = param.ClientName + "\t" + param.Status + "\t" + param.Message + "\t"
-                + param.Parameter + "\t" + param.NeedCheck.ToString();
+                int _retryMax = 10;
 
-                Responce = param.tcp.StartClient(param.Address, param.PortNumber, sendMessage).Result;
+                //Retry DataBaseOpen
+                for (int retryCount = 0; retryCount < _retryMax; retryCount++)
+                {
+                    try
+                    {
+                        using (LiteDatabase litedb = new LiteDatabase(_LiteDBconnectionString))
+                        {
+                            ILiteCollection<SocketMessage> col = litedb.GetCollection<SocketMessage>("table_Message");
+
+                            foreach (var targetClient in clientList)
+                            {
+
+                                //get Latest unchecked message 
+                                var latestTargetClientRecord_haveTargetStatusName =
+
+                                    col.Query().Where(x => x.clientName == targetClient.clientName && x.status == targetStatusName && !x.check)
+                                               .OrderByDescending(x => x.connectTime)
+                                               .FirstOrDefault();
+
+                                if (latestTargetClientRecord_haveTargetStatusName != null)
+                                {
+                                    noticeTransmitter.AddNotice(targetClient, latestTargetClientRecord_haveTargetStatusName);
+                                }
+
+
+                                //style==Once Message check update
+                                var records = col.Query().Where(x => x.clientName == targetClient.clientName && x.status == targetStatusName && !x.check && x.checkStyle=="Once").ToList();
+
+                                foreach (var record in records)
+                                {
+                                    record.check = true;
+                                    col.Update(record.Key(), record);
+                                }
+
+                            }
+
+                        }
+
+                        LastRunTime = DateTime.Now;
+                        break;
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.Write(GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " retry:" + retryCount.ToString());
+                        Debug.WriteLine(ex.ToString());
+                        Thread.Sleep(100);
+
+                        if (retryCount == _retryMax - 1)
+                        {
+                            throw;
+                        }
+                    }
+                }
 
             });
 
         }
+
     }
+
 }

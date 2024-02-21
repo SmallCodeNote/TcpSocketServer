@@ -23,7 +23,7 @@ namespace tcpserver
         /// <summary>
         /// Running Notice.
         /// </summary>
-        public ConcurrentDictionary<string, NoticeMessageHandling> NoticeRunning;
+        public ConcurrentDictionary<string, NoticeMessageHandling> NoticeRunningDictionary;
 
         private bool _noticeCheckContinueFlag = false;
         public int _threadSleepLength = 100;
@@ -31,23 +31,21 @@ namespace tcpserver
         public int httpTimeout = 3;
 
 
-        public NoticeTransmitter(bool _debug = false)
+        public NoticeTransmitter()
         {
             NoticeQueue = new ConcurrentQueue<NoticeMessage>();
-            NoticeRunning = new ConcurrentDictionary<string, NoticeMessageHandling>();
-
+            NoticeRunningDictionary = new ConcurrentDictionary<string, NoticeMessageHandling>();
         }
 
         public bool AddNotice(NoticeMessage notice)
         {
-            if (!NoticeRunning.ContainsKey(notice.Key))
+            if (!NoticeRunningDictionary.ContainsKey(notice.Key))
             {
                 NoticeQueue.Enqueue(notice);
                 return true;
             };
 
             return false;
-
         }
 
         public bool AddNotice(ClientData targetClient, SocketMessage socketMessage)
@@ -69,60 +67,60 @@ namespace tcpserver
             if (!_noticeCheckContinueFlag)
             {
                 _noticeCheckContinueFlag = true;
-
-                Task.Run(() =>
-                {
-                    while (_noticeCheckContinueFlag)
-                    {
-                        try
-                        {
-                            if (NoticeRunning.Count > 0)
-                            {
-                                foreach (var item in NoticeRunning)
-                                {
-                                    if (item.Value.FinishNotice)
-                                    {
-                                        NoticeMessageHandling h;
-                                        if (NoticeRunning.TryRemove(item.Key, out h)) { h.Dispose(); };
-                                    }
-                                }
-                            }
-
-                            if (NoticeQueue.Count > 0)
-                            {
-                                NoticeMessage b;
-                                if (NoticeQueue.TryDequeue(out b))
-                                {
-                                    NoticeMessageHandling handling = new NoticeMessageHandling(b, httpTimeout);
-
-                                    if (NoticeRunning.TryAdd(b.Key, handling))
-                                    {
-                                        handling.StartNotice();
-                                    }
-                                }
-                            }
-
-                            Thread.Sleep(_threadSleepLength);
-
-                        }
-                        catch (Exception ex)
-                        {
-                            Debug.Write(DateTime.Now.ToString("HH:mm:ss") + " " + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " ");
-                            Debug.WriteLine(ex.ToString());
-
-                        }
-                    }
-
-                });
-
+                Task.Run(() => NoticeCheck());
             }
 
         }
 
-        public void StopCheck()
+        public void StopNoticeCheck()
         {
             _noticeCheckContinueFlag = false;
             return;
+        }
+
+        public void NoticeCheck()
+        {
+            while (_noticeCheckContinueFlag)
+            {
+                try
+                {
+                    if (NoticeRunningDictionary.Count > 0)
+                    {
+                        foreach (var item in NoticeRunningDictionary)
+                        {
+                            if (item.Value.FinishNotice)
+                            {
+                                NoticeMessageHandling h;
+                                if (NoticeRunningDictionary.TryRemove(item.Key, out h)) { h.Dispose(); };
+                            }
+                        }
+                    }
+
+                    if (NoticeQueue.Count > 0)
+                    {
+                        NoticeMessage b;
+                        if (NoticeQueue.TryDequeue(out b))
+                        {
+                            NoticeMessageHandling handling = new NoticeMessageHandling(b, httpTimeout);
+
+                            if (NoticeRunningDictionary.TryAdd(b.Key, handling))
+                            {
+                                handling.StartNotice();
+                            }
+                        }
+                    }
+
+                    Thread.Sleep(_threadSleepLength);
+
+                }
+                catch (Exception ex)
+                {
+                    Debug.Write(DateTime.Now.ToString("HH:mm:ss") + " " + GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " ");
+                    Debug.WriteLine(ex.ToString());
+
+                }
+            }
+
         }
 
     }
@@ -167,7 +165,7 @@ namespace tcpserver
                 }
 
                 SendNotice();
-                Thread.Sleep(timeout * 1000);
+                Thread.Sleep(timeout * 1000);  //(timeout[sec.] x 1000) [ms]
                 WaitNoticeFinish();
                 FinishNotice = true;
 
