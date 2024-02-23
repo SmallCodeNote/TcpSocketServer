@@ -19,6 +19,7 @@ using FluentScheduler;
 using LiteDB;
 
 using WinFormStringCnvClass;
+using PanelScroll;
 
 namespace tcpserver
 {
@@ -37,6 +38,7 @@ namespace tcpserver
         ConnectionString _LiteDBconnectionString;
         static int _dbOpenRetryCountMax = 10;
 
+        PanelScrollControl panelScrollControl_StatusListFrame;
 
         public Form1()
         {
@@ -53,8 +55,8 @@ namespace tcpserver
             LastCheckTime = DateTime.Now;
             portNumber = -1;
 
-            this.panel_StatusListFrame.MouseWheel += new MouseEventHandler(this.panel_StatusListFrame_MouseWheel);
-            this.tabPage_Status.MouseWheel += new MouseEventHandler(this.panel_StatusListFrame_MouseWheel);
+            //this.panel_StatusListFrame.MouseWheel += new MouseEventHandler(this.panel_StatusListFrame_MouseWheel);
+            //this.tabPage_Status.MouseWheel += new MouseEventHandler(this.panel_StatusListFrame_MouseWheel);
 
             _LiteDBconnectionString = new ConnectionString();
             _LiteDBconnectionString.Connection = ConnectionType.Shared;
@@ -68,6 +70,8 @@ namespace tcpserver
         //=====================
         async private void Form1_Load(object sender, EventArgs e)
         {
+            panelScrollControl_StatusListFrame = new PanelScrollControl(panel_StatusListFrame, panel_StatusList, vScrollBar_StatusList);
+
             string paramFilename = Path.Combine(thisExeDirPath, "_param.txt");
 
             if (File.Exists(paramFilename))
@@ -139,8 +143,6 @@ namespace tcpserver
 
         }
 
-
-
         private void timer_UpdateList_Tick(object sender, EventArgs e)
         {
             timer_UpdateList.Stop();
@@ -164,7 +166,9 @@ namespace tcpserver
                     queueList.Add(receivedSocketMessage);
                     string[] cols = receivedSocketMessage.Split('\t');
 
-                    if (cols.Length >= 4)
+                    string dbFilename = textBox_DataBaseFilePath.Text;
+
+                    if (cols.Length >= 4 && File.Exists(dbFilename))
                     {
                         DateTime connectTime;
                         if (DateTime.TryParse(cols[0], out connectTime)) { connectTime = DateTime.Now; } else { continue; }
@@ -180,7 +184,7 @@ namespace tcpserver
                             SocketMessage socketMessage = new SocketMessage(connectTime, clientName, status, message, parameter, checkStyle);
                             string key = socketMessage.Key();
 
-                            _LiteDBconnectionString.Filename = textBox_DataBaseFilePath.Text;
+                            _LiteDBconnectionString.Filename = dbFilename;
 
                             using (LiteDatabase litedb = new LiteDatabase(_LiteDBconnectionString))
                             {
@@ -207,7 +211,10 @@ namespace tcpserver
                 {
                     try
                     {
-                        _LiteDBconnectionString.Filename = textBox_DataBaseFilePath.Text;
+                        string dbFilename = textBox_DataBaseFilePath.Text;
+
+                        if (!File.Exists(dbFilename)) break;
+                        _LiteDBconnectionString.Filename = dbFilename;
                         using (LiteDatabase litedb = new LiteDatabase(_LiteDBconnectionString))
                         {
                             ILiteCollection<SocketMessage> col = litedb.GetCollection<SocketMessage>("table_Message");
@@ -253,7 +260,10 @@ namespace tcpserver
             {
                 try
                 {
-                    _LiteDBconnectionString.Filename = textBox_DataBaseFilePath.Text;
+                    string dbFilename = textBox_DataBaseFilePath.Text;
+                    if (!File.Exists(dbFilename)) break;
+
+                    _LiteDBconnectionString.Filename = dbFilename;
                     using (LiteDatabase litedb = new LiteDatabase(_LiteDBconnectionString))
                     {
                         ILiteCollection<SocketMessage> col = litedb.GetCollection<SocketMessage>("table_Message");
@@ -329,51 +339,6 @@ namespace tcpserver
 
 
         //=====================
-        #region tabPage_Status Event
-        //=====================
-        private void panel_StatusList_SizeChanged(object sender, EventArgs e)
-        {
-            vScrollBar_StatusList.Enabled = panel_StatusList.Height > panel_StatusListFrame.Height;
-
-            vScrollBar_StatusList.Maximum = panel_StatusList.Height;
-            vScrollBar_StatusList_valueMax = vScrollBar_StatusList.Maximum - vScrollBar_StatusList.LargeChange;
-
-            panel_StatusListFrame.Height = 500;
-            vScrollBar_StatusList.LargeChange = panel_StatusListFrame.Height;
-            vScrollBar_StatusList.LargeChange = 500; //panel_StatusListFrame.Height;
-
-        }
-
-        private void vScrollBar_StatusList_Scroll(object sender, ScrollEventArgs e)
-        {
-            panel_StatusList.Top = -vScrollBar_StatusList.Value;
-        }
-
-        private void vScrollBar_StatusList_ValueChanged(object sender, EventArgs e)
-        {
-            panel_StatusList.Top = -vScrollBar_StatusList.Value;
-        }
-
-        int vScrollBar_StatusList_valueMin = 0;
-        int vScrollBar_StatusList_valueMax = 0;
-
-        private void panel_StatusListFrame_MouseWheel(object sender, MouseEventArgs e)
-        {
-            //マウスのホイールが動いた場合にイベントが発生する
-
-            int targetValue = vScrollBar_StatusList.Value - e.Delta;
-            targetValue = targetValue >= vScrollBar_StatusList_valueMin ? targetValue : vScrollBar_StatusList_valueMin;
-            targetValue = targetValue <= vScrollBar_StatusList_valueMax ? targetValue : vScrollBar_StatusList_valueMax;
-
-            vScrollBar_StatusList.Value = targetValue;
-        }
-
-
-        #endregion
-        //=====================
-
-
-        //=====================
         #region tabPage_Setting Event
         //=====================
         private void button_getDataBaseFilePath_Click(object sender, EventArgs e)
@@ -441,7 +406,11 @@ namespace tcpserver
         {
             try
             {
-                _LiteDBconnectionString.Filename = textBox_DataBaseFilePath.Text;
+
+                string dbFilename = textBox_DataBaseFilePath.Text;
+                if (!File.Exists(dbFilename)) return;
+
+                _LiteDBconnectionString.Filename = dbFilename;
 
                 using (LiteDatabase litedb = new LiteDatabase(_LiteDBconnectionString))
                 {
@@ -530,7 +499,11 @@ namespace tcpserver
         {
             TimeSpan TP = new TimeSpan(0, 8, 0, 0);
 
-            _LiteDBconnectionString.Filename = textBox_DataBaseFilePath.Text;
+            string dbFilename = textBox_DataBaseFilePath.Text;
+            if (!File.Exists(dbFilename)) return;
+
+            _LiteDBconnectionString.Filename = dbFilename;
+
             using (LiteDatabase litedb = new LiteDatabase(_LiteDBconnectionString))
             {
                 for (DateTime connectTime = DateTime.Parse("2020/01/01"); connectTime < DateTime.Parse("2024/01/31"); connectTime += TP)
@@ -546,8 +519,11 @@ namespace tcpserver
 
         private void button_BreakupDatabasefile_Click(object sender, EventArgs e)
         {
-            BreakupLightDBFile job = new BreakupLightDBFile(textBox_DataBaseFilePath.Text, int.Parse(textBox_PostTime.Text));
-            job.BreakupLightDBFile_byMonthFile(textBox_DataBaseFilePath.Text, int.Parse(textBox_PostTime.Text));
+            string dbFilename = textBox_DataBaseFilePath.Text;
+            if (!File.Exists(dbFilename)) return;
+
+            BreakupLightDBFile job = new BreakupLightDBFile(dbFilename, int.Parse(textBox_PostTime.Text));
+            job.BreakupLightDBFile_byMonthFile(dbFilename, int.Parse(textBox_PostTime.Text));
         }
 
         private void dataGridView_ClientList_CellValueChanged(object sender, DataGridViewCellEventArgs e)

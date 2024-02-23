@@ -134,7 +134,6 @@
             this.panel_StatusList.Name = "panel_StatusList";
             this.panel_StatusList.Size = new System.Drawing.Size(375, 80);
             this.panel_StatusList.TabIndex = 0;
-            this.panel_StatusList.SizeChanged += new System.EventHandler(this.panel_StatusList_SizeChanged);
             // 
             // vScrollBar_StatusList
             // 
@@ -143,8 +142,6 @@
             this.vScrollBar_StatusList.Name = "vScrollBar_StatusList";
             this.vScrollBar_StatusList.Size = new System.Drawing.Size(21, 400);
             this.vScrollBar_StatusList.TabIndex = 3;
-            this.vScrollBar_StatusList.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_StatusList_Scroll);
-            this.vScrollBar_StatusList.ValueChanged += new System.EventHandler(this.vScrollBar_StatusList_ValueChanged);
             // 
             // tabControl_Top
             // 

@@ -70,10 +70,10 @@
             // 
             // button_AllCheck
             // 
-            this.button_AllCheck.Location = new System.Drawing.Point(64, 27);
+            this.button_AllCheck.Location = new System.Drawing.Point(79, 27);
             this.button_AllCheck.Margin = new System.Windows.Forms.Padding(2);
             this.button_AllCheck.Name = "button_AllCheck";
-            this.button_AllCheck.Size = new System.Drawing.Size(75, 18);
+            this.button_AllCheck.Size = new System.Drawing.Size(60, 18);
             this.button_AllCheck.TabIndex = 2;
             this.button_AllCheck.Text = "AllCheck";
             this.button_AllCheck.UseVisualStyleBackColor = true;
@@ -81,10 +81,10 @@
             // 
             // label_LastMessage
             // 
-            this.label_LastMessage.Location = new System.Drawing.Point(127, 14);
+            this.label_LastMessage.Location = new System.Drawing.Point(143, 14);
             this.label_LastMessage.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_LastMessage.Name = "label_LastMessage";
-            this.label_LastMessage.Size = new System.Drawing.Size(218, 58);
+            this.label_LastMessage.Size = new System.Drawing.Size(221, 58);
             this.label_LastMessage.TabIndex = 1;
             this.label_LastMessage.Text = "Message";
             // 
