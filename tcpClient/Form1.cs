@@ -21,6 +21,8 @@ namespace tcpClient
         string thisExeDirPath;
         TcpSocketClient tcp;
 
+        PanelScrollControl panelScrollControl_OnceJobList;
+
         public Form1()
         {
             InitializeComponent();
@@ -30,6 +32,10 @@ namespace tcpClient
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            panelScrollControl_OnceJobList = new PanelScrollControl(panel_OnceJobListFrame, panel_OnceJobList, vScrollBar_OnceJobList);
+
+
+
             string paramFilename = Path.Combine(thisExeDirPath, "_param.txt");
             if (File.Exists(paramFilename))
             {
@@ -37,9 +43,15 @@ namespace tcpClient
             }
 
             this.panel_StatusListFrame.MouseWheel += new MouseEventHandler(this.panel_StatusListFrame_MouseWheel);
-            this.tabPage_Edit.MouseWheel += new MouseEventHandler(this.panel_StatusListFrame_MouseWheel);
+            //this.tabPage_Edit.MouseWheel += new MouseEventHandler(this.panel_StatusListFrame_MouseWheel);
 
             this.panel_StatusListFrame.Controls.Add(this.panel_StatusList);
+
+            if (checkBox_LoadFromStoreAuto.Checked) { LoadFromStore(); };
+
+
+
+
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -71,58 +83,12 @@ namespace tcpClient
             SchedulerInitialize();
 
         }
-        /*
-        public void SendMessage()
-        {
-            string sendMessage = textBox_ClientName.Text + "\t" + comboBox_Status.Text + "\t" + textBox_Message.Text + DateTime.Now.ToString("yyyyMMdd_HHmmss") + "\t" + textBox_Parameter.Text + "\t" + checkBox_CheckStyle.Checked.ToString();
 
-            var responce = tcp.StartClient(textBox_Address.Text, int.Parse(textBox_PortNumber.Text), sendMessage).Result;
-            label_Return.Text = responce;
 
-        }
-*/
-        private void SchedulerInitialize()
-        {
-            JobManager.StopAndBlock();
-
-            List<string> Lines = new List<string>();
-
-            string Address = textBox_Address.Text;
-            string PortNumber = textBox_PortNumber.Text;
-
-            string JobName = textBox_JobName.Text;
-            string ScheduleUnit = comboBox_ScheduleUnit.Text;
-            string ScheduleUnitParam = textBox_ScheduleUnitParam.Text;
-            string ClientName = textBox_ClientName.Text;
-            string Status = comboBox_Status.Text;
-            string Message = textBox_Message.Text;
-            string Parameter = textBox_Parameter.Text;
-            string CheckStyle = comboBox_checkStyle.Text;
-
-            List<string> ColList = new List<string>();
-            ColList.Add(Address);
-            ColList.Add(PortNumber);
-
-            ColList.Add(JobName);
-            ColList.Add(ScheduleUnit);
-            ColList.Add(ScheduleUnitParam);
-            ColList.Add(ClientName);
-            ColList.Add(Status);
-            ColList.Add(Message);
-            ColList.Add(Parameter);
-            ColList.Add(CheckStyle.ToString());
-
-            Lines.Add(String.Join("\t", ColList.ToArray()));
-
-            var job = new FluentSchedulerRegistry(tcp, Lines.ToArray());
-
-            JobManager.Initialize(job);
-
-        }
 
         public void tabPage_View_Enter(object sender = null, EventArgs e = null)
         {
-            if(sender!=null) timer_ClientViewUpdate.Start();
+            if (sender != null) timer_ClientViewUpdate.Start();
 
             var allSchedules = JobManager.AllSchedules;
 
@@ -151,26 +117,25 @@ namespace tcpClient
         private void panel_StatusList_SizeChanged(object sender, EventArgs e)
         {
             vScrollBar_StatusList.Enabled = panel_StatusList.Height > panel_StatusListFrame.Height;
-
             vScrollBar_StatusList.Maximum = panel_StatusList.Height;
             vScrollBar_StatusList_valueMax = vScrollBar_StatusList.Maximum - vScrollBar_StatusList.LargeChange;
-
             vScrollBar_StatusList.LargeChange = panel_StatusListFrame.Height;
-
 
         }
 
         private void vScrollBar_StatusList_Scroll(object sender, ScrollEventArgs e)
         {
-            panel_StatusList.Top = -vScrollBar_StatusList.Value;
-            Debug.WriteLine(panel_StatusList.Top.ToString());
-            panel_StatusListFrame.Refresh();
+            vScrollBar_StatusListOperation();
         }
 
         private void vScrollBar_StatusList_ValueChanged(object sender, EventArgs e)
         {
+            vScrollBar_StatusListOperation();
+        }
+
+        private void vScrollBar_StatusListOperation()
+        {
             panel_StatusList.Top = -vScrollBar_StatusList.Value;
-            Debug.WriteLine(panel_StatusList.Top.ToString());
             panel_StatusListFrame.Refresh();
         }
 
@@ -185,7 +150,7 @@ namespace tcpClient
             targetValue = targetValue >= vScrollBar_StatusList_valueMin ? targetValue : vScrollBar_StatusList_valueMin;
             targetValue = targetValue <= vScrollBar_StatusList_valueMax ? targetValue : vScrollBar_StatusList_valueMax;
 
-            vScrollBar_StatusList.Value = targetValue;
+            vScrollBar_StatusList.Value = targetValue > 0 ? targetValue : 0;
         }
 
 
@@ -248,6 +213,143 @@ namespace tcpClient
         private void tabPage_View_Leave(object sender, EventArgs e)
         {
             timer_ClientViewUpdate.Stop();
+        }
+
+        private void LoadFromStore()
+        {
+
+            string[] Lines = textBox_Store.Text.Replace("\r\n", "\n").Trim('\n').Split('\n');
+
+            var job = new FluentSchedulerRegistry(tcp, Lines);
+
+            JobManager.RemoveAllJobs();
+            JobManager.Initialize(job);
+
+        }
+
+        private void button_LoadFromStore_Click(object sender, EventArgs e)
+        {
+
+            LoadFromStore();
+
+        }
+
+        private void button_EditContentsFromClipboard_Click(object sender, EventArgs e)
+        {
+            string Line = Clipboard.GetText();
+
+            string[] Cols = Line.Split('\t');
+
+            if (Cols.Length == 10)
+            {
+
+                int colIndex = 0;
+                textBox_Address.Text = Cols[colIndex]; colIndex++;
+                textBox_PortNumber.Text = Cols[colIndex]; colIndex++;
+
+                textBox_JobName.Text = Cols[colIndex]; colIndex++;
+                comboBox_ScheduleUnit.Text = Cols[colIndex]; colIndex++;
+                textBox_ScheduleUnitParam.Text = Cols[colIndex]; colIndex++;
+                textBox_ClientName.Text = Cols[colIndex]; colIndex++;
+                comboBox_Status.Text = Cols[colIndex]; colIndex++;
+                textBox_Message.Text = Cols[colIndex]; colIndex++;
+                textBox_Parameter.Text = Cols[colIndex]; colIndex++;
+                comboBox_checkStyle.Text = Cols[colIndex];
+
+            }
+
+        }
+
+        private void comboBox_ScheduleUnit_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            button_AddOnceJobPanel.Enabled = comboBox_ScheduleUnit.Text.IndexOf("Once") >= 0;
+        }
+
+        private void button_AddOnceJobPanel_Click(object sender, EventArgs e)
+        {
+            textBox_OnceJobPanelStore.Text += getJobStringFromEditControls() + "\r\n";
+        }
+
+
+        public string getJobStringFromEditControls()
+        {
+
+
+            string Address = textBox_Address.Text;
+            string PortNumber = textBox_PortNumber.Text;
+
+            string JobName = textBox_JobName.Text;
+            string ScheduleUnit = comboBox_ScheduleUnit.Text;
+            string ScheduleUnitParam = textBox_ScheduleUnitParam.Text;
+            string ClientName = textBox_ClientName.Text;
+            string Status = comboBox_Status.Text;
+            string Message = textBox_Message.Text;
+            string Parameter = textBox_Parameter.Text;
+            string CheckStyle = comboBox_checkStyle.Text;
+
+            List<string> ColList = new List<string>();
+            ColList.Add(Address);
+            ColList.Add(PortNumber);
+
+            ColList.Add(JobName);
+            ColList.Add(ScheduleUnit);
+            ColList.Add(ScheduleUnitParam);
+            ColList.Add(ClientName);
+            ColList.Add(Status);
+            ColList.Add(Message);
+            ColList.Add(Parameter);
+            ColList.Add(CheckStyle.ToString());
+
+            return String.Join("\t", ColList.ToArray());
+
+        }
+        private void SchedulerInitialize()
+        {
+            List<string> Lines = new List<string>();
+            Lines.Add(getJobStringFromEditControls());
+
+            var job = new FluentSchedulerRegistry(tcp, Lines.ToArray());
+            JobManager.Initialize(job);
+
+
+
+            string ScheduleUnit = comboBox_ScheduleUnit.Text;
+
+            if (ScheduleUnit.IndexOf("Once") < 0)
+            {
+                textBox_Store.Text += string.Join("\r\n", Lines.ToArray()) + "\r\n";
+            }
+
+
+        }
+
+        private void update_OnceJobPanel()
+        {
+
+            string[] Lines = textBox_OnceJobPanelStore.Text.Replace("\r\n", "\n").Trim('\n').Split('\n');
+
+            panel_OnceJobList.Controls.Clear();
+
+            int viewTop = 0;
+            foreach (var Line in Lines)
+            {
+                var onceJobView = new OnceJobView(tcp, Line, this);
+                onceJobView.Top = viewTop;
+                panel_OnceJobList.Controls.Add(onceJobView);
+                panel_OnceJobList.Width = onceJobView.Width;
+
+
+                viewTop += onceJobView.Height;
+            }
+
+            panel_OnceJobList.Height = viewTop;
+
+        }
+
+        private void textBox_OnceJobPanelStore_TextChanged(object sender, EventArgs e)
+        {
+            update_OnceJobPanel();
+
         }
     }
 }

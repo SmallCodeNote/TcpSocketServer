@@ -62,7 +62,7 @@
             this.groupBox_Job.Controls.Add(this.label_PortNumber);
             this.groupBox_Job.Location = new System.Drawing.Point(0, 0);
             this.groupBox_Job.Name = "groupBox_Job";
-            this.groupBox_Job.Size = new System.Drawing.Size(400, 175);
+            this.groupBox_Job.Size = new System.Drawing.Size(400, 155);
             this.groupBox_Job.TabIndex = 0;
             this.groupBox_Job.TabStop = false;
             this.groupBox_Job.Text = "JobName";
@@ -117,7 +117,7 @@
             // 
             this.label_Message.Location = new System.Drawing.Point(6, 103);
             this.label_Message.Name = "label_Message";
-            this.label_Message.Size = new System.Drawing.Size(389, 65);
+            this.label_Message.Size = new System.Drawing.Size(389, 42);
             this.label_Message.TabIndex = 0;
             this.label_Message.Text = "Message";
             // 
@@ -186,7 +186,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox_Job);
             this.Name = "JobItemView";
-            this.Size = new System.Drawing.Size(400, 180);
+            this.Size = new System.Drawing.Size(400, 160);
             this.groupBox_Job.ResumeLayout(false);
             this.groupBox_Job.PerformLayout();
             this.ResumeLayout(false);

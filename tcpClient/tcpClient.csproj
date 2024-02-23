@@ -59,6 +59,13 @@
     <Compile Include="JobItemView.Designer.cs">
       <DependentUpon>JobItemView.cs</DependentUpon>
     </Compile>
+    <Compile Include="OnceJobView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="OnceJobView.Designer.cs">
+      <DependentUpon>OnceJobView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PanelScrollControl.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TcpSocketClient.cs" />
@@ -68,6 +75,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="JobItemView.resx">
       <DependentUpon>JobItemView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OnceJobView.resx">
+      <DependentUpon>OnceJobView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

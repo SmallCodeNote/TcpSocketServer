@@ -186,7 +186,6 @@ namespace tcpClient
             this.Address = address;
             this.PortNumber = portNumber;
 
-
             this.JobName = JobName;
             this.ScheduleUnit = scheduleUnit;
             this.ScheduleUnitParam = scheduleUnitParam;
@@ -220,7 +219,6 @@ namespace tcpClient
             this.CheckStyle = cols[i];
 
             createTime = DateTime.Now;
-
 
         }
 
