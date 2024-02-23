@@ -52,11 +52,11 @@
             // 
             // button_AddJob
             // 
-            this.button_AddJob.Location = new System.Drawing.Point(373, 10);
+            this.button_AddJob.Location = new System.Drawing.Point(318, 10);
             this.button_AddJob.Name = "button_AddJob";
-            this.button_AddJob.Size = new System.Drawing.Size(22, 22);
+            this.button_AddJob.Size = new System.Drawing.Size(77, 22);
             this.button_AddJob.TabIndex = 1;
-            this.button_AddJob.Text = "<";
+            this.button_AddJob.Text = "<< Add";
             this.button_AddJob.UseVisualStyleBackColor = true;
             this.button_AddJob.Click += new System.EventHandler(this.button_AddJob_Click);
             // 

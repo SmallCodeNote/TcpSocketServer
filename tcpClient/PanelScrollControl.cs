@@ -94,7 +94,7 @@ namespace tcpClient
                 targetValue = targetValue >= vScrollBar.Minimum ? targetValue : vScrollBar.Minimum;
                 targetValue = targetValue <= vScrollBar_valueMax ? targetValue : vScrollBar_valueMax;
 
-                vScrollBar.Value = targetValue;
+                vScrollBar.Value = targetValue > 0 ? targetValue : 0;
             }
 
         }

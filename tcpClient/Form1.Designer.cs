@@ -49,16 +49,15 @@
             this.button_AddSchedule = new System.Windows.Forms.Button();
             this.tabControl_Main = new System.Windows.Forms.TabControl();
             this.tabPage_View = new System.Windows.Forms.TabPage();
+            this.tabControl_JobView = new System.Windows.Forms.TabControl();
+            this.tabPage_JovView = new System.Windows.Forms.TabPage();
             this.vScrollBar_StatusList = new System.Windows.Forms.VScrollBar();
             this.panel_StatusListFrame = new System.Windows.Forms.Panel();
             this.panel_StatusList = new System.Windows.Forms.Panel();
-            this.tabPage_Edit = new System.Windows.Forms.TabPage();
-            this.button_EditContentsFromClipboard = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
-            this.textBox_JobName = new System.Windows.Forms.TextBox();
-            this.comboBox_checkStyle = new System.Windows.Forms.ComboBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.button_AddOnceJobPanel = new System.Windows.Forms.Button();
+            this.tabPage_EveryJobStore = new System.Windows.Forms.TabPage();
+            this.checkBox_LoadFromStoreAuto = new System.Windows.Forms.CheckBox();
+            this.textBox_Store = new System.Windows.Forms.TextBox();
+            this.button_LoadFromStore = new System.Windows.Forms.Button();
             this.tabPage_Panel = new System.Windows.Forms.TabPage();
             this.tabControl_OnceJobPanel = new System.Windows.Forms.TabControl();
             this.tabPage_OnceJobPanel = new System.Windows.Forms.TabPage();
@@ -69,25 +68,31 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.button1 = new System.Windows.Forms.Button();
             this.textBox_OnceJobPanelStore = new System.Windows.Forms.TextBox();
-            this.tabPage_Store = new System.Windows.Forms.TabPage();
-            this.checkBox_LoadFromStoreAuto = new System.Windows.Forms.CheckBox();
-            this.button_LoadFromStore = new System.Windows.Forms.Button();
-            this.textBox_Store = new System.Windows.Forms.TextBox();
+            this.tabPage_Edit = new System.Windows.Forms.TabPage();
+            this.button_EditContentsFromClipboard = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.textBox_JobName = new System.Windows.Forms.TextBox();
+            this.comboBox_checkStyle = new System.Windows.Forms.ComboBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.button_AddOnceJobPanel = new System.Windows.Forms.Button();
             this.tabPage_MessageLog = new System.Windows.Forms.TabPage();
             this.label_Return = new System.Windows.Forms.Label();
             this.timer_ClientViewUpdate = new System.Windows.Forms.Timer(this.components);
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel_Timer = new System.Windows.Forms.ToolStripStatusLabel();
+            this.button_StatusListFrame_Sort = new System.Windows.Forms.Button();
             this.tabControl_Main.SuspendLayout();
             this.tabPage_View.SuspendLayout();
+            this.tabControl_JobView.SuspendLayout();
+            this.tabPage_JovView.SuspendLayout();
             this.panel_StatusListFrame.SuspendLayout();
-            this.tabPage_Edit.SuspendLayout();
+            this.tabPage_EveryJobStore.SuspendLayout();
             this.tabPage_Panel.SuspendLayout();
             this.tabControl_OnceJobPanel.SuspendLayout();
             this.tabPage_OnceJobPanel.SuspendLayout();
             this.panel_OnceJobListFrame.SuspendLayout();
             this.tabPage_OnceJobPanel_Store.SuspendLayout();
-            this.tabPage_Store.SuspendLayout();
+            this.tabPage_Edit.SuspendLayout();
             this.tabPage_MessageLog.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -279,7 +284,6 @@
             this.tabControl_Main.Controls.Add(this.tabPage_View);
             this.tabControl_Main.Controls.Add(this.tabPage_Panel);
             this.tabControl_Main.Controls.Add(this.tabPage_Edit);
-            this.tabControl_Main.Controls.Add(this.tabPage_Store);
             this.tabControl_Main.Controls.Add(this.tabPage_MessageLog);
             this.tabControl_Main.Location = new System.Drawing.Point(0, 0);
             this.tabControl_Main.Margin = new System.Windows.Forms.Padding(2);
@@ -290,8 +294,7 @@
             // 
             // tabPage_View
             // 
-            this.tabPage_View.Controls.Add(this.vScrollBar_StatusList);
-            this.tabPage_View.Controls.Add(this.panel_StatusListFrame);
+            this.tabPage_View.Controls.Add(this.tabControl_JobView);
             this.tabPage_View.Location = new System.Drawing.Point(4, 22);
             this.tabPage_View.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage_View.Name = "tabPage_View";
@@ -303,21 +306,43 @@
             this.tabPage_View.Enter += new System.EventHandler(this.tabPage_View_Enter);
             this.tabPage_View.Leave += new System.EventHandler(this.tabPage_View_Leave);
             // 
+            // tabControl_JobView
+            // 
+            this.tabControl_JobView.Alignment = System.Windows.Forms.TabAlignment.Bottom;
+            this.tabControl_JobView.Controls.Add(this.tabPage_JovView);
+            this.tabControl_JobView.Controls.Add(this.tabPage_EveryJobStore);
+            this.tabControl_JobView.Location = new System.Drawing.Point(8, 5);
+            this.tabControl_JobView.Name = "tabControl_JobView";
+            this.tabControl_JobView.SelectedIndex = 0;
+            this.tabControl_JobView.Size = new System.Drawing.Size(486, 356);
+            this.tabControl_JobView.TabIndex = 3;
+            // 
+            // tabPage_JovView
+            // 
+            this.tabPage_JovView.Controls.Add(this.button_StatusListFrame_Sort);
+            this.tabPage_JovView.Controls.Add(this.vScrollBar_StatusList);
+            this.tabPage_JovView.Controls.Add(this.panel_StatusListFrame);
+            this.tabPage_JovView.Location = new System.Drawing.Point(4, 4);
+            this.tabPage_JovView.Name = "tabPage_JovView";
+            this.tabPage_JovView.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_JovView.Size = new System.Drawing.Size(478, 330);
+            this.tabPage_JovView.TabIndex = 0;
+            this.tabPage_JovView.Text = "JovView";
+            this.tabPage_JovView.UseVisualStyleBackColor = true;
+            // 
             // vScrollBar_StatusList
             // 
-            this.vScrollBar_StatusList.Location = new System.Drawing.Point(411, 5);
+            this.vScrollBar_StatusList.Location = new System.Drawing.Point(409, 6);
             this.vScrollBar_StatusList.Name = "vScrollBar_StatusList";
-            this.vScrollBar_StatusList.Size = new System.Drawing.Size(26, 358);
+            this.vScrollBar_StatusList.Size = new System.Drawing.Size(26, 318);
             this.vScrollBar_StatusList.TabIndex = 2;
-            this.vScrollBar_StatusList.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_StatusList_Scroll);
-            this.vScrollBar_StatusList.ValueChanged += new System.EventHandler(this.vScrollBar_StatusList_ValueChanged);
             // 
             // panel_StatusListFrame
             // 
             this.panel_StatusListFrame.Controls.Add(this.panel_StatusList);
-            this.panel_StatusListFrame.Location = new System.Drawing.Point(8, 5);
+            this.panel_StatusListFrame.Location = new System.Drawing.Point(6, 6);
             this.panel_StatusListFrame.Name = "panel_StatusListFrame";
-            this.panel_StatusListFrame.Size = new System.Drawing.Size(400, 358);
+            this.panel_StatusListFrame.Size = new System.Drawing.Size(400, 318);
             this.panel_StatusListFrame.TabIndex = 1;
             // 
             // panel_StatusList
@@ -326,103 +351,49 @@
             this.panel_StatusList.Name = "panel_StatusList";
             this.panel_StatusList.Size = new System.Drawing.Size(400, 180);
             this.panel_StatusList.TabIndex = 0;
-            this.panel_StatusList.SizeChanged += new System.EventHandler(this.panel_StatusList_SizeChanged);
             // 
-            // tabPage_Edit
+            // tabPage_EveryJobStore
             // 
-            this.tabPage_Edit.Controls.Add(this.button_EditContentsFromClipboard);
-            this.tabPage_Edit.Controls.Add(this.label9);
-            this.tabPage_Edit.Controls.Add(this.label3);
-            this.tabPage_Edit.Controls.Add(this.comboBox_ScheduleUnit);
-            this.tabPage_Edit.Controls.Add(this.textBox_JobName);
-            this.tabPage_Edit.Controls.Add(this.textBox_ClientName);
-            this.tabPage_Edit.Controls.Add(this.comboBox_checkStyle);
-            this.tabPage_Edit.Controls.Add(this.comboBox_Status);
-            this.tabPage_Edit.Controls.Add(this.textBox_Message);
-            this.tabPage_Edit.Controls.Add(this.textBox_Parameter);
-            this.tabPage_Edit.Controls.Add(this.label2);
-            this.tabPage_Edit.Controls.Add(this.textBox_Address);
-            this.tabPage_Edit.Controls.Add(this.label6);
-            this.tabPage_Edit.Controls.Add(this.textBox_ScheduleUnitParam);
-            this.tabPage_Edit.Controls.Add(this.label4);
-            this.tabPage_Edit.Controls.Add(this.textBox_PortNumber);
-            this.tabPage_Edit.Controls.Add(this.label7);
-            this.tabPage_Edit.Controls.Add(this.button_SendMessage);
-            this.tabPage_Edit.Controls.Add(this.label10);
-            this.tabPage_Edit.Controls.Add(this.label5);
-            this.tabPage_Edit.Controls.Add(this.button_AddOnceJobPanel);
-            this.tabPage_Edit.Controls.Add(this.button_AddSchedule);
-            this.tabPage_Edit.Controls.Add(this.label8);
-            this.tabPage_Edit.Controls.Add(this.label1);
-            this.tabPage_Edit.Location = new System.Drawing.Point(4, 22);
-            this.tabPage_Edit.Margin = new System.Windows.Forms.Padding(2);
-            this.tabPage_Edit.Name = "tabPage_Edit";
-            this.tabPage_Edit.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage_Edit.Size = new System.Drawing.Size(502, 368);
-            this.tabPage_Edit.TabIndex = 0;
-            this.tabPage_Edit.Text = "JobEdit";
-            this.tabPage_Edit.UseVisualStyleBackColor = true;
+            this.tabPage_EveryJobStore.Controls.Add(this.checkBox_LoadFromStoreAuto);
+            this.tabPage_EveryJobStore.Controls.Add(this.textBox_Store);
+            this.tabPage_EveryJobStore.Controls.Add(this.button_LoadFromStore);
+            this.tabPage_EveryJobStore.Location = new System.Drawing.Point(4, 4);
+            this.tabPage_EveryJobStore.Name = "tabPage_EveryJobStore";
+            this.tabPage_EveryJobStore.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_EveryJobStore.Size = new System.Drawing.Size(478, 330);
+            this.tabPage_EveryJobStore.TabIndex = 1;
+            this.tabPage_EveryJobStore.Text = "EveryJobStore";
+            this.tabPage_EveryJobStore.UseVisualStyleBackColor = true;
             // 
-            // button_EditContentsFromClipboard
+            // checkBox_LoadFromStoreAuto
             // 
-            this.button_EditContentsFromClipboard.Location = new System.Drawing.Point(371, 3);
-            this.button_EditContentsFromClipboard.Name = "button_EditContentsFromClipboard";
-            this.button_EditContentsFromClipboard.Size = new System.Drawing.Size(117, 23);
-            this.button_EditContentsFromClipboard.TabIndex = 7;
-            this.button_EditContentsFromClipboard.Text = "From Clipboard";
-            this.button_EditContentsFromClipboard.UseVisualStyleBackColor = true;
-            this.button_EditContentsFromClipboard.Click += new System.EventHandler(this.button_EditContentsFromClipboard_Click);
+            this.checkBox_LoadFromStoreAuto.AutoSize = true;
+            this.checkBox_LoadFromStoreAuto.Location = new System.Drawing.Point(150, 6);
+            this.checkBox_LoadFromStoreAuto.Name = "checkBox_LoadFromStoreAuto";
+            this.checkBox_LoadFromStoreAuto.Size = new System.Drawing.Size(125, 16);
+            this.checkBox_LoadFromStoreAuto.TabIndex = 2;
+            this.checkBox_LoadFromStoreAuto.Text = "LoadFromStoreAuto";
+            this.checkBox_LoadFromStoreAuto.UseVisualStyleBackColor = true;
             // 
-            // label9
+            // textBox_Store
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(14, 11);
-            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(53, 12);
-            this.label9.TabIndex = 3;
-            this.label9.Text = "JobName";
+            this.textBox_Store.Location = new System.Drawing.Point(6, 28);
+            this.textBox_Store.Multiline = true;
+            this.textBox_Store.Name = "textBox_Store";
+            this.textBox_Store.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBox_Store.Size = new System.Drawing.Size(466, 258);
+            this.textBox_Store.TabIndex = 0;
+            this.textBox_Store.WordWrap = false;
             // 
-            // textBox_JobName
+            // button_LoadFromStore
             // 
-            this.textBox_JobName.Location = new System.Drawing.Point(12, 27);
-            this.textBox_JobName.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox_JobName.Name = "textBox_JobName";
-            this.textBox_JobName.Size = new System.Drawing.Size(476, 19);
-            this.textBox_JobName.TabIndex = 0;
-            // 
-            // comboBox_checkStyle
-            // 
-            this.comboBox_checkStyle.FormattingEnabled = true;
-            this.comboBox_checkStyle.Items.AddRange(new object[] {
-            "Once",
-            "Ever"});
-            this.comboBox_checkStyle.Location = new System.Drawing.Point(16, 192);
-            this.comboBox_checkStyle.Margin = new System.Windows.Forms.Padding(2);
-            this.comboBox_checkStyle.Name = "comboBox_checkStyle";
-            this.comboBox_checkStyle.Size = new System.Drawing.Size(77, 20);
-            this.comboBox_checkStyle.TabIndex = 6;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(13, 178);
-            this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(61, 12);
-            this.label10.TabIndex = 3;
-            this.label10.Text = "checkStyle";
-            // 
-            // button_AddOnceJobPanel
-            // 
-            this.button_AddOnceJobPanel.Location = new System.Drawing.Point(415, 126);
-            this.button_AddOnceJobPanel.Margin = new System.Windows.Forms.Padding(2);
-            this.button_AddOnceJobPanel.Name = "button_AddOnceJobPanel";
-            this.button_AddOnceJobPanel.Size = new System.Drawing.Size(77, 29);
-            this.button_AddOnceJobPanel.TabIndex = 2;
-            this.button_AddOnceJobPanel.Text = "AddPanel";
-            this.button_AddOnceJobPanel.UseVisualStyleBackColor = true;
-            this.button_AddOnceJobPanel.Click += new System.EventHandler(this.button_AddOnceJobPanel_Click);
+            this.button_LoadFromStore.Location = new System.Drawing.Point(2, 2);
+            this.button_LoadFromStore.Name = "button_LoadFromStore";
+            this.button_LoadFromStore.Size = new System.Drawing.Size(112, 23);
+            this.button_LoadFromStore.TabIndex = 1;
+            this.button_LoadFromStore.Text = "LoadFromStore";
+            this.button_LoadFromStore.UseVisualStyleBackColor = true;
+            this.button_LoadFromStore.Click += new System.EventHandler(this.button_LoadFromStore_Click);
             // 
             // tabPage_Panel
             // 
@@ -523,48 +494,101 @@
             this.textBox_OnceJobPanelStore.WordWrap = false;
             this.textBox_OnceJobPanelStore.TextChanged += new System.EventHandler(this.textBox_OnceJobPanelStore_TextChanged);
             // 
-            // tabPage_Store
+            // tabPage_Edit
             // 
-            this.tabPage_Store.Controls.Add(this.checkBox_LoadFromStoreAuto);
-            this.tabPage_Store.Controls.Add(this.button_LoadFromStore);
-            this.tabPage_Store.Controls.Add(this.textBox_Store);
-            this.tabPage_Store.Location = new System.Drawing.Point(4, 22);
-            this.tabPage_Store.Name = "tabPage_Store";
-            this.tabPage_Store.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage_Store.Size = new System.Drawing.Size(502, 368);
-            this.tabPage_Store.TabIndex = 2;
-            this.tabPage_Store.Text = "EveryJobStore";
-            this.tabPage_Store.UseVisualStyleBackColor = true;
+            this.tabPage_Edit.Controls.Add(this.button_EditContentsFromClipboard);
+            this.tabPage_Edit.Controls.Add(this.label9);
+            this.tabPage_Edit.Controls.Add(this.label3);
+            this.tabPage_Edit.Controls.Add(this.comboBox_ScheduleUnit);
+            this.tabPage_Edit.Controls.Add(this.textBox_JobName);
+            this.tabPage_Edit.Controls.Add(this.textBox_ClientName);
+            this.tabPage_Edit.Controls.Add(this.comboBox_checkStyle);
+            this.tabPage_Edit.Controls.Add(this.comboBox_Status);
+            this.tabPage_Edit.Controls.Add(this.textBox_Message);
+            this.tabPage_Edit.Controls.Add(this.textBox_Parameter);
+            this.tabPage_Edit.Controls.Add(this.label2);
+            this.tabPage_Edit.Controls.Add(this.textBox_Address);
+            this.tabPage_Edit.Controls.Add(this.label6);
+            this.tabPage_Edit.Controls.Add(this.textBox_ScheduleUnitParam);
+            this.tabPage_Edit.Controls.Add(this.label4);
+            this.tabPage_Edit.Controls.Add(this.textBox_PortNumber);
+            this.tabPage_Edit.Controls.Add(this.label7);
+            this.tabPage_Edit.Controls.Add(this.button_SendMessage);
+            this.tabPage_Edit.Controls.Add(this.label10);
+            this.tabPage_Edit.Controls.Add(this.label5);
+            this.tabPage_Edit.Controls.Add(this.button_AddOnceJobPanel);
+            this.tabPage_Edit.Controls.Add(this.button_AddSchedule);
+            this.tabPage_Edit.Controls.Add(this.label8);
+            this.tabPage_Edit.Controls.Add(this.label1);
+            this.tabPage_Edit.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_Edit.Margin = new System.Windows.Forms.Padding(2);
+            this.tabPage_Edit.Name = "tabPage_Edit";
+            this.tabPage_Edit.Padding = new System.Windows.Forms.Padding(2);
+            this.tabPage_Edit.Size = new System.Drawing.Size(502, 368);
+            this.tabPage_Edit.TabIndex = 0;
+            this.tabPage_Edit.Text = "JobEdit";
+            this.tabPage_Edit.UseVisualStyleBackColor = true;
             // 
-            // checkBox_LoadFromStoreAuto
+            // button_EditContentsFromClipboard
             // 
-            this.checkBox_LoadFromStoreAuto.AutoSize = true;
-            this.checkBox_LoadFromStoreAuto.Location = new System.Drawing.Point(156, 12);
-            this.checkBox_LoadFromStoreAuto.Name = "checkBox_LoadFromStoreAuto";
-            this.checkBox_LoadFromStoreAuto.Size = new System.Drawing.Size(125, 16);
-            this.checkBox_LoadFromStoreAuto.TabIndex = 2;
-            this.checkBox_LoadFromStoreAuto.Text = "LoadFromStoreAuto";
-            this.checkBox_LoadFromStoreAuto.UseVisualStyleBackColor = true;
+            this.button_EditContentsFromClipboard.Location = new System.Drawing.Point(371, 3);
+            this.button_EditContentsFromClipboard.Name = "button_EditContentsFromClipboard";
+            this.button_EditContentsFromClipboard.Size = new System.Drawing.Size(117, 23);
+            this.button_EditContentsFromClipboard.TabIndex = 7;
+            this.button_EditContentsFromClipboard.Text = "From Clipboard";
+            this.button_EditContentsFromClipboard.UseVisualStyleBackColor = true;
+            this.button_EditContentsFromClipboard.Click += new System.EventHandler(this.button_EditContentsFromClipboard_Click);
             // 
-            // button_LoadFromStore
+            // label9
             // 
-            this.button_LoadFromStore.Location = new System.Drawing.Point(8, 8);
-            this.button_LoadFromStore.Name = "button_LoadFromStore";
-            this.button_LoadFromStore.Size = new System.Drawing.Size(112, 23);
-            this.button_LoadFromStore.TabIndex = 1;
-            this.button_LoadFromStore.Text = "LoadFromStore";
-            this.button_LoadFromStore.UseVisualStyleBackColor = true;
-            this.button_LoadFromStore.Click += new System.EventHandler(this.button_LoadFromStore_Click);
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(14, 11);
+            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(53, 12);
+            this.label9.TabIndex = 3;
+            this.label9.Text = "JobName";
             // 
-            // textBox_Store
+            // textBox_JobName
             // 
-            this.textBox_Store.Location = new System.Drawing.Point(8, 37);
-            this.textBox_Store.Multiline = true;
-            this.textBox_Store.Name = "textBox_Store";
-            this.textBox_Store.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox_Store.Size = new System.Drawing.Size(486, 325);
-            this.textBox_Store.TabIndex = 0;
-            this.textBox_Store.WordWrap = false;
+            this.textBox_JobName.Location = new System.Drawing.Point(12, 27);
+            this.textBox_JobName.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox_JobName.Name = "textBox_JobName";
+            this.textBox_JobName.Size = new System.Drawing.Size(476, 19);
+            this.textBox_JobName.TabIndex = 0;
+            // 
+            // comboBox_checkStyle
+            // 
+            this.comboBox_checkStyle.FormattingEnabled = true;
+            this.comboBox_checkStyle.Items.AddRange(new object[] {
+            "Once",
+            "Ever"});
+            this.comboBox_checkStyle.Location = new System.Drawing.Point(16, 192);
+            this.comboBox_checkStyle.Margin = new System.Windows.Forms.Padding(2);
+            this.comboBox_checkStyle.Name = "comboBox_checkStyle";
+            this.comboBox_checkStyle.Size = new System.Drawing.Size(77, 20);
+            this.comboBox_checkStyle.TabIndex = 6;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(13, 178);
+            this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(61, 12);
+            this.label10.TabIndex = 3;
+            this.label10.Text = "checkStyle";
+            // 
+            // button_AddOnceJobPanel
+            // 
+            this.button_AddOnceJobPanel.Location = new System.Drawing.Point(415, 126);
+            this.button_AddOnceJobPanel.Margin = new System.Windows.Forms.Padding(2);
+            this.button_AddOnceJobPanel.Name = "button_AddOnceJobPanel";
+            this.button_AddOnceJobPanel.Size = new System.Drawing.Size(77, 29);
+            this.button_AddOnceJobPanel.TabIndex = 2;
+            this.button_AddOnceJobPanel.Text = "AddPanel";
+            this.button_AddOnceJobPanel.UseVisualStyleBackColor = true;
+            this.button_AddOnceJobPanel.Click += new System.EventHandler(this.button_AddOnceJobPanel_Click);
             // 
             // tabPage_MessageLog
             // 
@@ -594,9 +618,9 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel_Timer});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 412);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 400);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(510, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(525, 22);
             this.statusStrip1.TabIndex = 8;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -606,11 +630,21 @@
             this.toolStripStatusLabel_Timer.Size = new System.Drawing.Size(16, 17);
             this.toolStripStatusLabel_Timer.Text = "...";
             // 
+            // button_StatusListFrame_Sort
+            // 
+            this.button_StatusListFrame_Sort.Location = new System.Drawing.Point(444, 6);
+            this.button_StatusListFrame_Sort.Name = "button_StatusListFrame_Sort";
+            this.button_StatusListFrame_Sort.Size = new System.Drawing.Size(28, 27);
+            this.button_StatusListFrame_Sort.TabIndex = 3;
+            this.button_StatusListFrame_Sort.Text = "↑";
+            this.button_StatusListFrame_Sort.UseVisualStyleBackColor = true;
+            this.button_StatusListFrame_Sort.Click += new System.EventHandler(this.button_StatusListFrame_Sort_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(510, 434);
+            this.ClientSize = new System.Drawing.Size(525, 422);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tabControl_Main);
             this.Margin = new System.Windows.Forms.Padding(2);
@@ -620,17 +654,19 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl_Main.ResumeLayout(false);
             this.tabPage_View.ResumeLayout(false);
+            this.tabControl_JobView.ResumeLayout(false);
+            this.tabPage_JovView.ResumeLayout(false);
             this.panel_StatusListFrame.ResumeLayout(false);
-            this.tabPage_Edit.ResumeLayout(false);
-            this.tabPage_Edit.PerformLayout();
+            this.tabPage_EveryJobStore.ResumeLayout(false);
+            this.tabPage_EveryJobStore.PerformLayout();
             this.tabPage_Panel.ResumeLayout(false);
             this.tabControl_OnceJobPanel.ResumeLayout(false);
             this.tabPage_OnceJobPanel.ResumeLayout(false);
             this.panel_OnceJobListFrame.ResumeLayout(false);
             this.tabPage_OnceJobPanel_Store.ResumeLayout(false);
             this.tabPage_OnceJobPanel_Store.PerformLayout();
-            this.tabPage_Store.ResumeLayout(false);
-            this.tabPage_Store.PerformLayout();
+            this.tabPage_Edit.ResumeLayout(false);
+            this.tabPage_Edit.PerformLayout();
             this.tabPage_MessageLog.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
@@ -668,7 +704,6 @@
         private System.Windows.Forms.Timer timer_ClientViewUpdate;
         private System.Windows.Forms.ComboBox comboBox_checkStyle;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TabPage tabPage_Store;
         private System.Windows.Forms.TextBox textBox_Store;
         private System.Windows.Forms.CheckBox checkBox_LoadFromStoreAuto;
         private System.Windows.Forms.Button button_LoadFromStore;
@@ -690,6 +725,10 @@
         private System.Windows.Forms.Button button1;
         public System.Windows.Forms.TabControl tabControl_Main;
         public System.Windows.Forms.TabPage tabPage_View;
+        private System.Windows.Forms.TabControl tabControl_JobView;
+        private System.Windows.Forms.TabPage tabPage_JovView;
+        private System.Windows.Forms.TabPage tabPage_EveryJobStore;
+        private System.Windows.Forms.Button button_StatusListFrame_Sort;
     }
 }
 

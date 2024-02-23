@@ -22,6 +22,7 @@ namespace tcpClient
         TcpSocketClient tcp;
 
         PanelScrollControl panelScrollControl_OnceJobList;
+        PanelScrollControl panelScrollControl_StatusList;
 
         public Form1()
         {
@@ -33,8 +34,7 @@ namespace tcpClient
         private void Form1_Load(object sender, EventArgs e)
         {
             panelScrollControl_OnceJobList = new PanelScrollControl(panel_OnceJobListFrame, panel_OnceJobList, vScrollBar_OnceJobList);
-
-
+            panelScrollControl_StatusList = new PanelScrollControl(panel_StatusListFrame, panel_StatusList, vScrollBar_StatusList);
 
             string paramFilename = Path.Combine(thisExeDirPath, "_param.txt");
             if (File.Exists(paramFilename))
@@ -42,14 +42,8 @@ namespace tcpClient
                 WinFormStringCnv.setControlFromString(this, File.ReadAllText(paramFilename));
             }
 
-            this.panel_StatusListFrame.MouseWheel += new MouseEventHandler(this.panel_StatusListFrame_MouseWheel);
-            //this.tabPage_Edit.MouseWheel += new MouseEventHandler(this.panel_StatusListFrame_MouseWheel);
-
-            this.panel_StatusListFrame.Controls.Add(this.panel_StatusList);
 
             if (checkBox_LoadFromStoreAuto.Checked) { LoadFromStore(); };
-
-
 
 
         }
@@ -109,53 +103,6 @@ namespace tcpClient
             updateStatusList();
 
         }
-
-
-        //=====================
-        #region tabPage_Status Event
-        //=====================
-        private void panel_StatusList_SizeChanged(object sender, EventArgs e)
-        {
-            vScrollBar_StatusList.Enabled = panel_StatusList.Height > panel_StatusListFrame.Height;
-            vScrollBar_StatusList.Maximum = panel_StatusList.Height;
-            vScrollBar_StatusList_valueMax = vScrollBar_StatusList.Maximum - vScrollBar_StatusList.LargeChange;
-            vScrollBar_StatusList.LargeChange = panel_StatusListFrame.Height;
-
-        }
-
-        private void vScrollBar_StatusList_Scroll(object sender, ScrollEventArgs e)
-        {
-            vScrollBar_StatusListOperation();
-        }
-
-        private void vScrollBar_StatusList_ValueChanged(object sender, EventArgs e)
-        {
-            vScrollBar_StatusListOperation();
-        }
-
-        private void vScrollBar_StatusListOperation()
-        {
-            panel_StatusList.Top = -vScrollBar_StatusList.Value;
-            panel_StatusListFrame.Refresh();
-        }
-
-        int vScrollBar_StatusList_valueMin = 0;
-        int vScrollBar_StatusList_valueMax = 0;
-
-        private void panel_StatusListFrame_MouseWheel(object sender, MouseEventArgs e)
-        {
-            //マウスのホイールが動いた場合にイベントが発生する
-
-            int targetValue = vScrollBar_StatusList.Value - e.Delta;
-            targetValue = targetValue >= vScrollBar_StatusList_valueMin ? targetValue : vScrollBar_StatusList_valueMin;
-            targetValue = targetValue <= vScrollBar_StatusList_valueMax ? targetValue : vScrollBar_StatusList_valueMax;
-
-            vScrollBar_StatusList.Value = targetValue > 0 ? targetValue : 0;
-        }
-
-
-        #endregion
-        //=====================
 
 
         List<JobItemView> jobItemViews = new List<JobItemView>();
@@ -350,6 +297,11 @@ namespace tcpClient
         {
             update_OnceJobPanel();
 
+        }
+
+        private void button_StatusListFrame_Sort_Click(object sender, EventArgs e)
+        {
+            updateStatusList();
         }
     }
 }
