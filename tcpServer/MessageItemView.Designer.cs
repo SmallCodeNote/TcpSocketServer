@@ -46,6 +46,7 @@
             this.groupBox_ClientName.Controls.Add(this.label_ElapsedTime);
             this.groupBox_ClientName.Controls.Add(this.label_LastConnectTime);
             this.groupBox_ClientName.Controls.Add(this.label_Status);
+            this.groupBox_ClientName.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.groupBox_ClientName.Location = new System.Drawing.Point(0, 0);
             this.groupBox_ClientName.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox_ClientName.Name = "groupBox_ClientName";
@@ -59,7 +60,8 @@
             // 
             this.checkBox_check.AutoSize = true;
             this.checkBox_check.Enabled = false;
-            this.checkBox_check.Location = new System.Drawing.Point(7, 29);
+            this.checkBox_check.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.checkBox_check.Location = new System.Drawing.Point(7, 30);
             this.checkBox_check.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_check.Name = "checkBox_check";
             this.checkBox_check.Size = new System.Drawing.Size(54, 16);
@@ -70,7 +72,8 @@
             // 
             // button_AllCheck
             // 
-            this.button_AllCheck.Location = new System.Drawing.Point(79, 27);
+            this.button_AllCheck.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button_AllCheck.Location = new System.Drawing.Point(64, 27);
             this.button_AllCheck.Margin = new System.Windows.Forms.Padding(2);
             this.button_AllCheck.Name = "button_AllCheck";
             this.button_AllCheck.Size = new System.Drawing.Size(60, 18);
@@ -81,6 +84,7 @@
             // 
             // label_LastMessage
             // 
+            this.label_LastMessage.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label_LastMessage.Location = new System.Drawing.Point(143, 14);
             this.label_LastMessage.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_LastMessage.Name = "label_LastMessage";
@@ -91,6 +95,7 @@
             // label_ElapsedTime
             // 
             this.label_ElapsedTime.AutoSize = true;
+            this.label_ElapsedTime.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label_ElapsedTime.Location = new System.Drawing.Point(4, 58);
             this.label_ElapsedTime.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_ElapsedTime.Name = "label_ElapsedTime";
@@ -101,6 +106,7 @@
             // label_LastConnectTime
             // 
             this.label_LastConnectTime.AutoSize = true;
+            this.label_LastConnectTime.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label_LastConnectTime.Location = new System.Drawing.Point(4, 46);
             this.label_LastConnectTime.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_LastConnectTime.Name = "label_LastConnectTime";
@@ -111,7 +117,8 @@
             // label_Status
             // 
             this.label_Status.AutoSize = true;
-            this.label_Status.Location = new System.Drawing.Point(4, 14);
+            this.label_Status.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label_Status.Location = new System.Drawing.Point(4, 17);
             this.label_Status.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Status.Name = "label_Status";
             this.label_Status.Size = new System.Drawing.Size(38, 12);

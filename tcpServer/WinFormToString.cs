@@ -144,8 +144,16 @@ namespace WinFormStringCnvClass
                 {
                     try
                     {
-                        if (c[Col.Index, Row.Index].Value == null) {
-                            Value = "";
+                        if (c[Col.Index, Row.Index].Value == null)
+                        {
+                            if (c[Col.Index, Row.Index].OwningColumn is DataGridViewCheckBoxColumn)
+                            {
+                                Value = "False";
+                            }
+                            else
+                            {
+                                Value = "";
+                            }
                         }
                         else
                         {
@@ -180,6 +188,8 @@ namespace WinFormStringCnvClass
             for (int i = 0; i < cols.Length; i++)
             {
                 cols[i] = deEscape(cols[i]);
+
+
             }
 
             c.Rows.Add(cols);
