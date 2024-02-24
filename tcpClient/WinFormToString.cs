@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using System.Diagnostics;
+
 namespace WinFormStringCnvClass
 {
     static class WinFormStringCnv
@@ -47,13 +49,9 @@ namespace WinFormStringCnvClass
             {
                 string[] cols = s.Split('\t');
 
-                if (cols[0].Length > 0)
+                if (cols[0].Length > 0 && ControlDic.ContainsKey(cols[0]))
                 {
-                    try
-                    {
-                        setControlFromString(ControlDic[cols[0]], s.Replace(cols[0] + "\t", ""));
-                    }
-                    catch { }
+                    setControlFromString(ControlDic[cols[0]], s.Replace(cols[0] + "\t", ""));
                 }
             }
 
@@ -74,10 +72,13 @@ namespace WinFormStringCnvClass
                     try
                     {
                         ControlDic.Add(cc.Name, cc);
+                        if (cc.Controls.Count > 0)
+                            CreateControlDictionary(cc, ControlDic);
                     }
-                    catch { }
-                    if (cc.Controls.Count > 0)
-                        CreateControlDictionary(cc, ControlDic);
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + " " + ex.ToString());
+                    }
                 }
             }
             return;
@@ -109,6 +110,7 @@ namespace WinFormStringCnvClass
         /// <param name="value"></param>
         static void setControlFromString(Control c, string value)
         {
+
             if (c is TextBox) ((TextBox)c).Text = deEscape(value);
             else if (c is ListBox) ((ListBox)c).Text = deEscape(value);
             else if (c is ComboBox) ((ComboBox)c).Text = deEscape(value);
@@ -117,6 +119,7 @@ namespace WinFormStringCnvClass
             else if (c is DataGridView) setDataGridViewFromString((DataGridView)c, value);
             else if (c is CheckBox) ((CheckBox)c).Checked = bool.Parse(value);
             else if (c is RadioButton) ((RadioButton)c).Checked = bool.Parse(value);
+
 
             return;
         }
@@ -141,10 +144,29 @@ namespace WinFormStringCnvClass
                 {
                     try
                     {
-                        Value = toEscape(c[Col.Index, Row.Index].Value.ToString());
+                        if (c[Col.Index, Row.Index].Value == null)
+                        {
+                            if (c[Col.Index, Row.Index].OwningColumn is DataGridViewCheckBoxColumn)
+                            {
+                                Value = "False";
+                            }
+                            else
+                            {
+                                Value = "";
+                            }
+                        }
+                        else
+                        {
+                            Value = toEscape(c[Col.Index, Row.Index].Value.ToString());
+                        }
+
                         Line += "\t" + Value;
+
                     }
-                    catch { }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + " " + ex.ToString());
+                    }
                 }
 
                 if (Value.Length > 0) Lines.Add(Line);
@@ -166,6 +188,8 @@ namespace WinFormStringCnvClass
             for (int i = 0; i < cols.Length; i++)
             {
                 cols[i] = deEscape(cols[i]);
+
+
             }
 
             c.Rows.Add(cols);

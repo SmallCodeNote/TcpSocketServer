@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using FluentScheduler;
 
 using WinFormStringCnvClass;
+using PanelScroll;
 
 namespace tcpClient
 {
@@ -210,6 +211,14 @@ namespace tcpClient
         private void comboBox_ScheduleUnit_SelectedIndexChanged(object sender, EventArgs e)
         {
             button_AddOnceJobPanel.Enabled = comboBox_ScheduleUnit.Text.IndexOf("Once") >= 0;
+
+            if (comboBox_ScheduleUnit.Text == "EveryDays") { toolTip_textBox_ScheduleUnitParam.SetToolTip(textBox_ScheduleUnitParam, "Hour and Minute value(ex. 8:15 )"); }
+            else if (comboBox_ScheduleUnit.Text == "EveryHours") { toolTip_textBox_ScheduleUnitParam.SetToolTip(textBox_ScheduleUnitParam, "Minute value(ex. 10)"); }
+            else if (comboBox_ScheduleUnit.Text == "EverySeconds") { toolTip_textBox_ScheduleUnitParam.SetToolTip(textBox_ScheduleUnitParam, "Interval in Seconds"); }
+            else if (comboBox_ScheduleUnit.Text == "OnceAtSeconds") { toolTip_textBox_ScheduleUnitParam.SetToolTip(textBox_ScheduleUnitParam, "Delay time value in Seconds"); }
+            else if (comboBox_ScheduleUnit.Text == "OnceAtMinutes") { toolTip_textBox_ScheduleUnitParam.SetToolTip(textBox_ScheduleUnitParam, "Delay time value in Minutes"); }
+            else if (comboBox_ScheduleUnit.Text == "OnceAtHours") { toolTip_textBox_ScheduleUnitParam.SetToolTip(textBox_ScheduleUnitParam, "Delay time value in Hours"); }
+
         }
 
         private void button_AddOnceJobPanel_Click(object sender, EventArgs e)

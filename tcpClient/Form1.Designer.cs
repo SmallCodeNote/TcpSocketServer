@@ -32,7 +32,6 @@
             this.textBox_ClientName = new System.Windows.Forms.TextBox();
             this.textBox_Address = new System.Windows.Forms.TextBox();
             this.textBox_PortNumber = new System.Windows.Forms.TextBox();
-            this.button_SendMessage = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -51,6 +50,7 @@
             this.tabPage_View = new System.Windows.Forms.TabPage();
             this.tabControl_JobView = new System.Windows.Forms.TabControl();
             this.tabPage_JovView = new System.Windows.Forms.TabPage();
+            this.button_StatusListFrame_Sort = new System.Windows.Forms.Button();
             this.vScrollBar_StatusList = new System.Windows.Forms.VScrollBar();
             this.panel_StatusListFrame = new System.Windows.Forms.Panel();
             this.panel_StatusList = new System.Windows.Forms.Panel();
@@ -80,7 +80,7 @@
             this.timer_ClientViewUpdate = new System.Windows.Forms.Timer(this.components);
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel_Timer = new System.Windows.Forms.ToolStripStatusLabel();
-            this.button_StatusListFrame_Sort = new System.Windows.Forms.Button();
+            this.toolTip_textBox_ScheduleUnitParam = new System.Windows.Forms.ToolTip(this.components);
             this.tabControl_Main.SuspendLayout();
             this.tabPage_View.SuspendLayout();
             this.tabControl_JobView.SuspendLayout();
@@ -120,17 +120,6 @@
             this.textBox_PortNumber.Name = "textBox_PortNumber";
             this.textBox_PortNumber.Size = new System.Drawing.Size(76, 19);
             this.textBox_PortNumber.TabIndex = 1;
-            // 
-            // button_SendMessage
-            // 
-            this.button_SendMessage.Location = new System.Drawing.Point(435, 330);
-            this.button_SendMessage.Margin = new System.Windows.Forms.Padding(2);
-            this.button_SendMessage.Name = "button_SendMessage";
-            this.button_SendMessage.Size = new System.Drawing.Size(56, 18);
-            this.button_SendMessage.TabIndex = 2;
-            this.button_SendMessage.Text = "Send";
-            this.button_SendMessage.UseVisualStyleBackColor = true;
-            this.button_SendMessage.Click += new System.EventHandler(this.button_SendMessage_Click);
             // 
             // label1
             // 
@@ -330,6 +319,16 @@
             this.tabPage_JovView.Text = "JovView";
             this.tabPage_JovView.UseVisualStyleBackColor = true;
             // 
+            // button_StatusListFrame_Sort
+            // 
+            this.button_StatusListFrame_Sort.Location = new System.Drawing.Point(444, 6);
+            this.button_StatusListFrame_Sort.Name = "button_StatusListFrame_Sort";
+            this.button_StatusListFrame_Sort.Size = new System.Drawing.Size(28, 27);
+            this.button_StatusListFrame_Sort.TabIndex = 3;
+            this.button_StatusListFrame_Sort.Text = "↑";
+            this.button_StatusListFrame_Sort.UseVisualStyleBackColor = true;
+            this.button_StatusListFrame_Sort.Click += new System.EventHandler(this.button_StatusListFrame_Sort_Click);
+            // 
             // vScrollBar_StatusList
             // 
             this.vScrollBar_StatusList.Location = new System.Drawing.Point(409, 6);
@@ -381,7 +380,7 @@
             this.textBox_Store.Multiline = true;
             this.textBox_Store.Name = "textBox_Store";
             this.textBox_Store.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox_Store.Size = new System.Drawing.Size(466, 258);
+            this.textBox_Store.Size = new System.Drawing.Size(466, 296);
             this.textBox_Store.TabIndex = 0;
             this.textBox_Store.WordWrap = false;
             // 
@@ -433,7 +432,7 @@
             // 
             this.vScrollBar_OnceJobList.Location = new System.Drawing.Point(457, 3);
             this.vScrollBar_OnceJobList.Name = "vScrollBar_OnceJobList";
-            this.vScrollBar_OnceJobList.Size = new System.Drawing.Size(28, 284);
+            this.vScrollBar_OnceJobList.Size = new System.Drawing.Size(28, 307);
             this.vScrollBar_OnceJobList.TabIndex = 1;
             // 
             // panel_OnceJobListFrame
@@ -441,7 +440,7 @@
             this.panel_OnceJobListFrame.Controls.Add(this.panel_OnceJobList);
             this.panel_OnceJobListFrame.Location = new System.Drawing.Point(3, 3);
             this.panel_OnceJobListFrame.Name = "panel_OnceJobListFrame";
-            this.panel_OnceJobListFrame.Size = new System.Drawing.Size(451, 284);
+            this.panel_OnceJobListFrame.Size = new System.Drawing.Size(451, 307);
             this.panel_OnceJobListFrame.TabIndex = 0;
             // 
             // panel_OnceJobList
@@ -513,7 +512,6 @@
             this.tabPage_Edit.Controls.Add(this.label4);
             this.tabPage_Edit.Controls.Add(this.textBox_PortNumber);
             this.tabPage_Edit.Controls.Add(this.label7);
-            this.tabPage_Edit.Controls.Add(this.button_SendMessage);
             this.tabPage_Edit.Controls.Add(this.label10);
             this.tabPage_Edit.Controls.Add(this.label5);
             this.tabPage_Edit.Controls.Add(this.button_AddOnceJobPanel);
@@ -526,7 +524,7 @@
             this.tabPage_Edit.Padding = new System.Windows.Forms.Padding(2);
             this.tabPage_Edit.Size = new System.Drawing.Size(502, 368);
             this.tabPage_Edit.TabIndex = 0;
-            this.tabPage_Edit.Text = "JobEdit";
+            this.tabPage_Edit.Text = "JobEditForm";
             this.tabPage_Edit.UseVisualStyleBackColor = true;
             // 
             // button_EditContentsFromClipboard
@@ -630,15 +628,12 @@
             this.toolStripStatusLabel_Timer.Size = new System.Drawing.Size(16, 17);
             this.toolStripStatusLabel_Timer.Text = "...";
             // 
-            // button_StatusListFrame_Sort
+            // toolTip_textBox_ScheduleUnitParam
             // 
-            this.button_StatusListFrame_Sort.Location = new System.Drawing.Point(444, 6);
-            this.button_StatusListFrame_Sort.Name = "button_StatusListFrame_Sort";
-            this.button_StatusListFrame_Sort.Size = new System.Drawing.Size(28, 27);
-            this.button_StatusListFrame_Sort.TabIndex = 3;
-            this.button_StatusListFrame_Sort.Text = "↑";
-            this.button_StatusListFrame_Sort.UseVisualStyleBackColor = true;
-            this.button_StatusListFrame_Sort.Click += new System.EventHandler(this.button_StatusListFrame_Sort_Click);
+            this.toolTip_textBox_ScheduleUnitParam.AutomaticDelay = 100;
+            this.toolTip_textBox_ScheduleUnitParam.AutoPopDelay = 10000;
+            this.toolTip_textBox_ScheduleUnitParam.InitialDelay = 100;
+            this.toolTip_textBox_ScheduleUnitParam.ReshowDelay = 20;
             // 
             // Form1
             // 
@@ -680,7 +675,6 @@
         private System.Windows.Forms.TextBox textBox_ClientName;
         private System.Windows.Forms.TextBox textBox_Address;
         private System.Windows.Forms.TextBox textBox_PortNumber;
-        private System.Windows.Forms.Button button_SendMessage;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -729,6 +723,7 @@
         private System.Windows.Forms.TabPage tabPage_JovView;
         private System.Windows.Forms.TabPage tabPage_EveryJobStore;
         private System.Windows.Forms.Button button_StatusListFrame_Sort;
+        private System.Windows.Forms.ToolTip toolTip_textBox_ScheduleUnitParam;
     }
 }
 

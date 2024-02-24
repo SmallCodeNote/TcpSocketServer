@@ -57,7 +57,7 @@ namespace tcpClient
             {
                 if (schedule != null)
                 {
-                    label_Next.Text = getElapsedTimeString(schedule.NextRun-DateTime.Now) ;
+                    label_Next.Text = getElapsedTimeString(schedule.NextRun - DateTime.Now);
                 }
             }
             catch { }
@@ -76,6 +76,20 @@ namespace tcpClient
             return "now";
         }
 
+        private void button_PanelSwitch_Click(object sender, EventArgs e)
+        {
+            if (panel_Contents.Top == 0)
+            {
+                panel_Contents.Top = -panel_Frame.Height;
+                button_PanelSwitch.Text = ">";
+            }
+            else
+            {
+                panel_Contents.Top = 0;
+                button_PanelSwitch.Text = "<";
+
+            }
+        }
     }
 
 }
