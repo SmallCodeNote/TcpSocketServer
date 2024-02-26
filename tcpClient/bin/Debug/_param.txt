@@ -1,10 +1,14 @@
-comboBox_ScheduleUnit	OnceAtSeconds
-textBox_JobName	TestJob3
+checkBox_LoadFromStoreAuto	True
+textBox_Store	localhost\\t\\1024\\t\\TestJob1\\t\\EverySeconds\\t\\5\\t\\Client1\\t\\Warning\\t\\Client1_Warning Message1\\t\\Parameter\\t\\Once\\r\\\\n\\localhost\\t\\1024\\t\\TimeSignal1\\t\\EveryDays\\t\\7:50\\t\\Station\\t\\Signal\\t\\7:50 Now\\t\\Parameter\\t\\Once\\r\\\\n\\localhost\\t\\1024\\t\\TimeSignal2\\t\\EveryDays\\t\\15:50\\t\\Station\\t\\Signal\\t\\15:50 Now\\t\\Parameter\\t\\Once\\r\\\\n\\localhost\\t\\1024\\t\\TimeSignal3\\t\\EveryDays\\t\\23:50\\t\\Station\\t\\Signal\\t\\23:50 Now\\t\\Parameter\\t\\Once\\r\\\\n\\localhost\\t\\1024\\t\\TestJob7\\t\\EveryHours\\t\\10\\t\\Client1\\t\\Warning\\t\\Client1_Warning Message1\\t\\Parameter\\t\\Once\\r\\\\n\\\\r\\\\n\\
+checkBox1	False
+textBox_OnceJobPanelStore	localhost\\t\\1024\\t\\TestJob1\\t\\OnceAtMinutes\\t\\10\\t\\Client1\\t\\Warning\\t\\Client1_Warning Message1\\t\\Parameter\\t\\Once\\r\\\\n\\localhost\\t\\1024\\t\\TestJob2\\t\\OnceAtMinutes\\t\\10\\t\\Client1\\t\\Warning\\t\\Client1_Warning Message1\\t\\Parameter\\t\\Once\\r\\\\n\\localhost\\t\\1024\\t\\TestJob3\\t\\OnceAtMinutes\\t\\10\\t\\Client1\\t\\Warning\\t\\Client1_Warning Message1\\t\\Parameter\\t\\Once\\r\\\\n\\localhost\\t\\1024\\t\\TestJob4\\t\\OnceAtMinutes\\t\\10\\t\\Client1\\t\\Warning\\t\\Client1_Warning Message1\\t\\Parameter\\t\\Once\\r\\\\n\\localhost\\t\\1024\\t\\TestJob5\\t\\OnceAtMinutes\\t\\10\\t\\Client1\\t\\Warning\\t\\Client1_Warning Message1\\t\\Parameter\\t\\Once\\r\\\\n\\localhost\\t\\1024\\t\\TestJob6\\t\\OnceAtMinutes\\t\\10\\t\\Client1\\t\\Warning\\t\\Client1_Warning Message1\\t\\Parameter\\t\\Once\\r\\\\n\\localhost\\t\\1024\\t\\TestJob7\\t\\OnceAtSeconds\\t\\10\\t\\Client1\\t\\Warning\\t\\Client1_Warning Message1\\t\\Parameter\\t\\Once\\r\\\\n\\\\r\\\\n\\
+comboBox_ScheduleUnit	EveryHours
+textBox_JobName	TestJob7
 textBox_ClientName	Client1
-comboBox_Status	Notice
-textBox_Message	Client1_Notice Message3
-checkBox_NeedCheck	False
+comboBox_checkStyle	Once\\r\\\\n\\
+comboBox_Status	TimeSignal
+textBox_Message	Client1_Warning Message1
 textBox_Parameter	Parameter
 textBox_Address	localhost
-textBox_ScheduleUnitParam	7
+textBox_ScheduleUnitParam	10
 textBox_PortNumber	1024
