@@ -52,8 +52,8 @@
             this.tabPage_JovView = new System.Windows.Forms.TabPage();
             this.button_StatusListFrame_Sort = new System.Windows.Forms.Button();
             this.vScrollBar_StatusList = new System.Windows.Forms.VScrollBar();
-            this.panel_StatusListFrame = new System.Windows.Forms.Panel();
-            this.panel_StatusList = new System.Windows.Forms.Panel();
+            this.panel_JobViewListFrame = new System.Windows.Forms.Panel();
+            this.panel_JobViewList = new System.Windows.Forms.Panel();
             this.tabPage_EveryJobStore = new System.Windows.Forms.TabPage();
             this.checkBox_LoadFromStoreAuto = new System.Windows.Forms.CheckBox();
             this.textBox_Store = new System.Windows.Forms.TextBox();
@@ -85,7 +85,7 @@
             this.tabPage_View.SuspendLayout();
             this.tabControl_JobView.SuspendLayout();
             this.tabPage_JovView.SuspendLayout();
-            this.panel_StatusListFrame.SuspendLayout();
+            this.panel_JobViewListFrame.SuspendLayout();
             this.tabPage_EveryJobStore.SuspendLayout();
             this.tabPage_Panel.SuspendLayout();
             this.tabControl_OnceJobPanel.SuspendLayout();
@@ -205,7 +205,8 @@
             this.comboBox_Status.Items.AddRange(new object[] {
             "Notice",
             "Warning",
-            "Error"});
+            "Error",
+            "TimeSignal"});
             this.comboBox_Status.Location = new System.Drawing.Point(16, 154);
             this.comboBox_Status.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox_Status.Name = "comboBox_Status";
@@ -246,6 +247,7 @@
             this.textBox_ScheduleUnitParam.Name = "textBox_ScheduleUnitParam";
             this.textBox_ScheduleUnitParam.Size = new System.Drawing.Size(350, 19);
             this.textBox_ScheduleUnitParam.TabIndex = 1;
+            this.textBox_ScheduleUnitParam.TextChanged += new System.EventHandler(this.textBox_ScheduleUnitParam_TextChanged);
             // 
             // label8
             // 
@@ -310,7 +312,7 @@
             // 
             this.tabPage_JovView.Controls.Add(this.button_StatusListFrame_Sort);
             this.tabPage_JovView.Controls.Add(this.vScrollBar_StatusList);
-            this.tabPage_JovView.Controls.Add(this.panel_StatusListFrame);
+            this.tabPage_JovView.Controls.Add(this.panel_JobViewListFrame);
             this.tabPage_JovView.Location = new System.Drawing.Point(4, 4);
             this.tabPage_JovView.Name = "tabPage_JovView";
             this.tabPage_JovView.Padding = new System.Windows.Forms.Padding(3);
@@ -336,20 +338,20 @@
             this.vScrollBar_StatusList.Size = new System.Drawing.Size(26, 318);
             this.vScrollBar_StatusList.TabIndex = 2;
             // 
-            // panel_StatusListFrame
+            // panel_JobViewListFrame
             // 
-            this.panel_StatusListFrame.Controls.Add(this.panel_StatusList);
-            this.panel_StatusListFrame.Location = new System.Drawing.Point(6, 6);
-            this.panel_StatusListFrame.Name = "panel_StatusListFrame";
-            this.panel_StatusListFrame.Size = new System.Drawing.Size(400, 318);
-            this.panel_StatusListFrame.TabIndex = 1;
+            this.panel_JobViewListFrame.Controls.Add(this.panel_JobViewList);
+            this.panel_JobViewListFrame.Location = new System.Drawing.Point(6, 6);
+            this.panel_JobViewListFrame.Name = "panel_JobViewListFrame";
+            this.panel_JobViewListFrame.Size = new System.Drawing.Size(400, 318);
+            this.panel_JobViewListFrame.TabIndex = 1;
             // 
-            // panel_StatusList
+            // panel_JobViewList
             // 
-            this.panel_StatusList.Location = new System.Drawing.Point(0, 0);
-            this.panel_StatusList.Name = "panel_StatusList";
-            this.panel_StatusList.Size = new System.Drawing.Size(400, 180);
-            this.panel_StatusList.TabIndex = 0;
+            this.panel_JobViewList.Location = new System.Drawing.Point(0, 0);
+            this.panel_JobViewList.Name = "panel_JobViewList";
+            this.panel_JobViewList.Size = new System.Drawing.Size(400, 180);
+            this.panel_JobViewList.TabIndex = 0;
             // 
             // tabPage_EveryJobStore
             // 
@@ -651,7 +653,7 @@
             this.tabPage_View.ResumeLayout(false);
             this.tabControl_JobView.ResumeLayout(false);
             this.tabPage_JovView.ResumeLayout(false);
-            this.panel_StatusListFrame.ResumeLayout(false);
+            this.panel_JobViewListFrame.ResumeLayout(false);
             this.tabPage_EveryJobStore.ResumeLayout(false);
             this.tabPage_EveryJobStore.PerformLayout();
             this.tabPage_Panel.ResumeLayout(false);
@@ -693,8 +695,8 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox textBox_JobName;
         private System.Windows.Forms.VScrollBar vScrollBar_StatusList;
-        private System.Windows.Forms.Panel panel_StatusListFrame;
-        private System.Windows.Forms.Panel panel_StatusList;
+        private System.Windows.Forms.Panel panel_JobViewListFrame;
+        private System.Windows.Forms.Panel panel_JobViewList;
         private System.Windows.Forms.Timer timer_ClientViewUpdate;
         private System.Windows.Forms.ComboBox comboBox_checkStyle;
         private System.Windows.Forms.Label label10;

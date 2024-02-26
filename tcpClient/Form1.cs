@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 using FluentScheduler;
 
@@ -35,7 +36,7 @@ namespace tcpClient
         private void Form1_Load(object sender, EventArgs e)
         {
             panelScrollControl_OnceJobList = new PanelScrollControl(panel_OnceJobListFrame, panel_OnceJobList, vScrollBar_OnceJobList);
-            panelScrollControl_StatusList = new PanelScrollControl(panel_StatusListFrame, panel_StatusList, vScrollBar_StatusList);
+            panelScrollControl_StatusList = new PanelScrollControl(panel_JobViewListFrame, panel_JobViewList, vScrollBar_StatusList);
 
             string paramFilename = Path.Combine(thisExeDirPath, "_param.txt");
             if (File.Exists(paramFilename))
@@ -101,20 +102,19 @@ namespace tcpClient
 
             }
 
-            updateStatusList();
+            updateJobViewList();
 
         }
 
 
         List<JobItemView> jobItemViews = new List<JobItemView>();
 
-        private void updateStatusList()
+        private void updateJobViewList()
         {
             try
             {
-                panel_StatusList.Controls.Clear();
+                panel_JobViewList.Controls.Clear();
 
-                //var allSchedules = JobManager.AllSchedules;
                 List<Schedule> sortedSchedules = JobManager.AllSchedules.OrderBy(schedule => schedule.NextRun).ToList();
 
                 int topLocation = 0;
@@ -130,13 +130,13 @@ namespace tcpClient
 
                     jobItemView.setLabel(schedule, this);
 
-                    panel_StatusList.Controls.Add(jobItemView);
+                    panel_JobViewList.Controls.Add(jobItemView);
 
                     topLocation += jobItemView.Height;
 
                 }
 
-                panel_StatusList.Height = topLocation;
+                panel_JobViewList.Height = topLocation;
 
             }
             catch (Exception ex)
@@ -147,7 +147,9 @@ namespace tcpClient
 
         }
 
+
         int JobManager_AllSchedules_Count_Buff = 0;
+
         private void timer_ClientViewUpdate_Tick(object sender, EventArgs e)
         {
             int jobCount = JobManager.AllSchedules.Count();
@@ -212,12 +214,15 @@ namespace tcpClient
         {
             button_AddOnceJobPanel.Enabled = comboBox_ScheduleUnit.Text.IndexOf("Once") >= 0;
 
+            //toolTip Update
             if (comboBox_ScheduleUnit.Text == "EveryDays") { toolTip_textBox_ScheduleUnitParam.SetToolTip(textBox_ScheduleUnitParam, "Hour and Minute value(ex. 8:15 )"); }
             else if (comboBox_ScheduleUnit.Text == "EveryHours") { toolTip_textBox_ScheduleUnitParam.SetToolTip(textBox_ScheduleUnitParam, "Minute value(ex. 10)"); }
             else if (comboBox_ScheduleUnit.Text == "EverySeconds") { toolTip_textBox_ScheduleUnitParam.SetToolTip(textBox_ScheduleUnitParam, "Interval in Seconds"); }
             else if (comboBox_ScheduleUnit.Text == "OnceAtSeconds") { toolTip_textBox_ScheduleUnitParam.SetToolTip(textBox_ScheduleUnitParam, "Delay time value in Seconds"); }
             else if (comboBox_ScheduleUnit.Text == "OnceAtMinutes") { toolTip_textBox_ScheduleUnitParam.SetToolTip(textBox_ScheduleUnitParam, "Delay time value in Minutes"); }
             else if (comboBox_ScheduleUnit.Text == "OnceAtHours") { toolTip_textBox_ScheduleUnitParam.SetToolTip(textBox_ScheduleUnitParam, "Delay time value in Hours"); }
+
+            textBox_ScheduleUnitParam_TextChanged();
 
         }
 
@@ -267,15 +272,12 @@ namespace tcpClient
             var job = new FluentSchedulerRegistry(tcp, Lines.ToArray());
             JobManager.Initialize(job);
 
-
-
             string ScheduleUnit = comboBox_ScheduleUnit.Text;
 
             if (ScheduleUnit.IndexOf("Once") < 0)
             {
                 textBox_Store.Text += string.Join("\r\n", Lines.ToArray()) + "\r\n";
             }
-
 
         }
 
@@ -289,13 +291,16 @@ namespace tcpClient
             int viewTop = 0;
             foreach (var Line in Lines)
             {
-                var onceJobView = new OnceJobView(tcp, Line, this);
-                onceJobView.Top = viewTop;
-                panel_OnceJobList.Controls.Add(onceJobView);
-                panel_OnceJobList.Width = onceJobView.Width;
+                string[] Cols = Line.Split('\t');
+                if (Cols.Length == 10)
+                {
+                    var onceJobView = new OnceJobView(tcp, Cols, this);
+                    onceJobView.Top = viewTop;
+                    panel_OnceJobList.Controls.Add(onceJobView);
+                    panel_OnceJobList.Width = onceJobView.Width;
 
-
-                viewTop += onceJobView.Height;
+                    viewTop += onceJobView.Height;
+                }
             }
 
             panel_OnceJobList.Height = viewTop;
@@ -310,7 +315,79 @@ namespace tcpClient
 
         private void button_StatusListFrame_Sort_Click(object sender, EventArgs e)
         {
-            updateStatusList();
+            updateJobViewList();
+        }
+
+        private void textBox_ScheduleUnitParam_TextChanged(object sender = null, EventArgs e = null)
+        {
+            TextBox textBox = textBox_ScheduleUnitParam;
+
+            if (comboBox_ScheduleUnit.Text.IndexOf("Day") >= 0)
+            {
+                // 正規表現パターン
+                string pattern = @"^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
+
+                // Textboxの内容をカンマで分割
+                string[] times = new string[] { textBox.Text };// textBox.Text.Split(',');
+
+                // 各時刻についてチェック
+                foreach (string time in times)
+                {
+                    if (!Regex.IsMatch(time, pattern))
+                    {
+                        // パターンと一致しない場合は文字色を赤に設定
+                        textBox.ForeColor = Color.Red;
+
+                        button_AddOnceJobPanel.Enabled = false;
+                        button_AddSchedule.Enabled = false;
+
+                        return;
+                    }
+                }
+
+                // 全ての時刻が正常であれば文字色を黒に設定
+                textBox.ForeColor = Color.Black;
+            }
+            else
+            {
+
+                // 正規表現パターン
+                string pattern = @"^\d+$";
+
+                // Textboxの内容をカンマで分割
+                string[] times = new string[] { textBox.Text };// textBox.Text.Split(',');
+
+                // 各時刻についてチェック
+                foreach (string time in times)
+                {
+                    if (!Regex.IsMatch(time, pattern))
+                    {
+                        // パターンと一致しない場合は文字色を赤に設定
+                        textBox.ForeColor = Color.Red;
+
+                        button_AddOnceJobPanel.Enabled = false;
+                        button_AddSchedule.Enabled = false;
+
+                        return;
+                    }
+                }
+
+                // 全ての時刻が正常であれば文字色を黒に設定
+                textBox.ForeColor = Color.Black;
+
+
+            }
+
+            button_AddOnceJobPanel.Enabled = comboBox_ScheduleUnit.Text.IndexOf("Once") >= 0;
+            button_AddSchedule.Enabled = true;
+
+        }
+
+        private void textBox_Message_TextChanged(object sender, EventArgs e)
+        {
+            DateTime now = DateTime.Now;
+
+           
         }
     }
 }

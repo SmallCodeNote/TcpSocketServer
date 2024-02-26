@@ -29,13 +29,13 @@ namespace tcpClient
         string parameter;
         string checkStyle;
 
-        public OnceJobView(TcpSocketClient tcp, string Line, Form1 form1)
+        public OnceJobView(TcpSocketClient tcp, string[] Cols, Form1 form1)
         {
             InitializeComponent();
 
             this.tcp = tcp;
 
-            string[] Cols = Line.Split('\t');
+            
             int colIndex = 0;
 
             address = Cols[colIndex]; colIndex++;
