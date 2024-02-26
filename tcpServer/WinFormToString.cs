@@ -189,7 +189,6 @@ namespace WinFormStringCnvClass
             {
                 cols[i] = deEscape(cols[i]);
 
-
             }
 
             c.Rows.Add(cols);

@@ -29,12 +29,14 @@ namespace tcpserver
         public int _threadSleepLength = 100;
 
         public int httpTimeout = 3;
+        public bool _debug = true;
 
-
-        public NoticeTransmitter()
+        public NoticeTransmitter(bool debug = true)
         {
             NoticeQueue = new ConcurrentQueue<NoticeMessage>();
             NoticeRunningDictionary = new ConcurrentDictionary<string, NoticeMessageHandling>();
+
+            this._debug = debug;
         }
 
         public bool AddNotice(NoticeMessage notice)
@@ -101,7 +103,7 @@ namespace tcpserver
                         NoticeMessage b;
                         if (NoticeQueue.TryDequeue(out b))
                         {
-                            NoticeMessageHandling handling = new NoticeMessageHandling(b, httpTimeout);
+                            NoticeMessageHandling handling = new NoticeMessageHandling(b, httpTimeout, _debug);
 
                             if (NoticeRunningDictionary.TryAdd(b.Key, handling))
                             {
@@ -144,11 +146,13 @@ namespace tcpserver
         }
 
 
-        public NoticeMessageHandling(NoticeMessage notice, int timeout = 3)
+        public NoticeMessageHandling(NoticeMessage notice, int timeout = 3, bool debug = true)
         {
             this.notice = notice;
             httpClient = new HttpClient();
             httpClient.Timeout = new TimeSpan(0, 0, timeout);
+
+            this._debug = debug;
         }
 
 

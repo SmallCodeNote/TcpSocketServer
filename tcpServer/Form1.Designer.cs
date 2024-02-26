@@ -84,6 +84,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.timer_updateStatus = new System.Windows.Forms.Timer(this.components);
+            this.checkBox_debugModeSwitch = new System.Windows.Forms.CheckBox();
             this.panel_StatusListFrame.SuspendLayout();
             this.tabControl_Top.SuspendLayout();
             this.tabPage_Status.SuspendLayout();
@@ -317,6 +318,7 @@
             // 
             // tabPage_NotifySetting
             // 
+            this.tabPage_NotifySetting.Controls.Add(this.checkBox_debugModeSwitch);
             this.tabPage_NotifySetting.Controls.Add(this.textBox_httpTimeout);
             this.tabPage_NotifySetting.Controls.Add(this.textBox_ClearMessageParameter);
             this.tabPage_NotifySetting.Controls.Add(this.label9);
@@ -638,6 +640,19 @@
             this.timer_updateStatus.Interval = 1000;
             this.timer_updateStatus.Tick += new System.EventHandler(this.timer_updateStatus_Tick);
             // 
+            // checkBox_debugModeSwitch
+            // 
+            this.checkBox_debugModeSwitch.AutoSize = true;
+            this.checkBox_debugModeSwitch.Checked = true;
+            this.checkBox_debugModeSwitch.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_debugModeSwitch.Location = new System.Drawing.Point(432, 378);
+            this.checkBox_debugModeSwitch.Name = "checkBox_debugModeSwitch";
+            this.checkBox_debugModeSwitch.Size = new System.Drawing.Size(115, 16);
+            this.checkBox_debugModeSwitch.TabIndex = 13;
+            this.checkBox_debugModeSwitch.Text = "debugModeSwitch";
+            this.checkBox_debugModeSwitch.UseVisualStyleBackColor = true;
+            this.checkBox_debugModeSwitch.CheckedChanged += new System.EventHandler(this.checkBox_debugModeSwitch_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -729,6 +744,7 @@
         private System.Windows.Forms.TextBox textBox_queueList;
         private System.Windows.Forms.CheckBox checkBox_serverAutoStart;
         private System.Windows.Forms.Timer timer_updateStatus;
+        private System.Windows.Forms.CheckBox checkBox_debugModeSwitch;
     }
 }
 

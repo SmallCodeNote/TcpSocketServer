@@ -47,7 +47,8 @@ namespace tcpserver
 
             tcp = new TcpSocketServer();
 
-            noticeTransmitter = new NoticeTransmitter();
+
+            noticeTransmitter = new NoticeTransmitter(checkBox_debugModeSwitch.Checked);
             noticeTransmitter.StartNoticeCheck();
 
             thisExeDirPath = Path.GetDirectoryName(Application.ExecutablePath);
@@ -581,6 +582,11 @@ namespace tcpserver
 
             }
             timer_updateStatus.Start();
+        }
+
+        private void checkBox_debugModeSwitch_CheckedChanged(object sender, EventArgs e)
+        {
+            noticeTransmitter._debug = checkBox_debugModeSwitch.Checked;
         }
     }
 
