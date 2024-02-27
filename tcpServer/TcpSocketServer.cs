@@ -10,7 +10,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Diagnostics;
 
-
 namespace tcpserver
 {
     class TcpSocketServer
@@ -21,9 +20,7 @@ namespace tcpserver
         /// Received TcpSocket Queue.
         /// </summary>
         public ConcurrentQueue<string> ReceivedSocketQueue;
-
         public int _ReceivedSocketQueueMaxSize = 1024;
-
 
         private bool _ListeningContinueFlag;
         public int _bufferSize = 1024;
@@ -41,7 +38,7 @@ namespace tcpserver
             return;
         }
 
-        public async Task<bool> StartListening(int port)
+        public async Task<bool> StartListening(int port, string encoding = "UTF8")
         {
             _ListeningContinueFlag = true;
             IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Any, port);
@@ -55,7 +52,7 @@ namespace tcpserver
                 {
                     using (var tcpClient = await tcpServer.AcceptTcpClientAsync())
                     {
-                        var request = await ReceiveAsync(tcpClient);
+                        var request = await ReceiveAsync(tcpClient, encoding);
 
                         if (ReceivedSocketQueue.Count >= _ReceivedSocketQueueMaxSize) { string b = ""; ReceivedSocketQueue.TryDequeue(out b); }
                         LastReceiveTime = DateTime.Now;
@@ -73,7 +70,7 @@ namespace tcpserver
             return false;
         }
 
-        public async Task<string> ReceiveAsync(TcpClient tcpClient)
+        public async Task<string> ReceiveAsync(TcpClient tcpClient, string encoding = "ASCII")
         {
             byte[] buffer = new byte[_bufferSize];
             string request = "";
@@ -82,21 +79,38 @@ namespace tcpserver
             {
                 using (NetworkStream stream = tcpClient.GetStream())
                 {
-                    do
+                    if (encoding == "ASCII")
                     {
-                        int byteSize = await stream.ReadAsync(buffer, 0, buffer.Length);
-                        request += Encoding.UTF8.GetString(buffer, 0, byteSize);
+                        do
+                        {
+                            int byteSize = await stream.ReadAsync(buffer, 0, buffer.Length);
+                            request += Encoding.ASCII.GetString(buffer, 0, byteSize);
+                        }
+                        while (stream.DataAvailable);
+
+                        //Responce code for client
+                        var response = "received : " + request;
+                        buffer = Encoding.ASCII.GetBytes(response);
+                        await stream.WriteAsync(buffer, 0, buffer.Length);
+                        Debug.WriteLine($"Response : {response}");
                     }
-                    while (stream.DataAvailable);
+                    else //UTF8
+                    {
+                        do
+                        {
+                            int byteSize = await stream.ReadAsync(buffer, 0, buffer.Length);
+                            request += Encoding.UTF8.GetString(buffer, 0, byteSize);
+                        }
+                        while (stream.DataAvailable);
 
-                    //Responce code for client
-                    var response = "received : " + request;
-                    buffer = Encoding.ASCII.GetBytes(response);
-                    await stream.WriteAsync(buffer, 0, buffer.Length);
-                    Debug.WriteLine($"Response : {response}");
+                        //Responce code for client
+                        var response = "received : " + request;
+                        buffer = Encoding.UTF8.GetBytes(response);
+                        await stream.WriteAsync(buffer, 0, buffer.Length);
+                        Debug.WriteLine($"Response : {response}");
 
+                    }
                 }
-
             }
             catch (Exception ex)
             {
