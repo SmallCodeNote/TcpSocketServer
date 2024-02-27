@@ -38,7 +38,7 @@ namespace tcpserver
             return;
         }
 
-        public async Task<bool> StartListening(int port, string encoding = "UTF8")
+        public async Task<bool> StartListening(int port, string encoding = "ASCII")
         {
             _ListeningContinueFlag = true;
             IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Any, port);

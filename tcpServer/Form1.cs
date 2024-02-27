@@ -95,7 +95,7 @@ namespace tcpserver
                     button_Start.Text = "Stop";
                     timer_UpdateList.Start();
 
-                    if (!await tcp.StartListening(portNumber))
+                    if (!await tcp.StartListening(portNumber, "UTF8"))
                     {
                         toolStripStatusLabel1.Text = "TCP Listening Start Error";
                         button_Start.Text = "Start";
@@ -124,7 +124,7 @@ namespace tcpserver
                 button_Start.Text = "Stop";
                 timer_UpdateList.Start();
 
-                if (!await tcp.StartListening(portNumber))
+                if (!await tcp.StartListening(portNumber, "UTF8"))
                 {
                     toolStripStatusLabel1.Text = "TCP Listening Start Error";
                     return;
