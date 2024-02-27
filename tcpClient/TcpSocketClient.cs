@@ -8,17 +8,11 @@ using System.Net;
 using System.Net.Sockets;
 using System.Diagnostics;
 
-/*
-Original Code :
- https://marunaka-blog.com/cshap-tcpclient-create/2314/
- code adapt .NetFramework4.8
-*/
-
 namespace tcpClient
 {
     public class TcpSocketClient
     {
-        public async Task<string> StartClient(string ipaddress, int port, string request)
+        public async Task<string> StartClient(string ipaddress, int port, string request, string encoding = "ASCII")
         {
             var writeBuffer = new byte[1024];
             var readBuffer = new byte[1024];
@@ -35,13 +29,26 @@ namespace tcpClient
                     Debug.WriteLine("Server connected.");
                     using (var stream = tcpclient.GetStream())
                     {
-                        writeBuffer = System.Text.Encoding.ASCII.GetBytes(request);
-                        await stream.WriteAsync(writeBuffer, 0, writeBuffer.Length);
-                        Debug.WriteLine($"Send [{request}] to server.");
+                        if (encoding == "ASCII")
+                        {
+                            writeBuffer = System.Text.Encoding.ASCII.GetBytes(request);
+                            await stream.WriteAsync(writeBuffer, 0, writeBuffer.Length);
+                            Debug.WriteLine($"Send [{request}] to server.");
 
-                        var length = await stream.ReadAsync(readBuffer, 0, readBuffer.Length);
-                        response = System.Text.Encoding.ASCII.GetString(readBuffer, 0, length);
-                        Debug.WriteLine($"Recieved [{response}] from server.");
+                            var length = await stream.ReadAsync(readBuffer, 0, readBuffer.Length);
+                            response = System.Text.Encoding.ASCII.GetString(readBuffer, 0, length);
+                            Debug.WriteLine($"Recieved [{response}] from server.");
+                        }
+                        else //UTF8
+                        {
+                            writeBuffer = System.Text.Encoding.UTF8.GetBytes(request);
+                            await stream.WriteAsync(writeBuffer, 0, writeBuffer.Length);
+                            Debug.WriteLine($"Send [{request}] to server.");
+
+                            var length = await stream.ReadAsync(readBuffer, 0, readBuffer.Length);
+                            response = System.Text.Encoding.UTF8.GetString(readBuffer, 0, length);
+                            Debug.WriteLine($"Recieved [{response}] from server.");
+                        }
                     }
                 }
             }

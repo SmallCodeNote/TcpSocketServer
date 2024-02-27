@@ -77,10 +77,17 @@
             this.button_AddOnceJobPanel = new System.Windows.Forms.Button();
             this.tabPage_MessageLog = new System.Windows.Forms.TabPage();
             this.label_Return = new System.Windows.Forms.Label();
+            this.tabPage_Setting = new System.Windows.Forms.TabPage();
+            this.checkBox_EnableReset = new System.Windows.Forms.CheckBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.textBox_ResetPortNumber = new System.Windows.Forms.TextBox();
             this.timer_ClientViewUpdate = new System.Windows.Forms.Timer(this.components);
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel_Timer = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel_TimerReset = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip_textBox_ScheduleUnitParam = new System.Windows.Forms.ToolTip(this.components);
+            this.timer_CommandPortListening = new System.Windows.Forms.Timer(this.components);
             this.tabControl_Main.SuspendLayout();
             this.tabPage_View.SuspendLayout();
             this.tabControl_JobView.SuspendLayout();
@@ -94,6 +101,7 @@
             this.tabPage_OnceJobPanel_Store.SuspendLayout();
             this.tabPage_Edit.SuspendLayout();
             this.tabPage_MessageLog.SuspendLayout();
+            this.tabPage_Setting.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -276,6 +284,7 @@
             this.tabControl_Main.Controls.Add(this.tabPage_Panel);
             this.tabControl_Main.Controls.Add(this.tabPage_Edit);
             this.tabControl_Main.Controls.Add(this.tabPage_MessageLog);
+            this.tabControl_Main.Controls.Add(this.tabPage_Setting);
             this.tabControl_Main.Location = new System.Drawing.Point(0, 0);
             this.tabControl_Main.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl_Main.Name = "tabControl_Main";
@@ -318,7 +327,7 @@
             this.tabPage_JovView.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage_JovView.Size = new System.Drawing.Size(478, 330);
             this.tabPage_JovView.TabIndex = 0;
-            this.tabPage_JovView.Text = "JovView";
+            this.tabPage_JovView.Text = "View";
             this.tabPage_JovView.UseVisualStyleBackColor = true;
             // 
             // button_StatusListFrame_Sort
@@ -610,6 +619,46 @@
             this.label_Return.TabIndex = 4;
             this.label_Return.Text = "...";
             // 
+            // tabPage_Setting
+            // 
+            this.tabPage_Setting.Controls.Add(this.checkBox_EnableReset);
+            this.tabPage_Setting.Controls.Add(this.label11);
+            this.tabPage_Setting.Controls.Add(this.textBox_ResetPortNumber);
+            this.tabPage_Setting.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_Setting.Name = "tabPage_Setting";
+            this.tabPage_Setting.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_Setting.Size = new System.Drawing.Size(502, 368);
+            this.tabPage_Setting.TabIndex = 5;
+            this.tabPage_Setting.Text = "Setting";
+            this.tabPage_Setting.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_EnableReset
+            // 
+            this.checkBox_EnableReset.AutoSize = true;
+            this.checkBox_EnableReset.Location = new System.Drawing.Point(154, 28);
+            this.checkBox_EnableReset.Name = "checkBox_EnableReset";
+            this.checkBox_EnableReset.Size = new System.Drawing.Size(88, 16);
+            this.checkBox_EnableReset.TabIndex = 2;
+            this.checkBox_EnableReset.Text = "EnableReset";
+            this.checkBox_EnableReset.UseVisualStyleBackColor = true;
+            this.checkBox_EnableReset.CheckedChanged += new System.EventHandler(this.checkBox_EnableReset_CheckedChanged);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(16, 11);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(56, 12);
+            this.label11.TabIndex = 1;
+            this.label11.Text = "ResetPort";
+            // 
+            // textBox_ResetPortNumber
+            // 
+            this.textBox_ResetPortNumber.Location = new System.Drawing.Point(18, 26);
+            this.textBox_ResetPortNumber.Name = "textBox_ResetPortNumber";
+            this.textBox_ResetPortNumber.Size = new System.Drawing.Size(114, 19);
+            this.textBox_ResetPortNumber.TabIndex = 0;
+            // 
             // timer_ClientViewUpdate
             // 
             this.timer_ClientViewUpdate.Tick += new System.EventHandler(this.timer_ClientViewUpdate_Tick);
@@ -617,7 +666,9 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel_Timer});
+            this.toolStripStatusLabel_Timer,
+            this.toolStripStatusLabel1,
+            this.toolStripStatusLabel_TimerReset});
             this.statusStrip1.Location = new System.Drawing.Point(0, 400);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(525, 22);
@@ -630,12 +681,29 @@
             this.toolStripStatusLabel_Timer.Size = new System.Drawing.Size(16, 17);
             this.toolStripStatusLabel_Timer.Text = "...";
             // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(12, 17);
+            this.toolStripStatusLabel1.Text = "/";
+            // 
+            // toolStripStatusLabel_TimerReset
+            // 
+            this.toolStripStatusLabel_TimerReset.Name = "toolStripStatusLabel_TimerReset";
+            this.toolStripStatusLabel_TimerReset.Size = new System.Drawing.Size(16, 17);
+            this.toolStripStatusLabel_TimerReset.Text = "...";
+            // 
             // toolTip_textBox_ScheduleUnitParam
             // 
             this.toolTip_textBox_ScheduleUnitParam.AutomaticDelay = 100;
             this.toolTip_textBox_ScheduleUnitParam.AutoPopDelay = 10000;
             this.toolTip_textBox_ScheduleUnitParam.InitialDelay = 100;
             this.toolTip_textBox_ScheduleUnitParam.ReshowDelay = 20;
+            // 
+            // timer_CommandPortListening
+            // 
+            this.timer_CommandPortListening.Interval = 1000;
+            this.timer_CommandPortListening.Tick += new System.EventHandler(this.timer_CommandPortListening_Tick);
             // 
             // Form1
             // 
@@ -665,6 +733,8 @@
             this.tabPage_Edit.ResumeLayout(false);
             this.tabPage_Edit.PerformLayout();
             this.tabPage_MessageLog.ResumeLayout(false);
+            this.tabPage_Setting.ResumeLayout(false);
+            this.tabPage_Setting.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -726,6 +796,13 @@
         private System.Windows.Forms.TabPage tabPage_EveryJobStore;
         private System.Windows.Forms.Button button_StatusListFrame_Sort;
         private System.Windows.Forms.ToolTip toolTip_textBox_ScheduleUnitParam;
+        private System.Windows.Forms.TabPage tabPage_Setting;
+        private System.Windows.Forms.TextBox textBox_ResetPortNumber;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.CheckBox checkBox_EnableReset;
+        private System.Windows.Forms.Timer timer_CommandPortListening;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_TimerReset;
     }
 }
 

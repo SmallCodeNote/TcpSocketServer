@@ -15,6 +15,7 @@ using FluentScheduler;
 
 using WinFormStringCnvClass;
 using PanelScroll;
+using tcpserver;
 
 namespace tcpClient
 {
@@ -22,6 +23,7 @@ namespace tcpClient
     {
         string thisExeDirPath;
         TcpSocketClient tcp;
+        TcpSocketServer tcp_Reset;
 
         PanelScrollControl panelScrollControl_OnceJobList;
         PanelScrollControl panelScrollControl_StatusList;
@@ -30,10 +32,13 @@ namespace tcpClient
         {
             InitializeComponent();
             thisExeDirPath = Path.GetDirectoryName(Application.ExecutablePath);
+
             tcp = new TcpSocketClient();
+            tcp_Reset = new TcpSocketServer();
+
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private async void Form1_Load(object sender, EventArgs e)
         {
             panelScrollControl_OnceJobList = new PanelScrollControl(panel_OnceJobListFrame, panel_OnceJobList, vScrollBar_OnceJobList);
             panelScrollControl_StatusList = new PanelScrollControl(panel_JobViewListFrame, panel_JobViewList, vScrollBar_StatusList);
@@ -44,9 +49,17 @@ namespace tcpClient
                 WinFormStringCnv.setControlFromString(this, File.ReadAllText(paramFilename));
             }
 
-
             if (checkBox_LoadFromStoreAuto.Checked) { LoadFromStore(); };
 
+            if (checkBox_EnableReset.Checked)
+            {
+                if (int.TryParse(textBox_ResetPortNumber.Text, out int portNumber)
+                    || !await tcp_Reset.StartListening(portNumber, "UTF8"))
+                {
+                    toolStripStatusLabel_Timer.Text = "TCP Listening Start Error";
+                    return;
+                }
+            }
 
         }
 
@@ -59,28 +72,20 @@ namespace tcpClient
 
         private void button_SchedulerList_Click(object sender, EventArgs e)
         {
-            SchedulerInitialize();
+            SchedulerInitializeFromForm();
         }
-
 
         private async void button_SendMessage_Click(object sender, EventArgs e)
         {
-
-            //JobManager.AddJob();
             string sendMessage = textBox_ClientName.Text + "\t" + comboBox_Status.Text + "\t" + textBox_Message.Text + DateTime.Now.ToString("yyyyMMdd_HHmmss") + "\t" + textBox_Parameter.Text + "\t" + comboBox_checkStyle.Text;
-
-            var responce = await tcp.StartClient(textBox_Address.Text, int.Parse(textBox_PortNumber.Text), sendMessage);
+            var responce = await tcp.StartClient(textBox_Address.Text, int.Parse(textBox_PortNumber.Text), sendMessage, "UTF8");
             label_Return.Text = responce;
-
         }
 
         private void button_AddSchedule_Click(object sender, EventArgs e)
         {
-            SchedulerInitialize();
-
+            SchedulerInitializeFromForm();
         }
-
-
 
         public void tabPage_View_Enter(object sender = null, EventArgs e = null)
         {
@@ -106,7 +111,6 @@ namespace tcpClient
 
         }
 
-
         List<JobItemView> jobItemViews = new List<JobItemView>();
 
         private void updateJobViewList()
@@ -116,18 +120,15 @@ namespace tcpClient
                 panel_JobViewList.Controls.Clear();
 
                 List<Schedule> sortedSchedules = JobManager.AllSchedules.OrderBy(schedule => schedule.NextRun).ToList();
-
                 int topLocation = 0;
 
                 foreach (var schedule in sortedSchedules)
                 {
-
                     List<string> Cols = new List<string>();
 
                     var jobItemView = new JobItemView();
                     jobItemView.Top = topLocation;
                     jobItemView.Left = 0;
-
                     jobItemView.setLabel(schedule, this);
 
                     panel_JobViewList.Controls.Add(jobItemView);
@@ -144,9 +145,7 @@ namespace tcpClient
                 Debug.WriteLine(GetType().Name + "::" + System.Reflection.MethodBase.GetCurrentMethod().Name + " EX:" + ex.ToString());
             }
 
-
         }
-
 
         int JobManager_AllSchedules_Count_Buff = 0;
 
@@ -158,6 +157,8 @@ namespace tcpClient
                 JobManager_AllSchedules_Count_Buff = jobCount;
                 tabPage_View_Enter();
             }
+
+            toolStripStatusLabel_Timer.Text = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
         }
 
         private void tabPage_View_Leave(object sender, EventArgs e)
@@ -167,7 +168,6 @@ namespace tcpClient
 
         private void LoadFromStore()
         {
-
             string[] Lines = textBox_Store.Text.Replace("\r\n", "\n").Trim('\n').Split('\n');
 
             var job = new FluentSchedulerRegistry(tcp, Lines);
@@ -179,7 +179,6 @@ namespace tcpClient
 
         private void button_LoadFromStore_Click(object sender, EventArgs e)
         {
-
             LoadFromStore();
 
         }
@@ -187,12 +186,10 @@ namespace tcpClient
         private void button_EditContentsFromClipboard_Click(object sender, EventArgs e)
         {
             string Line = Clipboard.GetText();
-
             string[] Cols = Line.Split('\t');
 
             if (Cols.Length == 10)
             {
-
                 int colIndex = 0;
                 textBox_Address.Text = Cols[colIndex]; colIndex++;
                 textBox_PortNumber.Text = Cols[colIndex]; colIndex++;
@@ -207,7 +204,6 @@ namespace tcpClient
                 comboBox_checkStyle.Text = Cols[colIndex];
 
             }
-
         }
 
         private void comboBox_ScheduleUnit_SelectedIndexChanged(object sender, EventArgs e)
@@ -231,11 +227,40 @@ namespace tcpClient
             textBox_OnceJobPanelStore.Text += getJobStringFromEditControls() + "\r\n";
         }
 
+        public string getJobStringFromArray(string[] cols,int startImdex=0)
+        {
+            int colsIndex = startImdex;
+            string Address = cols[colsIndex]; colsIndex++;
+            string PortNumber = cols[colsIndex]; colsIndex++;
+
+            string JobName = cols[colsIndex]; colsIndex++;
+            string ScheduleUnit = cols[colsIndex]; colsIndex++;
+            string ScheduleUnitParam = cols[colsIndex]; colsIndex++;
+            string ClientName = cols[colsIndex]; colsIndex++;
+            string Status = cols[colsIndex]; colsIndex++;
+            string Message = cols[colsIndex]; colsIndex++;
+            string Parameter = cols[colsIndex]; colsIndex++;
+            string CheckStyle = cols[colsIndex]; colsIndex++;
+
+            List<string> ColList = new List<string>();
+            ColList.Add(Address);
+            ColList.Add(PortNumber);
+
+            ColList.Add(JobName);
+            ColList.Add(ScheduleUnit);
+            ColList.Add(ScheduleUnitParam);
+            ColList.Add(ClientName);
+            ColList.Add(Status);
+            ColList.Add(Message);
+            ColList.Add(Parameter);
+            ColList.Add(CheckStyle.ToString());
+
+            return String.Join("\t", ColList.ToArray());
+
+        }
 
         public string getJobStringFromEditControls()
         {
-
-
             string Address = textBox_Address.Text;
             string PortNumber = textBox_PortNumber.Text;
 
@@ -264,10 +289,19 @@ namespace tcpClient
             return String.Join("\t", ColList.ToArray());
 
         }
-        private void SchedulerInitialize()
+        private void SchedulerInitializeFromForm()
+        {
+            SchedulerInitialize(getJobStringFromEditControls());
+        }
+        private void SchedulerInitializeFromArray(string[] cols,int startIndex = 0)
+        {
+            SchedulerInitialize(getJobStringFromArray(cols, startIndex));
+        }
+
+        private void SchedulerInitialize(string jobString)
         {
             List<string> Lines = new List<string>();
-            Lines.Add(getJobStringFromEditControls());
+            Lines.Add(jobString);
 
             var job = new FluentSchedulerRegistry(tcp, Lines.ToArray());
             JobManager.Initialize(job);
@@ -302,7 +336,6 @@ namespace tcpClient
                     viewTop += onceJobView.Height;
                 }
             }
-
             panel_OnceJobList.Height = viewTop;
 
         }
@@ -324,58 +357,37 @@ namespace tcpClient
 
             if (comboBox_ScheduleUnit.Text.IndexOf("Day") >= 0)
             {
-                // 正規表現パターン
                 string pattern = @"^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
-
-                // Textboxの内容をカンマで分割
                 string[] times = new string[] { textBox.Text };// textBox.Text.Split(',');
 
-                // 各時刻についてチェック
                 foreach (string time in times)
                 {
                     if (!Regex.IsMatch(time, pattern))
                     {
-                        // パターンと一致しない場合は文字色を赤に設定
                         textBox.ForeColor = Color.Red;
-
                         button_AddOnceJobPanel.Enabled = false;
                         button_AddSchedule.Enabled = false;
-
                         return;
                     }
                 }
-
-                // 全ての時刻が正常であれば文字色を黒に設定
                 textBox.ForeColor = Color.Black;
             }
             else
             {
-
-                // 正規表現パターン
                 string pattern = @"^\d+$";
-
-                // Textboxの内容をカンマで分割
                 string[] times = new string[] { textBox.Text };// textBox.Text.Split(',');
 
-                // 各時刻についてチェック
                 foreach (string time in times)
                 {
                     if (!Regex.IsMatch(time, pattern))
                     {
-                        // パターンと一致しない場合は文字色を赤に設定
                         textBox.ForeColor = Color.Red;
-
                         button_AddOnceJobPanel.Enabled = false;
                         button_AddSchedule.Enabled = false;
-
                         return;
                     }
                 }
-
-                // 全ての時刻が正常であれば文字色を黒に設定
                 textBox.ForeColor = Color.Black;
-
-
             }
 
             button_AddOnceJobPanel.Enabled = comboBox_ScheduleUnit.Text.IndexOf("Once") >= 0;
@@ -383,11 +395,70 @@ namespace tcpClient
 
         }
 
-        private void textBox_Message_TextChanged(object sender, EventArgs e)
-        {
-            DateTime now = DateTime.Now;
+        DateTime LastCheckTime = DateTime.Now;
+        DateTime UnlockTime = DateTime.Now;
+        bool ClientLocked { get { return ((TimeSpan)(UnlockTime - DateTime.Now)).TotalSeconds >= 0; } }
 
-           
+        private void timer_CommandPortListening_Tick(object sender, EventArgs e)
+        {
+            timer_CommandPortListening.Stop();
+
+            //============
+            // New data check from Queue
+            //============
+            if ((tcp_Reset.LastReceiveTime - LastCheckTime).TotalSeconds > 0 && tcp_Reset.ReceivedSocketQueue.Count > 0)
+            {
+                List<string> queueList = new List<string>();
+
+                string receivedSocketMessage = "";
+
+                //============
+                // ReadQueue and Entry dataBase file
+                //============
+                while (tcp_Reset.ReceivedSocketQueue.TryDequeue(out receivedSocketMessage))
+                {
+                    string[] cols = receivedSocketMessage.Split('\t');
+
+                    int cindex = 0;
+                    string command = cols[cindex]; cindex++;
+
+                    if (command == "Reset" && cols.Length == 2)
+                    {
+                        if (int.TryParse(cols[1], out int timeSpanMinute))
+                        {
+                            UnlockTime = DateTime.Now + TimeSpan.FromMinutes(timeSpanMinute);
+                        }
+                    }
+                    else if (command == "AddJob" && cols.Length == 2)
+                    {
+                        string Address = cols[1];
+                        SchedulerInitializeFromArray(cols,2);
+                    }
+                }
+
+                toolStripStatusLabel_TimerReset.Text = "ResetRecieved Lockuntil" + UnlockTime.ToString("HH:mm:ss");
+
+            }
+            else if (!ClientLocked)
+            {
+                toolStripStatusLabel_TimerReset.Text = "Client Unlock";
+            }
+
+            if (checkBox_EnableReset.Checked) { timer_CommandPortListening.Start(); }
+
+        }
+
+        private void checkBox_EnableReset_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_EnableReset.Checked)
+            {
+                timer_CommandPortListening.Start();
+            }
+            else
+            {
+                timer_CommandPortListening.Stop();
+            }
+
         }
     }
 }
