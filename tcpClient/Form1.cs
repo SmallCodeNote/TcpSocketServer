@@ -14,7 +14,6 @@ using System.Text.RegularExpressions;
 using FluentScheduler;
 
 using WinFormStringCnvClass;
-using PanelScroll;
 using tcpserver;
 
 namespace tcpClient
@@ -24,9 +23,6 @@ namespace tcpClient
         string thisExeDirPath;
         TcpSocketClient tcp;
         TcpSocketServer tcp_Reset;
-
-        PanelScrollControl panelScrollControl_OnceJobList;
-        PanelScrollControl panelScrollControl_StatusList;
 
         public Form1()
         {
@@ -40,10 +36,7 @@ namespace tcpClient
 
         private async void Form1_Load(object sender, EventArgs e)
         {
-            panelScrollControl_OnceJobList = new PanelScrollControl(panel_OnceJobListFrame, panel_OnceJobList, vScrollBar_OnceJobList);
-            panelScrollControl_StatusList = new PanelScrollControl(panel_JobViewListFrame, panel_JobViewList, vScrollBar_StatusList);
-
-            string paramFilename = Path.Combine(thisExeDirPath, "_param.txt");
+             string paramFilename = Path.Combine(thisExeDirPath, "_param.txt");
             if (File.Exists(paramFilename))
             {
                 WinFormStringCnv.setControlFromString(this, File.ReadAllText(paramFilename));
