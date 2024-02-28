@@ -34,7 +34,6 @@
             this.textBox_portNumber = new System.Windows.Forms.TextBox();
             this.panel_StatusListFrame = new System.Windows.Forms.Panel();
             this.panel_StatusList = new System.Windows.Forms.Panel();
-            this.vScrollBar_StatusList = new System.Windows.Forms.VScrollBar();
             this.tabControl_Top = new System.Windows.Forms.TabControl();
             this.tabPage_Status = new System.Windows.Forms.TabPage();
             this.tabPage_Setting = new System.Windows.Forms.TabPage();
@@ -52,6 +51,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBox_DataBaseFilePath = new System.Windows.Forms.TextBox();
             this.tabPage_NotifySetting = new System.Windows.Forms.TabPage();
+            this.checkBox_debugModeSwitch = new System.Windows.Forms.CheckBox();
             this.textBox_httpTimeout = new System.Windows.Forms.TextBox();
             this.textBox_ClearMessageParameter = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -84,7 +84,6 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.timer_updateStatus = new System.Windows.Forms.Timer(this.components);
-            this.checkBox_debugModeSwitch = new System.Windows.Forms.CheckBox();
             this.panel_StatusListFrame.SuspendLayout();
             this.tabControl_Top.SuspendLayout();
             this.tabPage_Status.SuspendLayout();
@@ -121,11 +120,12 @@
             // 
             // panel_StatusListFrame
             // 
+            this.panel_StatusListFrame.AutoScroll = true;
             this.panel_StatusListFrame.Controls.Add(this.panel_StatusList);
             this.panel_StatusListFrame.Location = new System.Drawing.Point(4, 5);
             this.panel_StatusListFrame.Margin = new System.Windows.Forms.Padding(2);
             this.panel_StatusListFrame.Name = "panel_StatusListFrame";
-            this.panel_StatusListFrame.Size = new System.Drawing.Size(375, 400);
+            this.panel_StatusListFrame.Size = new System.Drawing.Size(412, 400);
             this.panel_StatusListFrame.TabIndex = 2;
             // 
             // panel_StatusList
@@ -135,14 +135,6 @@
             this.panel_StatusList.Name = "panel_StatusList";
             this.panel_StatusList.Size = new System.Drawing.Size(375, 80);
             this.panel_StatusList.TabIndex = 0;
-            // 
-            // vScrollBar_StatusList
-            // 
-            this.vScrollBar_StatusList.LargeChange = 100;
-            this.vScrollBar_StatusList.Location = new System.Drawing.Point(382, 5);
-            this.vScrollBar_StatusList.Name = "vScrollBar_StatusList";
-            this.vScrollBar_StatusList.Size = new System.Drawing.Size(21, 400);
-            this.vScrollBar_StatusList.TabIndex = 3;
             // 
             // tabControl_Top
             // 
@@ -162,7 +154,6 @@
             // tabPage_Status
             // 
             this.tabPage_Status.Controls.Add(this.panel_StatusListFrame);
-            this.tabPage_Status.Controls.Add(this.vScrollBar_StatusList);
             this.tabPage_Status.Location = new System.Drawing.Point(4, 22);
             this.tabPage_Status.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage_Status.Name = "tabPage_Status";
@@ -339,6 +330,19 @@
             this.tabPage_NotifySetting.TabIndex = 3;
             this.tabPage_NotifySetting.Text = "NotifySetting";
             this.tabPage_NotifySetting.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_debugModeSwitch
+            // 
+            this.checkBox_debugModeSwitch.AutoSize = true;
+            this.checkBox_debugModeSwitch.Checked = true;
+            this.checkBox_debugModeSwitch.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_debugModeSwitch.Location = new System.Drawing.Point(432, 378);
+            this.checkBox_debugModeSwitch.Name = "checkBox_debugModeSwitch";
+            this.checkBox_debugModeSwitch.Size = new System.Drawing.Size(97, 16);
+            this.checkBox_debugModeSwitch.TabIndex = 13;
+            this.checkBox_debugModeSwitch.Text = "debugModeON";
+            this.checkBox_debugModeSwitch.UseVisualStyleBackColor = true;
+            this.checkBox_debugModeSwitch.CheckedChanged += new System.EventHandler(this.checkBox_debugModeSwitch_CheckedChanged);
             // 
             // textBox_httpTimeout
             // 
@@ -640,19 +644,6 @@
             this.timer_updateStatus.Interval = 1000;
             this.timer_updateStatus.Tick += new System.EventHandler(this.timer_updateStatus_Tick);
             // 
-            // checkBox_debugModeSwitch
-            // 
-            this.checkBox_debugModeSwitch.AutoSize = true;
-            this.checkBox_debugModeSwitch.Checked = true;
-            this.checkBox_debugModeSwitch.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_debugModeSwitch.Location = new System.Drawing.Point(432, 378);
-            this.checkBox_debugModeSwitch.Name = "checkBox_debugModeSwitch";
-            this.checkBox_debugModeSwitch.Size = new System.Drawing.Size(115, 16);
-            this.checkBox_debugModeSwitch.TabIndex = 13;
-            this.checkBox_debugModeSwitch.Text = "debugModeSwitch";
-            this.checkBox_debugModeSwitch.UseVisualStyleBackColor = true;
-            this.checkBox_debugModeSwitch.CheckedChanged += new System.EventHandler(this.checkBox_debugModeSwitch_CheckedChanged);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -694,7 +685,6 @@
         private System.Windows.Forms.TextBox textBox_portNumber;
         private System.Windows.Forms.Panel panel_StatusListFrame;
         private System.Windows.Forms.Panel panel_StatusList;
-        private System.Windows.Forms.VScrollBar vScrollBar_StatusList;
         private System.Windows.Forms.TabControl tabControl_Top;
         private System.Windows.Forms.TabPage tabPage_Status;
         private System.Windows.Forms.TabPage tabPage_Log;

@@ -28,6 +28,7 @@ namespace tcpserver
         {
             _LiteDBconnectionString.Filename = textBox_DataBaseFilePath.Text;
 
+            if (!File.Exists(_LiteDBconnectionString.Filename)) return;
             using (LiteDatabase litedb = new LiteDatabase(_LiteDBconnectionString))
             {
                 var col = litedb.GetCollection<SocketMessage>("table_Message");

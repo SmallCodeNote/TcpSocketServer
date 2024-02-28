@@ -19,7 +19,7 @@ using FluentScheduler;
 using LiteDB;
 
 using WinFormStringCnvClass;
-using PanelScroll;
+
 
 namespace tcpserver
 {
@@ -38,7 +38,7 @@ namespace tcpserver
         ConnectionString _LiteDBconnectionString;
         static int _dbOpenRetryCountMax = 10;
 
-        PanelScrollControl panelScrollControl_StatusListFrame;
+
 
         public Form1()
         {
@@ -71,7 +71,7 @@ namespace tcpserver
         //=====================
         async private void Form1_Load(object sender, EventArgs e)
         {
-            panelScrollControl_StatusListFrame = new PanelScrollControl(panel_StatusListFrame, panel_StatusList, vScrollBar_StatusList);
+
 
             string paramFilename = Path.Combine(thisExeDirPath, "_param.txt");
 
