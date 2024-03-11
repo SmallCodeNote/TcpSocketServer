@@ -28,36 +28,47 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tabControl_Main = new System.Windows.Forms.TabControl();
             this.tabPage_ClientList = new System.Windows.Forms.TabPage();
-            this.tabPage_MessageSetting = new System.Windows.Forms.TabPage();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tabControl_ClientList = new System.Windows.Forms.TabControl();
             this.tabPage_ClientListView = new System.Windows.Forms.TabPage();
-            this.tabPage_ClientListText = new System.Windows.Forms.TabPage();
-            this.textBox_ClientList = new System.Windows.Forms.TextBox();
             this.panel_ClietListView_Frame = new System.Windows.Forms.Panel();
             this.panel_ClietListView_Form = new System.Windows.Forms.Panel();
-            this.groupBox_KeyList = new System.Windows.Forms.GroupBox();
-            this.label_Key1 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.textBox_Message1 = new System.Windows.Forms.TextBox();
-            this.textBox_Message2 = new System.Windows.Forms.TextBox();
+            this.tabPage_ClientListText = new System.Windows.Forms.TabPage();
+            this.textBox_ClientList = new System.Windows.Forms.TextBox();
+            this.tabPage_MessageSetting = new System.Windows.Forms.TabPage();
             this.textBox_Message3 = new System.Windows.Forms.TextBox();
+            this.textBox_Message2 = new System.Windows.Forms.TextBox();
+            this.textBox_Message1 = new System.Windows.Forms.TextBox();
+            this.groupBox_KeyList = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label_Key1 = new System.Windows.Forms.Label();
             this.tabPage_SystemSetting = new System.Windows.Forms.TabPage();
+            this.textBox_LockEventPortNumber = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.label5 = new System.Windows.Forms.Label();
+            this.textBox_HTTPPortNumber = new System.Windows.Forms.TextBox();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.timer_WebAPIcheck = new System.Windows.Forms.Timer(this.components);
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.textBox_Queue = new System.Windows.Forms.TextBox();
+            this.label_TestCode = new System.Windows.Forms.Label();
             this.tabControl_Main.SuspendLayout();
             this.tabPage_ClientList.SuspendLayout();
-            this.tabPage_MessageSetting.SuspendLayout();
             this.tabControl_ClientList.SuspendLayout();
             this.tabPage_ClientListView.SuspendLayout();
-            this.tabPage_ClientListText.SuspendLayout();
             this.panel_ClietListView_Frame.SuspendLayout();
+            this.tabPage_ClientListText.SuspendLayout();
+            this.tabPage_MessageSetting.SuspendLayout();
             this.groupBox_KeyList.SuspendLayout();
             this.tabPage_SystemSetting.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl_Main
@@ -65,6 +76,7 @@
             this.tabControl_Main.Controls.Add(this.tabPage_ClientList);
             this.tabControl_Main.Controls.Add(this.tabPage_MessageSetting);
             this.tabControl_Main.Controls.Add(this.tabPage_SystemSetting);
+            this.tabControl_Main.Controls.Add(this.tabPage1);
             this.tabControl_Main.Dock = System.Windows.Forms.DockStyle.Top;
             this.tabControl_Main.Location = new System.Drawing.Point(0, 0);
             this.tabControl_Main.Name = "tabControl_Main";
@@ -83,28 +95,6 @@
             this.tabPage_ClientList.Text = "ClientList";
             this.tabPage_ClientList.UseVisualStyleBackColor = true;
             // 
-            // tabPage_MessageSetting
-            // 
-            this.tabPage_MessageSetting.Controls.Add(this.textBox_Message3);
-            this.tabPage_MessageSetting.Controls.Add(this.textBox_Message2);
-            this.tabPage_MessageSetting.Controls.Add(this.textBox_Message1);
-            this.tabPage_MessageSetting.Controls.Add(this.groupBox_KeyList);
-            this.tabPage_MessageSetting.Location = new System.Drawing.Point(4, 22);
-            this.tabPage_MessageSetting.Name = "tabPage_MessageSetting";
-            this.tabPage_MessageSetting.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage_MessageSetting.Size = new System.Drawing.Size(528, 399);
-            this.tabPage_MessageSetting.TabIndex = 1;
-            this.tabPage_MessageSetting.Text = "MessageSetting";
-            this.tabPage_MessageSetting.UseVisualStyleBackColor = true;
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 428);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(536, 22);
-            this.statusStrip1.TabIndex = 1;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
             // tabControl_ClientList
             // 
             this.tabControl_ClientList.Alignment = System.Windows.Forms.TabAlignment.Bottom;
@@ -116,6 +106,7 @@
             this.tabControl_ClientList.SelectedIndex = 0;
             this.tabControl_ClientList.Size = new System.Drawing.Size(522, 393);
             this.tabControl_ClientList.TabIndex = 0;
+            this.tabControl_ClientList.SelectedIndexChanged += new System.EventHandler(this.tabControl_ClientList_SelectedIndexChanged);
             // 
             // tabPage_ClientListView
             // 
@@ -128,6 +119,23 @@
             this.tabPage_ClientListView.Text = "View";
             this.tabPage_ClientListView.UseVisualStyleBackColor = true;
             this.tabPage_ClientListView.Enter += new System.EventHandler(this.tabPage_ClientListView_Enter);
+            // 
+            // panel_ClietListView_Frame
+            // 
+            this.panel_ClietListView_Frame.AutoScroll = true;
+            this.panel_ClietListView_Frame.Controls.Add(this.panel_ClietListView_Form);
+            this.panel_ClietListView_Frame.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel_ClietListView_Frame.Location = new System.Drawing.Point(3, 3);
+            this.panel_ClietListView_Frame.Name = "panel_ClietListView_Frame";
+            this.panel_ClietListView_Frame.Size = new System.Drawing.Size(465, 361);
+            this.panel_ClietListView_Frame.TabIndex = 0;
+            // 
+            // panel_ClietListView_Form
+            // 
+            this.panel_ClietListView_Form.Location = new System.Drawing.Point(0, 0);
+            this.panel_ClietListView_Form.Name = "panel_ClietListView_Form";
+            this.panel_ClietListView_Form.Size = new System.Drawing.Size(419, 97);
+            this.panel_ClietListView_Form.TabIndex = 0;
             // 
             // tabPage_ClientListText
             // 
@@ -153,22 +161,46 @@
             this.textBox_ClientList.TabIndex = 0;
             this.textBox_ClientList.WordWrap = false;
             // 
-            // panel_ClietListView_Frame
+            // tabPage_MessageSetting
             // 
-            this.panel_ClietListView_Frame.AutoScroll = true;
-            this.panel_ClietListView_Frame.Controls.Add(this.panel_ClietListView_Form);
-            this.panel_ClietListView_Frame.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel_ClietListView_Frame.Location = new System.Drawing.Point(3, 3);
-            this.panel_ClietListView_Frame.Name = "panel_ClietListView_Frame";
-            this.panel_ClietListView_Frame.Size = new System.Drawing.Size(465, 361);
-            this.panel_ClietListView_Frame.TabIndex = 0;
+            this.tabPage_MessageSetting.Controls.Add(this.textBox_Message3);
+            this.tabPage_MessageSetting.Controls.Add(this.textBox_Message2);
+            this.tabPage_MessageSetting.Controls.Add(this.textBox_Message1);
+            this.tabPage_MessageSetting.Controls.Add(this.groupBox_KeyList);
+            this.tabPage_MessageSetting.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_MessageSetting.Name = "tabPage_MessageSetting";
+            this.tabPage_MessageSetting.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_MessageSetting.Size = new System.Drawing.Size(528, 399);
+            this.tabPage_MessageSetting.TabIndex = 1;
+            this.tabPage_MessageSetting.Text = "MessageSetting";
+            this.tabPage_MessageSetting.UseVisualStyleBackColor = true;
             // 
-            // panel_ClietListView_Form
+            // textBox_Message3
             // 
-            this.panel_ClietListView_Form.Location = new System.Drawing.Point(0, 0);
-            this.panel_ClietListView_Form.Name = "panel_ClietListView_Form";
-            this.panel_ClietListView_Form.Size = new System.Drawing.Size(419, 97);
-            this.panel_ClietListView_Form.TabIndex = 0;
+            this.textBox_Message3.Location = new System.Drawing.Point(8, 330);
+            this.textBox_Message3.Multiline = true;
+            this.textBox_Message3.Name = "textBox_Message3";
+            this.textBox_Message3.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox_Message3.Size = new System.Drawing.Size(512, 54);
+            this.textBox_Message3.TabIndex = 1;
+            // 
+            // textBox_Message2
+            // 
+            this.textBox_Message2.Location = new System.Drawing.Point(8, 237);
+            this.textBox_Message2.Multiline = true;
+            this.textBox_Message2.Name = "textBox_Message2";
+            this.textBox_Message2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox_Message2.Size = new System.Drawing.Size(512, 54);
+            this.textBox_Message2.TabIndex = 1;
+            // 
+            // textBox_Message1
+            // 
+            this.textBox_Message1.Location = new System.Drawing.Point(8, 146);
+            this.textBox_Message1.Multiline = true;
+            this.textBox_Message1.Name = "textBox_Message1";
+            this.textBox_Message1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox_Message1.Size = new System.Drawing.Size(512, 54);
+            this.textBox_Message1.TabIndex = 1;
             // 
             // groupBox_KeyList
             // 
@@ -183,25 +215,15 @@
             this.groupBox_KeyList.TabStop = false;
             this.groupBox_KeyList.Text = "KeyList";
             // 
-            // label_Key1
+            // label3
             // 
-            this.label_Key1.AutoSize = true;
-            this.label_Key1.Location = new System.Drawing.Point(6, 15);
-            this.label_Key1.Name = "label_Key1";
-            this.label_Key1.Size = new System.Drawing.Size(70, 12);
-            this.label_Key1.TabIndex = 0;
-            this.label_Key1.Text = "{ClientName}";
-            this.label_Key1.Click += new System.EventHandler(this.label_Key_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(82, 15);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(60, 12);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "{LockTime}";
-            this.label1.Click += new System.EventHandler(this.label_Key_Click);
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(234, 15);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(66, 12);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "{ResetTime}";
+            this.label3.Click += new System.EventHandler(this.label_Key_Click);
             // 
             // label2
             // 
@@ -213,46 +235,31 @@
             this.label2.Text = "{LockFrom}";
             this.label2.Click += new System.EventHandler(this.label_Key_Click);
             // 
-            // label3
+            // label1
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(234, 15);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(66, 12);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "{ResetTime}";
-            this.label3.Click += new System.EventHandler(this.label_Key_Click);
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(82, 15);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(60, 12);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "{LockTime}";
+            this.label1.Click += new System.EventHandler(this.label_Key_Click);
             // 
-            // textBox_Message1
+            // label_Key1
             // 
-            this.textBox_Message1.Location = new System.Drawing.Point(8, 146);
-            this.textBox_Message1.Multiline = true;
-            this.textBox_Message1.Name = "textBox_Message1";
-            this.textBox_Message1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox_Message1.Size = new System.Drawing.Size(512, 54);
-            this.textBox_Message1.TabIndex = 1;
-            // 
-            // textBox_Message2
-            // 
-            this.textBox_Message2.Location = new System.Drawing.Point(8, 237);
-            this.textBox_Message2.Multiline = true;
-            this.textBox_Message2.Name = "textBox_Message2";
-            this.textBox_Message2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox_Message2.Size = new System.Drawing.Size(512, 54);
-            this.textBox_Message2.TabIndex = 1;
-            // 
-            // textBox_Message3
-            // 
-            this.textBox_Message3.Location = new System.Drawing.Point(8, 330);
-            this.textBox_Message3.Multiline = true;
-            this.textBox_Message3.Name = "textBox_Message3";
-            this.textBox_Message3.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox_Message3.Size = new System.Drawing.Size(512, 54);
-            this.textBox_Message3.TabIndex = 1;
+            this.label_Key1.AutoSize = true;
+            this.label_Key1.Location = new System.Drawing.Point(6, 15);
+            this.label_Key1.Name = "label_Key1";
+            this.label_Key1.Size = new System.Drawing.Size(70, 12);
+            this.label_Key1.TabIndex = 0;
+            this.label_Key1.Text = "{ClientName}";
+            this.label_Key1.Click += new System.EventHandler(this.label_Key_Click);
             // 
             // tabPage_SystemSetting
             // 
-            this.tabPage_SystemSetting.Controls.Add(this.textBox1);
+            this.tabPage_SystemSetting.Controls.Add(this.textBox_HTTPPortNumber);
+            this.tabPage_SystemSetting.Controls.Add(this.label5);
+            this.tabPage_SystemSetting.Controls.Add(this.textBox_LockEventPortNumber);
             this.tabPage_SystemSetting.Controls.Add(this.label4);
             this.tabPage_SystemSetting.Location = new System.Drawing.Point(4, 22);
             this.tabPage_SystemSetting.Name = "tabPage_SystemSetting";
@@ -262,21 +269,99 @@
             this.tabPage_SystemSetting.Text = "SystemSetting";
             this.tabPage_SystemSetting.UseVisualStyleBackColor = true;
             // 
+            // textBox_LockEventPortNumber
+            // 
+            this.textBox_LockEventPortNumber.Location = new System.Drawing.Point(10, 27);
+            this.textBox_LockEventPortNumber.Name = "textBox_LockEventPortNumber";
+            this.textBox_LockEventPortNumber.Size = new System.Drawing.Size(100, 19);
+            this.textBox_LockEventPortNumber.TabIndex = 1;
+            this.textBox_LockEventPortNumber.TextChanged += new System.EventHandler(this.textBox_LockEventPortNumber_TextChanged);
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(8, 12);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(65, 12);
+            this.label4.Size = new System.Drawing.Size(118, 12);
             this.label4.TabIndex = 0;
-            this.label4.Text = "PortNumber";
+            this.label4.Text = "LockEventPortNumber";
             // 
-            // textBox1
+            // statusStrip1
             // 
-            this.textBox1.Location = new System.Drawing.Point(10, 27);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 19);
-            this.textBox1.TabIndex = 1;
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel2,
+            this.toolStripStatusLabel1});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 428);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(536, 22);
+            this.statusStrip1.TabIndex = 1;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(8, 75);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(94, 12);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "HTTPPortNumber";
+            // 
+            // textBox_HTTPPortNumber
+            // 
+            this.textBox_HTTPPortNumber.Location = new System.Drawing.Point(10, 90);
+            this.textBox_HTTPPortNumber.Name = "textBox_HTTPPortNumber";
+            this.textBox_HTTPPortNumber.Size = new System.Drawing.Size(100, 19);
+            this.textBox_HTTPPortNumber.TabIndex = 1;
+            this.textBox_HTTPPortNumber.TextChanged += new System.EventHandler(this.textBox_HTTPPortNumber_TextChanged);
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(16, 17);
+            this.toolStripStatusLabel1.Text = "...";
+            // 
+            // timer_WebAPIcheck
+            // 
+            this.timer_WebAPIcheck.Interval = 1000;
+            this.timer_WebAPIcheck.Tick += new System.EventHandler(this.timer_WebAPIcheck_Tick);
+            // 
+            // toolStripStatusLabel2
+            // 
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(16, 17);
+            this.toolStripStatusLabel2.Text = "...";
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.label_TestCode);
+            this.tabPage1.Controls.Add(this.textBox_Queue);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(528, 399);
+            this.tabPage1.TabIndex = 3;
+            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // textBox_Queue
+            // 
+            this.textBox_Queue.Location = new System.Drawing.Point(6, 36);
+            this.textBox_Queue.Multiline = true;
+            this.textBox_Queue.Name = "textBox_Queue";
+            this.textBox_Queue.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBox_Queue.Size = new System.Drawing.Size(514, 357);
+            this.textBox_Queue.TabIndex = 0;
+            this.textBox_Queue.WordWrap = false;
+            // 
+            // label_TestCode
+            // 
+            this.label_TestCode.AutoSize = true;
+            this.label_TestCode.Location = new System.Drawing.Point(22, 16);
+            this.label_TestCode.Name = "label_TestCode";
+            this.label_TestCode.Size = new System.Drawing.Size(191, 12);
+            this.label_TestCode.TabIndex = 1;
+            this.label_TestCode.Text = "http://localhost/api/reset?target=all";
+            this.label_TestCode.Click += new System.EventHandler(this.label_Key_Click);
             // 
             // Form1
             // 
@@ -292,17 +377,21 @@
             this.SizeChanged += new System.EventHandler(this.Form1_SizeChanged);
             this.tabControl_Main.ResumeLayout(false);
             this.tabPage_ClientList.ResumeLayout(false);
-            this.tabPage_MessageSetting.ResumeLayout(false);
-            this.tabPage_MessageSetting.PerformLayout();
             this.tabControl_ClientList.ResumeLayout(false);
             this.tabPage_ClientListView.ResumeLayout(false);
+            this.panel_ClietListView_Frame.ResumeLayout(false);
             this.tabPage_ClientListText.ResumeLayout(false);
             this.tabPage_ClientListText.PerformLayout();
-            this.panel_ClietListView_Frame.ResumeLayout(false);
+            this.tabPage_MessageSetting.ResumeLayout(false);
+            this.tabPage_MessageSetting.PerformLayout();
             this.groupBox_KeyList.ResumeLayout(false);
             this.groupBox_KeyList.PerformLayout();
             this.tabPage_SystemSetting.ResumeLayout(false);
             this.tabPage_SystemSetting.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -329,8 +418,16 @@
         private System.Windows.Forms.TextBox textBox_Message2;
         private System.Windows.Forms.TextBox textBox_Message1;
         private System.Windows.Forms.TabPage tabPage_SystemSetting;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox_LockEventPortNumber;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox textBox_HTTPPortNumber;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.Timer timer_WebAPIcheck;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TextBox textBox_Queue;
+        private System.Windows.Forms.Label label_TestCode;
     }
 }
 

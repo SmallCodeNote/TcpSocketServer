@@ -20,7 +20,7 @@ namespace tcpClient_HTTPcheck
 
             timer_TimeLabelUpdate.Start();
         }
-        
+
         private void textBox_Name_TextChanged(object sender, EventArgs e)
         {
             this.groupBox_ClientListViewTitle.Text = textBox_Name.Text;
@@ -91,7 +91,7 @@ namespace tcpClient_HTTPcheck
                 label_RemainingTime.Text = getElapsedTimeString(LockReleaseTime - DateTime.Now);
 
                 button_Lock.Text = "";
-                button_Lock.BackColor = Color.Red;
+                button_Lock.BackColor = Color.Gray;
             }
         }
 
@@ -99,21 +99,31 @@ namespace tcpClient_HTTPcheck
         {
             if ((DateTime.Now - LockReleaseTime).TotalSeconds > 0)
             {
-                SignalSourceName = "this panel";
-                LockClient();
-                LabelUpdate();
+                Lock("this panel");
             }
             else
             {
-                LockReleaseTime = DateTime.Now;
-                label_LockedFrom.Text = "- Release -";
-                label_LockedTime.Text = "- Release -";
-                label_ResetTime.Text = "- Release -";
-                button_Lock.Text = "";
-                button_Lock.BackColor = Color.YellowGreen;
-                label_RemainingTime.Text = "...";
+                unLock();
             }
-            
+
+        }
+
+        public void Lock(string SignalSourceName)
+        {
+            this.SignalSourceName = SignalSourceName;
+            LockClient();
+            LabelUpdate();
+        }
+
+        public void unLock()
+        {
+            LockReleaseTime = DateTime.Now;
+            label_LockedFrom.Text = "- Release -";
+            label_LockedTime.Text = "- Release -";
+            label_ResetTime.Text = "- Release -";
+            button_Lock.Text = "";
+            button_Lock.BackColor = Color.YellowGreen;
+            label_RemainingTime.Text = "...";
         }
 
         private void button_PanelShift_Click(object sender, EventArgs e)
