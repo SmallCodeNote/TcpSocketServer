@@ -1,4 +1,10 @@
 textBox_Name	ClientName1
 textBox_LockTime	1
 textBox_Address	localhost
-textBox_ClientList	localhost\\t\\ClientName1\\t\\1\\r\\\\n\\localhost\\t\\ClientName2\\t\\1\\r\\\\n\\localhost\\t\\ClientName3\\t\\1\\r\\\\n\\localhost\\t\\ClientName4\\t\\3\\r\\\\n\\localhost\\t\\ClientName5\\t\\3\\r\\\\n\\localhost\\t\\ClientName6\\t\\3\\r\\\\n\\ocalhost\\t\\ClientName7\\t\\3\\r\\\\n\\ocalhost\\t\\ClientName8\\t\\30\\r\\\\n\\
+textBox_ClientList	localhost\\t\\ClientName1\\t\\1\\r\\\\n\\localhost\\t\\ClientName2\\t\\2\\r\\\\n\\localhost\\t\\ClientName3\\t\\1
+textBox_Message3	
+textBox_Message2	
+textBox_Message1	
+textBox_HTTPPortNumber	80
+textBox_LockEventPortNumber	1025
+textBox_Queue	/api/reset?target=all\\r\\\\n\\/api/reset?target=all\\r\\\\n\\/api/reset?target=all\\r\\\\n\\/api/reset?target=all
