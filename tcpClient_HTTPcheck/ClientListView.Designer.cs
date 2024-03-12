@@ -30,24 +30,25 @@
         {
             this.components = new System.ComponentModel.Container();
             this.groupBox_ClientListViewTitle = new System.Windows.Forms.GroupBox();
-            this.panel_Frame = new System.Windows.Forms.Panel();
             this.button_PanelShift = new System.Windows.Forms.Button();
+            this.panel_Frame = new System.Windows.Forms.Panel();
             this.panel_Form = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.button_Lock = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label_LockedTime = new System.Windows.Forms.Label();
-            this.label_ResetTime = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label_LockedFrom = new System.Windows.Forms.Label();
-            this.textBox_Address = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.textBox_Name = new System.Windows.Forms.TextBox();
-            this.timer_TimeLabelUpdate = new System.Windows.Forms.Timer(this.components);
-            this.label6 = new System.Windows.Forms.Label();
+            this.textBox_ClientName = new System.Windows.Forms.TextBox();
             this.textBox_LockTime = new System.Windows.Forms.TextBox();
+            this.textBox_Address = new System.Windows.Forms.TextBox();
+            this.button_Lock = new System.Windows.Forms.Button();
+            this.label_LockedFrom = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.label_RemainingTime = new System.Windows.Forms.Label();
+            this.label_ResetTime = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label_LockedTime = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.timer_TimeLabelUpdate = new System.Windows.Forms.Timer(this.components);
+            this.button_ErrorLamp = new System.Windows.Forms.Button();
             this.groupBox_ClientListViewTitle.SuspendLayout();
             this.panel_Frame.SuspendLayout();
             this.panel_Form.SuspendLayout();
@@ -64,14 +65,6 @@
             this.groupBox_ClientListViewTitle.TabStop = false;
             this.groupBox_ClientListViewTitle.Text = "Title";
             // 
-            // panel_Frame
-            // 
-            this.panel_Frame.Controls.Add(this.panel_Form);
-            this.panel_Frame.Location = new System.Drawing.Point(39, 18);
-            this.panel_Frame.Name = "panel_Frame";
-            this.panel_Frame.Size = new System.Drawing.Size(376, 67);
-            this.panel_Frame.TabIndex = 0;
-            // 
             // button_PanelShift
             // 
             this.button_PanelShift.Location = new System.Drawing.Point(9, 18);
@@ -82,9 +75,18 @@
             this.button_PanelShift.UseVisualStyleBackColor = true;
             this.button_PanelShift.Click += new System.EventHandler(this.button_PanelShift_Click);
             // 
+            // panel_Frame
+            // 
+            this.panel_Frame.Controls.Add(this.button_ErrorLamp);
+            this.panel_Frame.Controls.Add(this.panel_Form);
+            this.panel_Frame.Location = new System.Drawing.Point(39, 18);
+            this.panel_Frame.Name = "panel_Frame";
+            this.panel_Frame.Size = new System.Drawing.Size(386, 67);
+            this.panel_Frame.TabIndex = 0;
+            // 
             // panel_Form
             // 
-            this.panel_Form.Controls.Add(this.textBox_Name);
+            this.panel_Form.Controls.Add(this.textBox_ClientName);
             this.panel_Form.Controls.Add(this.textBox_LockTime);
             this.panel_Form.Controls.Add(this.textBox_Address);
             this.panel_Form.Controls.Add(this.button_Lock);
@@ -100,17 +102,31 @@
             this.panel_Form.Controls.Add(this.label1);
             this.panel_Form.Location = new System.Drawing.Point(0, 0);
             this.panel_Form.Name = "panel_Form";
-            this.panel_Form.Size = new System.Drawing.Size(361, 157);
+            this.panel_Form.Size = new System.Drawing.Size(350, 157);
             this.panel_Form.TabIndex = 0;
             // 
-            // label1
+            // textBox_ClientName
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(57, 10);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(66, 12);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "LockedTime";
+            this.textBox_ClientName.Location = new System.Drawing.Point(164, 89);
+            this.textBox_ClientName.Name = "textBox_ClientName";
+            this.textBox_ClientName.Size = new System.Drawing.Size(192, 19);
+            this.textBox_ClientName.TabIndex = 2;
+            this.textBox_ClientName.TextChanged += new System.EventHandler(this.textBox_Name_TextChanged);
+            // 
+            // textBox_LockTime
+            // 
+            this.textBox_LockTime.Location = new System.Drawing.Point(73, 112);
+            this.textBox_LockTime.Name = "textBox_LockTime";
+            this.textBox_LockTime.Size = new System.Drawing.Size(85, 19);
+            this.textBox_LockTime.TabIndex = 2;
+            this.textBox_LockTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // textBox_Address
+            // 
+            this.textBox_Address.Location = new System.Drawing.Point(15, 89);
+            this.textBox_Address.Name = "textBox_Address";
+            this.textBox_Address.Size = new System.Drawing.Size(143, 19);
+            this.textBox_Address.TabIndex = 2;
             // 
             // button_Lock
             // 
@@ -121,23 +137,32 @@
             this.button_Lock.UseVisualStyleBackColor = true;
             this.button_Lock.Click += new System.EventHandler(this.button_Lock_Click);
             // 
-            // label2
+            // label_LockedFrom
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(57, 29);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(60, 12);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "ResetTime";
+            this.label_LockedFrom.AutoSize = true;
+            this.label_LockedFrom.Location = new System.Drawing.Point(136, 48);
+            this.label_LockedFrom.Name = "label_LockedFrom";
+            this.label_LockedFrom.Size = new System.Drawing.Size(67, 12);
+            this.label_LockedFrom.TabIndex = 0;
+            this.label_LockedFrom.Text = "LockedFrom";
             // 
-            // label_LockedTime
+            // label5
             // 
-            this.label_LockedTime.AutoSize = true;
-            this.label_LockedTime.Location = new System.Drawing.Point(136, 10);
-            this.label_LockedTime.Name = "label_LockedTime";
-            this.label_LockedTime.Size = new System.Drawing.Size(66, 12);
-            this.label_LockedTime.TabIndex = 0;
-            this.label_LockedTime.Text = "LockedTime";
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(162, 74);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(64, 12);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "ClientName";
+            // 
+            // label_RemainingTime
+            // 
+            this.label_RemainingTime.AutoSize = true;
+            this.label_RemainingTime.Location = new System.Drawing.Point(275, 27);
+            this.label_RemainingTime.Name = "label_RemainingTime";
+            this.label_RemainingTime.Size = new System.Drawing.Size(11, 12);
+            this.label_RemainingTime.TabIndex = 0;
+            this.label_RemainingTime.Text = "...";
             // 
             // label_ResetTime
             // 
@@ -148,30 +173,14 @@
             this.label_ResetTime.TabIndex = 0;
             this.label_ResetTime.Text = "ResetTime";
             // 
-            // label3
+            // label6
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(57, 48);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(67, 12);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "LockedFrom";
-            // 
-            // label_LockedFrom
-            // 
-            this.label_LockedFrom.AutoSize = true;
-            this.label_LockedFrom.Location = new System.Drawing.Point(136, 48);
-            this.label_LockedFrom.Name = "label_LockedFrom";
-            this.label_LockedFrom.Size = new System.Drawing.Size(67, 12);
-            this.label_LockedFrom.TabIndex = 0;
-            this.label_LockedFrom.Text = "LockedFrom";
-            // 
-            // textBox_Address
-            // 
-            this.textBox_Address.Location = new System.Drawing.Point(15, 89);
-            this.textBox_Address.Name = "textBox_Address";
-            this.textBox_Address.Size = new System.Drawing.Size(143, 19);
-            this.textBox_Address.TabIndex = 2;
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(13, 115);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(54, 12);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "LockTime";
             // 
             // label4
             // 
@@ -182,53 +191,55 @@
             this.label4.TabIndex = 0;
             this.label4.Text = "Address";
             // 
-            // label5
+            // label3
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(162, 74);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(34, 12);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "Name";
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(57, 48);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(67, 12);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "LockedFrom";
             // 
-            // textBox_Name
+            // label_LockedTime
             // 
-            this.textBox_Name.Location = new System.Drawing.Point(164, 89);
-            this.textBox_Name.Name = "textBox_Name";
-            this.textBox_Name.Size = new System.Drawing.Size(192, 19);
-            this.textBox_Name.TabIndex = 2;
-            this.textBox_Name.TextChanged += new System.EventHandler(this.textBox_Name_TextChanged);
+            this.label_LockedTime.AutoSize = true;
+            this.label_LockedTime.Location = new System.Drawing.Point(136, 10);
+            this.label_LockedTime.Name = "label_LockedTime";
+            this.label_LockedTime.Size = new System.Drawing.Size(66, 12);
+            this.label_LockedTime.TabIndex = 0;
+            this.label_LockedTime.Text = "LockedTime";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(57, 29);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(60, 12);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "ResetTime";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(57, 10);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(66, 12);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "LockedTime";
             // 
             // timer_TimeLabelUpdate
             // 
             this.timer_TimeLabelUpdate.Interval = 1000;
             this.timer_TimeLabelUpdate.Tick += new System.EventHandler(this.timer_TimeLabelUpdate_Tick);
             // 
-            // label6
+            // button_ErrorLamp
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(13, 115);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(54, 12);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "LockTime";
-            // 
-            // textBox_LockTime
-            // 
-            this.textBox_LockTime.Location = new System.Drawing.Point(73, 112);
-            this.textBox_LockTime.Name = "textBox_LockTime";
-            this.textBox_LockTime.Size = new System.Drawing.Size(85, 19);
-            this.textBox_LockTime.TabIndex = 2;
-            this.textBox_LockTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // label_RemainingTime
-            // 
-            this.label_RemainingTime.AutoSize = true;
-            this.label_RemainingTime.Location = new System.Drawing.Point(275, 27);
-            this.label_RemainingTime.Name = "label_RemainingTime";
-            this.label_RemainingTime.Size = new System.Drawing.Size(11, 12);
-            this.label_RemainingTime.TabIndex = 0;
-            this.label_RemainingTime.Text = "...";
+            this.button_ErrorLamp.Location = new System.Drawing.Point(368, 0);
+            this.button_ErrorLamp.Name = "button_ErrorLamp";
+            this.button_ErrorLamp.Size = new System.Drawing.Size(18, 18);
+            this.button_ErrorLamp.TabIndex = 1;
+            this.button_ErrorLamp.UseVisualStyleBackColor = true;
+            this.button_ErrorLamp.Click += new System.EventHandler(this.button_ErrorLamp_Click);
             // 
             // ClientListView
             // 
@@ -258,7 +269,7 @@
         private System.Windows.Forms.Label label_LockedTime;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox_Name;
+        private System.Windows.Forms.TextBox textBox_ClientName;
         private System.Windows.Forms.TextBox textBox_Address;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
@@ -266,5 +277,6 @@
         private System.Windows.Forms.TextBox textBox_LockTime;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label_RemainingTime;
+        private System.Windows.Forms.Button button_ErrorLamp;
     }
 }

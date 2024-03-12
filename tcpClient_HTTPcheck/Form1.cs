@@ -25,6 +25,8 @@ namespace tcpClient_HTTPcheck
         TcpSocketClient tcp_clt;
         int portNumber_clt;
 
+        private bool isCtrlPressed = false;
+
 
         string thisExeDirPath;
         public Form1()
@@ -33,6 +35,7 @@ namespace tcpClient_HTTPcheck
             thisExeDirPath = Path.GetDirectoryName(Application.ExecutablePath);
 
             tcp_srv = new TcpSocketServer();
+            tcp_clt = new TcpSocketClient();
 
         }
 
@@ -61,7 +64,6 @@ namespace tcpClient_HTTPcheck
                 toolStripStatusLabel1.Text = "TCP Listening Start Error";
             }
 
-
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -83,6 +85,21 @@ namespace tcpClient_HTTPcheck
 
         }
 
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control)
+            {
+                isCtrlPressed = true;
+            }
+        }
+
+        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (!e.Control)
+            {
+                isCtrlPressed = false;
+            }
+        }
         private void Form1_SizeChanged(object sender, EventArgs e)
         {
             tabControl_Main.Height = this.Height - 60;
@@ -97,7 +114,7 @@ namespace tcpClient_HTTPcheck
             panel_ClietListView_Form.Controls.Clear();
             foreach (var Line in Lines)
             {
-                ClientListView clientListView = new ClientListView(Line);
+                ClientListView clientListView = new ClientListView(Line, tcp_clt, portNumber_clt);
                 clientListView.Top = panelTop;
                 panel_ClietListView_Form.Controls.Add(clientListView);
 
@@ -139,7 +156,6 @@ namespace tcpClient_HTTPcheck
         private void timer_WebAPIcheck_Tick(object sender, EventArgs e)
         {
             timer_WebAPIcheck.Stop();
-
             toolStripStatusLabel2.Text = DateTime.Now.ToString("HH:mm:ss") + " " + tcp_srv.ReceivedSocketQueue.Count.ToString();
 
             //============
@@ -164,42 +180,91 @@ namespace tcpClient_HTTPcheck
                         string getCom = lines[0].Split('\t')[1];
                         //queueList.Add(receivedSocketMessage);
                         string[] colsCom = getCom.Split(' ');
-                        if (colsCom.Length > 1 && colsCom[1].IndexOf("/api/reset?") == 0)
+                        if (colsCom.Length > 1 && colsCom[1].IndexOf("/api/Reset?") == 0)
                         {
-                            if (textBox_Queue.Text.Length > 0) textBox_Queue.Text += "\r\n";
-                            string urlDec = HttpUtility.UrlDecode(colsCom[1]);
-                            textBox_Queue.Text += urlDec;
-
-                            string[] options = colsCom[1].Replace("/api/reset?", "").Split('&');
-
-                            foreach (var item in options)
-                            {
-
-                                if (item == "target=all")
-                                {
-                                    foreach (var ctrl in panel_ClietListView_Form.Controls)
-                                    {
-                                        if (ctrl is ClientListView)
-                                        {
-
-                                            ((ClientListView)ctrl).unLock();
-
-                                        }
-                                    }
-
-                                }
-
-
-                            }
-
-
+                            ResetAction(colsCom);
                         }
-
+                        else if (colsCom.Length > 1 && colsCom[1].IndexOf("/api/LockIfErrorFrom") == 0)
+                        {
+                            LockIfErrorAction(colsCom);
+                        }
                     }
                 }
             }
 
             timer_WebAPIcheck.Start();
+        }
+
+        private void ResetAction(string[] colsCom)
+        {
+            if (textBox_Queue.Text.Length > 0) textBox_Queue.Text += "\r\n";
+            string urlDec = HttpUtility.UrlDecode(colsCom[1]);
+            textBox_Queue.Text += urlDec;
+
+            string[] options = colsCom[1].Replace("/api/Reset?", "").Split('&');
+
+            foreach (var item in options)
+            {
+                if (item == "all")
+                {
+                    foreach (var ctrl in panel_ClietListView_Form.Controls)
+                    {
+                        if (ctrl is ClientListView)
+                        {
+                            ((ClientListView)ctrl).unLock();
+                        }
+                    }
+                }
+                else if (item.IndexOf("target=") == 0)
+                {
+                    foreach (var ctrl in panel_ClietListView_Form.Controls)
+                    {
+                        if (ctrl is ClientListView
+                            && ((ClientListView)ctrl).ClientName.IndexOf(item.Replace("target=", "")) >= 0)
+                        {
+                            ((ClientListView)ctrl).unLock();
+                        }
+                    }
+                }
+            }
+        }
+
+        private void LockIfErrorAction(string[] colsCom)
+        {
+            if (textBox_Queue.Text.Length > 0) textBox_Queue.Text += "\r\n";
+            string urlDec = HttpUtility.UrlDecode(colsCom[1]);
+            textBox_Queue.Text += urlDec;
+
+            string[] options = colsCom[1].Replace("/api/LockIfErrorFrom", "").Split('&');
+
+            string SignalSourceName = options[0].Split('?')[0];
+            options[0] = options[0].Replace(SignalSourceName + "?", "");
+            foreach (var item in options)
+            {
+                if (item == "all")
+                {
+                    foreach (var ctrl in panel_ClietListView_Form.Controls)
+                    {
+                        if (ctrl is ClientListView
+                            && ((ClientListView)ctrl).Error)
+                        {
+                            ((ClientListView)ctrl).unLock();
+                        }
+                    }
+                }
+                else if (item.IndexOf("target=") == 0)
+                {
+                    foreach (var ctrl in panel_ClietListView_Form.Controls)
+                    {
+                        if (ctrl is ClientListView
+                            && ((ClientListView)ctrl).ClientName.IndexOf(item.Replace("target=", "")) >= 0
+                            && ((ClientListView)ctrl).Error)
+                        {
+                            ((ClientListView)ctrl).Lock(SignalSourceName);
+                        }
+                    }
+                }
+            }
         }
     }
 }

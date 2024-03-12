@@ -47,17 +47,20 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label_Key1 = new System.Windows.Forms.Label();
             this.tabPage_SystemSetting = new System.Windows.Forms.TabPage();
+            this.textBox_HTTPPortNumber = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.textBox_LockEventPortNumber = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.tabPage_Log = new System.Windows.Forms.TabPage();
+            this.label_TestCode = new System.Windows.Forms.Label();
+            this.textBox_Queue = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.label5 = new System.Windows.Forms.Label();
-            this.textBox_HTTPPortNumber = new System.Windows.Forms.TextBox();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.timer_WebAPIcheck = new System.Windows.Forms.Timer(this.components);
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.textBox_Queue = new System.Windows.Forms.TextBox();
-            this.label_TestCode = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.groupBox_WebAPI_Sample = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.tabControl_Main.SuspendLayout();
             this.tabPage_ClientList.SuspendLayout();
             this.tabControl_ClientList.SuspendLayout();
@@ -67,8 +70,9 @@
             this.tabPage_MessageSetting.SuspendLayout();
             this.groupBox_KeyList.SuspendLayout();
             this.tabPage_SystemSetting.SuspendLayout();
+            this.tabPage_Log.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.groupBox_WebAPI_Sample.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl_Main
@@ -76,7 +80,7 @@
             this.tabControl_Main.Controls.Add(this.tabPage_ClientList);
             this.tabControl_Main.Controls.Add(this.tabPage_MessageSetting);
             this.tabControl_Main.Controls.Add(this.tabPage_SystemSetting);
-            this.tabControl_Main.Controls.Add(this.tabPage1);
+            this.tabControl_Main.Controls.Add(this.tabPage_Log);
             this.tabControl_Main.Dock = System.Windows.Forms.DockStyle.Top;
             this.tabControl_Main.Location = new System.Drawing.Point(0, 0);
             this.tabControl_Main.Name = "tabControl_Main";
@@ -127,14 +131,14 @@
             this.panel_ClietListView_Frame.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel_ClietListView_Frame.Location = new System.Drawing.Point(3, 3);
             this.panel_ClietListView_Frame.Name = "panel_ClietListView_Frame";
-            this.panel_ClietListView_Frame.Size = new System.Drawing.Size(465, 361);
+            this.panel_ClietListView_Frame.Size = new System.Drawing.Size(492, 361);
             this.panel_ClietListView_Frame.TabIndex = 0;
             // 
             // panel_ClietListView_Form
             // 
             this.panel_ClietListView_Form.Location = new System.Drawing.Point(0, 0);
             this.panel_ClietListView_Form.Name = "panel_ClietListView_Form";
-            this.panel_ClietListView_Form.Size = new System.Drawing.Size(419, 97);
+            this.panel_ClietListView_Form.Size = new System.Drawing.Size(463, 97);
             this.panel_ClietListView_Form.TabIndex = 0;
             // 
             // tabPage_ClientListText
@@ -269,6 +273,23 @@
             this.tabPage_SystemSetting.Text = "SystemSetting";
             this.tabPage_SystemSetting.UseVisualStyleBackColor = true;
             // 
+            // textBox_HTTPPortNumber
+            // 
+            this.textBox_HTTPPortNumber.Location = new System.Drawing.Point(10, 90);
+            this.textBox_HTTPPortNumber.Name = "textBox_HTTPPortNumber";
+            this.textBox_HTTPPortNumber.Size = new System.Drawing.Size(100, 19);
+            this.textBox_HTTPPortNumber.TabIndex = 1;
+            this.textBox_HTTPPortNumber.TextChanged += new System.EventHandler(this.textBox_HTTPPortNumber_TextChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(8, 75);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(94, 12);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "HTTPPortNumber";
+            // 
             // textBox_LockEventPortNumber
             // 
             this.textBox_LockEventPortNumber.Location = new System.Drawing.Point(10, 27);
@@ -286,6 +307,38 @@
             this.label4.TabIndex = 0;
             this.label4.Text = "LockEventPortNumber";
             // 
+            // tabPage_Log
+            // 
+            this.tabPage_Log.Controls.Add(this.groupBox_WebAPI_Sample);
+            this.tabPage_Log.Controls.Add(this.textBox_Queue);
+            this.tabPage_Log.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_Log.Name = "tabPage_Log";
+            this.tabPage_Log.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_Log.Size = new System.Drawing.Size(528, 399);
+            this.tabPage_Log.TabIndex = 3;
+            this.tabPage_Log.Text = "Log";
+            this.tabPage_Log.UseVisualStyleBackColor = true;
+            // 
+            // label_TestCode
+            // 
+            this.label_TestCode.AutoSize = true;
+            this.label_TestCode.Location = new System.Drawing.Point(6, 15);
+            this.label_TestCode.Name = "label_TestCode";
+            this.label_TestCode.Size = new System.Drawing.Size(159, 12);
+            this.label_TestCode.TabIndex = 1;
+            this.label_TestCode.Text = "http://localhost/api/Reset?all";
+            this.label_TestCode.Click += new System.EventHandler(this.label_Key_Click);
+            // 
+            // textBox_Queue
+            // 
+            this.textBox_Queue.Location = new System.Drawing.Point(6, 94);
+            this.textBox_Queue.Multiline = true;
+            this.textBox_Queue.Name = "textBox_Queue";
+            this.textBox_Queue.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBox_Queue.Size = new System.Drawing.Size(514, 299);
+            this.textBox_Queue.TabIndex = 0;
+            this.textBox_Queue.WordWrap = false;
+            // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -297,22 +350,11 @@
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // label5
+            // toolStripStatusLabel2
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(8, 75);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(94, 12);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "HTTPPortNumber";
-            // 
-            // textBox_HTTPPortNumber
-            // 
-            this.textBox_HTTPPortNumber.Location = new System.Drawing.Point(10, 90);
-            this.textBox_HTTPPortNumber.Name = "textBox_HTTPPortNumber";
-            this.textBox_HTTPPortNumber.Size = new System.Drawing.Size(100, 19);
-            this.textBox_HTTPPortNumber.TabIndex = 1;
-            this.textBox_HTTPPortNumber.TextChanged += new System.EventHandler(this.textBox_HTTPPortNumber_TextChanged);
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(16, 17);
+            this.toolStripStatusLabel2.Text = "...";
             // 
             // toolStripStatusLabel1
             // 
@@ -325,43 +367,37 @@
             this.timer_WebAPIcheck.Interval = 1000;
             this.timer_WebAPIcheck.Tick += new System.EventHandler(this.timer_WebAPIcheck_Tick);
             // 
-            // toolStripStatusLabel2
+            // label6
             // 
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(16, 17);
-            this.toolStripStatusLabel2.Text = "...";
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 27);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(248, 12);
+            this.label6.TabIndex = 1;
+            this.label6.Text = "http://localhost/api/Reset?target=ClientName1";
+            this.label6.Click += new System.EventHandler(this.label_Key_Click);
             // 
-            // tabPage1
+            // groupBox_WebAPI_Sample
             // 
-            this.tabPage1.Controls.Add(this.label_TestCode);
-            this.tabPage1.Controls.Add(this.textBox_Queue);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(528, 399);
-            this.tabPage1.TabIndex = 3;
-            this.tabPage1.Text = "tabPage1";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.groupBox_WebAPI_Sample.Controls.Add(this.label_TestCode);
+            this.groupBox_WebAPI_Sample.Controls.Add(this.label7);
+            this.groupBox_WebAPI_Sample.Controls.Add(this.label6);
+            this.groupBox_WebAPI_Sample.Location = new System.Drawing.Point(8, 6);
+            this.groupBox_WebAPI_Sample.Name = "groupBox_WebAPI_Sample";
+            this.groupBox_WebAPI_Sample.Size = new System.Drawing.Size(512, 82);
+            this.groupBox_WebAPI_Sample.TabIndex = 2;
+            this.groupBox_WebAPI_Sample.TabStop = false;
+            this.groupBox_WebAPI_Sample.Text = "WebAPI Sample";
             // 
-            // textBox_Queue
+            // label7
             // 
-            this.textBox_Queue.Location = new System.Drawing.Point(6, 36);
-            this.textBox_Queue.Multiline = true;
-            this.textBox_Queue.Name = "textBox_Queue";
-            this.textBox_Queue.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox_Queue.Size = new System.Drawing.Size(514, 357);
-            this.textBox_Queue.TabIndex = 0;
-            this.textBox_Queue.WordWrap = false;
-            // 
-            // label_TestCode
-            // 
-            this.label_TestCode.AutoSize = true;
-            this.label_TestCode.Location = new System.Drawing.Point(22, 16);
-            this.label_TestCode.Name = "label_TestCode";
-            this.label_TestCode.Size = new System.Drawing.Size(191, 12);
-            this.label_TestCode.TabIndex = 1;
-            this.label_TestCode.Text = "http://localhost/api/reset?target=all";
-            this.label_TestCode.Click += new System.EventHandler(this.label_Key_Click);
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 39);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(364, 12);
+            this.label7.TabIndex = 1;
+            this.label7.Text = "http://localhost/api/LockIfErrorFromDeviceName?target=ClientName1";
+            this.label7.Click += new System.EventHandler(this.label_Key_Click);
             // 
             // Form1
             // 
@@ -370,11 +406,14 @@
             this.ClientSize = new System.Drawing.Size(536, 450);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tabControl_Main);
+            this.KeyPreview = true;
             this.Name = "Form1";
             this.Text = "tcpClient_HTTPcheck";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.SizeChanged += new System.EventHandler(this.Form1_SizeChanged);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);
             this.tabControl_Main.ResumeLayout(false);
             this.tabPage_ClientList.ResumeLayout(false);
             this.tabControl_ClientList.ResumeLayout(false);
@@ -388,10 +427,12 @@
             this.groupBox_KeyList.PerformLayout();
             this.tabPage_SystemSetting.ResumeLayout(false);
             this.tabPage_SystemSetting.PerformLayout();
+            this.tabPage_Log.ResumeLayout(false);
+            this.tabPage_Log.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
+            this.groupBox_WebAPI_Sample.ResumeLayout(false);
+            this.groupBox_WebAPI_Sample.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -425,9 +466,12 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.Timer timer_WebAPIcheck;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage_Log;
         private System.Windows.Forms.TextBox textBox_Queue;
         private System.Windows.Forms.Label label_TestCode;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.GroupBox groupBox_WebAPI_Sample;
+        private System.Windows.Forms.Label label7;
     }
 }
 
