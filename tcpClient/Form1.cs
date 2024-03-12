@@ -46,7 +46,7 @@ namespace tcpClient
 
             if (checkBox_EnableReset.Checked)
             {
-                if (int.TryParse(textBox_ResetPortNumber.Text, out int portNumber)
+                if (!int.TryParse(textBox_ResetPortNumber.Text, out int portNumber)
                     || !await tcp_Reset.StartListening(portNumber, "UTF8"))
                 {
                     toolStripStatusLabel_Timer.Text = "TCP Listening Start Error";
@@ -452,6 +452,11 @@ namespace tcpClient
                 timer_CommandPortListening.Stop();
             }
 
+        }
+
+        private void textBox_ResetPortNumber_TextChanged(object sender, EventArgs e)
+        {
+            //int.TryParse(textBox_ResetPortNumber.Text,out )
         }
     }
 }

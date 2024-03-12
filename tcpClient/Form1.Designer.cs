@@ -642,6 +642,7 @@
             this.textBox_ResetPortNumber.Name = "textBox_ResetPortNumber";
             this.textBox_ResetPortNumber.Size = new System.Drawing.Size(114, 19);
             this.textBox_ResetPortNumber.TabIndex = 0;
+            this.textBox_ResetPortNumber.TextChanged += new System.EventHandler(this.textBox_ResetPortNumber_TextChanged);
             // 
             // timer_ClientViewUpdate
             // 
